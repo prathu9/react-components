@@ -87,12 +87,12 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
           <option value="array">Array</option>
           {/*boolean, null*/}
         </Select>
-        {objectKeys[objectKeys.length -1] === "items"? null:
+        {objectKeys[objectKeys.length - 1] !== "items"?
           <>
             <AddIcon ml="8px" boxSize={5}/>
         
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
-          </>  
+          </> : null
         }
       </Box>
     </>

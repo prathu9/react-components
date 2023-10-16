@@ -104,8 +104,13 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
               <option value="array">Array</option>
               {/*boolean, null*/}
             </Select>
-            <AddIcon ml="8px" boxSize={5}/>
-            <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+            {
+              objectKeys[objectKeys.length - 1] !== "items"?
+              <>
+                <AddIcon ml="8px" boxSize={5}/>
+                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
+              </>:null
+            }
           </Box>
           <AccordionIcon />
         </AccordionButton>
