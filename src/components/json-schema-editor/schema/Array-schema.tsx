@@ -24,7 +24,7 @@ type ObjectSchemaType = {
 };
 
 const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
-  const { setSchema } = useContext(SchemaContext)!;
+  const { schema, setSchema } = useContext(SchemaContext)!;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -36,21 +36,23 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
       const newType = e.target.value;
 
       currObj["type"] = newType;
-
+      
       if (newType === "object") {
+        delete currObj["items"]
         currObj["properties"] = {
           field: {
             type: "string",
           },
         };
       } else if (newType === "array") {
+        delete currObj["properties"]
         currObj["items"] = {
           type: "string",
         };
       }
     });
   };
-
+  
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
     // setSchema((draftSchema) => {

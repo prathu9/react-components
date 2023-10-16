@@ -36,7 +36,7 @@ const ObjectSchema = ({
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
-  const { setSchema } = useContext(SchemaContext)!;
+  const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -49,12 +49,14 @@ const ObjectSchema = ({
       currObj["type"] = newType;
 
       if (newType === "object") {
+        delete currObj["items"]
         currObj["properties"] = {
           field: {
             type: "string",
           },
         };
       } else if (newType === "array") {
+        delete currObj["properties"]
         currObj["items"] = {
           type: "string",
         };
@@ -80,6 +82,35 @@ const ObjectSchema = ({
         delete currObj[lastKey];
       }
       
+    })
+  }
+
+  const addProperty = (e: MouseEvent<SVGElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    setSchema((draftSchema) => {
+      let currObj = draftSchema as any;
+      for(let i = 1; i < objectKeys.length - 1; i++){
+        const key = objectKeys[i];
+        console.log("keys", key)
+        if(currObj[key] == null || typeof currObj[key] !== 'object'){
+          return;
+        }
+        currObj = currObj[key as string];
+      }
+
+      const lastKey = objectKeys[objectKeys.length - 1];
+      console.log("lastkey", Object.keys(currObj[lastKey]), lastKey)
+
+      // const newKey = `field_${uniqueKey}`;
+      // if(draftSchema.properties){
+      //   draftSchema.properties[newKey] = {
+      //     type: "string"
+      //   } 
+      // }
+      // setUniqueKey(prev => prev + 1)
     })
   }
 
@@ -114,7 +145,7 @@ const ObjectSchema = ({
               <option value="array">Array</option>
               {/*boolean, null*/}
             </Select>
-            <AddIcon ml="8px" boxSize={5}/>
+            <AddIcon ml="8px" boxSize={5} onClick={addProperty}/>
             {
               objectKeys[objectKeys.length - 1] !== "items"?
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
