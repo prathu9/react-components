@@ -1,6 +1,6 @@
-import { useContext, ChangeEvent } from "react";
+import { useContext, ChangeEvent, MouseEvent, useState } from "react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { SchemaContext } from "./SchemaProvider";
+import { SchemaContext, SchemaContextType } from "./SchemaProvider";
 import Mapper from "./mapper";
 import { JSONSchema7 } from "json-schema";
 import {
@@ -18,13 +18,15 @@ import {
 } from "@chakra-ui/react";
 
 const SchemaJson = () => {
-  const schemaData = useContext(SchemaContext);
+  const {schema, setSchema, uniqueKey, setUniqueKey} = useContext(SchemaContext) as SchemaContextType;
 
-  const data = (schemaData && schemaData.schema) || { type: "string" };
+  const data = schema || { type: "string" };
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    schemaData &&
-      schemaData.setSchema((draftSchema) => {
+    e.stopPropagation();
+	  e.preventDefault();
+    
+    setSchema((draftSchema) => {
         const newType = e.target.value as any;
         draftSchema.type = newType;
 
@@ -44,8 +46,21 @@ const SchemaJson = () => {
       });
   };
 
-  const addProperty = () => {
 
+  const addProperty = (e: MouseEvent<SVGElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    setSchema((draftSchema) => {
+      const newKey = `field_${uniqueKey}`;
+      if(draftSchema.properties){
+        draftSchema.properties[newKey] = {
+          type: "string"
+        } 
+      }
+      setUniqueKey(prev => prev + 1)
+    })
   }
 
   if (data.type !== "object" && data.type !== "array") {
@@ -130,6 +145,10 @@ const SchemaJson = () => {
               <Select
                 value="object"
                 onChange={handleTypeChange}
+                onClick={(e: MouseEvent<HTMLSelectElement>) => {
+                  e.stopPropagation();
+	                e.preventDefault();
+                }}
                 placeholder="select type"
               >
                 <option value="string">String</option>

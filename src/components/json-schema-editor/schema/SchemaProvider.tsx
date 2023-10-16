@@ -44,16 +44,19 @@ const initialSchema = {
 
 export type SchemaContextType = {
     schema: JSONSchema7,
-    setSchema: Updater<JSONSchema7> // React.Dispatch<React.SetStateAction<JSONSchema7>>
+    setSchema: Updater<JSONSchema7> // React.Dispatch<React.SetStateAction<JSONSchema7>>,
+    uniqueKey: number,
+    setUniqueKey: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
 
 const SchemaProvider = ({children}: any) => {
     const [schema, setSchema] = useImmer<JSONSchema7>(initialSchema);
+    const [uniqueKey, setUniqueKey] = useState(0);
 
     return(
-        <SchemaContext.Provider value={{schema, setSchema}}>
+        <SchemaContext.Provider value={{schema, setSchema, uniqueKey, setUniqueKey}}>
             {children}
         </SchemaContext.Provider>
     )
