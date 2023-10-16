@@ -1,0 +1,6 @@
+.rdrDateRangePickerWrapper {
+  display: inline-flex;
+  user-select: none;
+  box-shadow: 1px 1px 81px rgb(41 60 74 / 18%);
+  margin: auto !important;
+}

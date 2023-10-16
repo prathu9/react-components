@@ -1,0 +1,47 @@
+.rdrCalendarWrapper {
+  box-sizing: border-box;
+  background: #fff;
+  display: inline-flex;
+  flex-direction: column;
+  user-select: none;
+  width: 370px;
+}
+.rdrDateDisplay {
+  display: flex;
+  justify-content: space-between;
+}
+.rdrDateDisplayItem + .rdrDateDisplayItem {
+  margin-left: 0.833em;
+}
+.rdrDateDisplayItem input {
+  text-align: inherit;
+}
+.rdrDateDisplayItem input:disabled {
+  cursor: default;
+}
+.rdrMonthAndYearWrapper {
+  box-sizing: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+.rdrMonths {
+  display: flex;
+}
+.rdrMonthsVertical {
+  flex-direction: column;
+}
+.rdrMonthsHorizontal > div > div > div {
+  display: flex;
+  flex-direction: row;
+}
+.rdrMonth {
+  width: 27.667em;
+}
+
+.rdrDays {
+  display: flex;
+  flex-wrap: wrap;
+}
+.rdrInfiniteMonths {
+  overflow: hidden;
+}
