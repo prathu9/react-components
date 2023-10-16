@@ -49,11 +49,12 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
       
       for(let i = 1; i < objectKeys.length - 1; i++){
         const key = objectKeys[i];
-        console.log("obj key", key)
-        // if (currObj[key] == null || typeof currObj[key] !== 'object') {
-        //   return; // Property doesn't exist or is not an object
-        // }
-        // currObj = currObj[key as string];
+       
+        if (currObj[key] == null || typeof currObj[key] !== 'object') {
+          return; // Property doesn't exist or is not an object
+        }
+        currObj = currObj[key as string];
+        console.log("obj-key", currObj)
       }
 
       const lastKey = objectKeys[objectKeys.length - 1];
@@ -88,9 +89,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
           {/*boolean, null*/}
         </Select>
         {objectKeys[objectKeys.length - 1] !== "items"?
-          <>
-            <AddIcon ml="8px" boxSize={5}/>
-        
+          <>        
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
           </> : null
         }

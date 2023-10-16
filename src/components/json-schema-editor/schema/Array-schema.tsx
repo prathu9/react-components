@@ -107,7 +107,6 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
             {
               objectKeys[objectKeys.length - 1] !== "items"?
               <>
-                <AddIcon ml="8px" boxSize={5}/>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
               </>:null
             }

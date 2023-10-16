@@ -114,12 +114,11 @@ const ObjectSchema = ({
               <option value="array">Array</option>
               {/*boolean, null*/}
             </Select>
+            <AddIcon ml="8px" boxSize={5}/>
             {
               objectKeys[objectKeys.length - 1] !== "items"?
-              <>
-                <AddIcon ml="8px" boxSize={5}/>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
-              </>:null
+              :null
             }
           </Box>
           <AccordionIcon />
