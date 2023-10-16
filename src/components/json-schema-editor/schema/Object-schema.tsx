@@ -48,18 +48,14 @@ const ObjectSchema = ({
 
       currObj["type"] = newType;
 
-      if (newType === "object") {
-        delete currObj["items"]
-        currObj["properties"] = {
-          field: {
-            type: "string",
-          },
-        };
-      } else if (newType === "array") {
+      if (newType === "array") {
         delete currObj["properties"]
         currObj["items"] = {
           type: "string",
         };
+      }
+      else{
+        delete currObj["properties"]
       }
     });
   };

@@ -15,7 +15,7 @@ type OtherSchemaType = {
 };
 
 const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
-  const { setSchema } = useContext(SchemaContext)!;
+  const { schema, setSchema } = useContext(SchemaContext)!;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -25,8 +25,8 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
       }
 
       const newType = e.target.value;
-
       currObj["type"] = newType;
+      console.log(currObj["items"])
 
       if (newType === "object") {
         currObj["properties"] = {
@@ -54,7 +54,6 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
           return; // Property doesn't exist or is not an object
         }
         currObj = currObj[key as string];
-        console.log("obj-key", currObj)
       }
 
       const lastKey = objectKeys[objectKeys.length - 1];
@@ -65,7 +64,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
       
     })
   }
-
+console.log(schema)
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">

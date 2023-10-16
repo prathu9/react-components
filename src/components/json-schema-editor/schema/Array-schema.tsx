@@ -44,11 +44,9 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
             type: "string",
           },
         };
-      } else if (newType === "array") {
-        delete currObj["properties"]
-        currObj["items"] = {
-          type: "string",
-        };
+      } 
+      else{
+        delete currObj["items"]
       }
     });
   };
