@@ -13,6 +13,8 @@ import {
   chakra,
   Input,
   Select,
+  Text,
+  Tooltip
 } from "@chakra-ui/react";
 
 const SchemaJson = () => {
@@ -42,6 +44,10 @@ const SchemaJson = () => {
       });
   };
 
+  const addProperty = () => {
+
+  }
+
   if (data.type !== "object" && data.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
@@ -57,7 +63,7 @@ const SchemaJson = () => {
           <option value="array">Array</option>
           {/*boolean, null*/}
         </Select>
-        <AddIcon ml="8px" boxSize={5}/>
+        <AddIcon ml="8px" boxSize={5} />
         <DeleteIcon ml="8px" boxSize={5} />
       </Box>
     );
@@ -80,7 +86,7 @@ const SchemaJson = () => {
                 <option value="array">Array</option>
                 {/*boolean, null*/}
               </Select>
-              <AddIcon ml="8px" boxSize={5}/>
+              <AddIcon ml="8px" boxSize={5} />
               <DeleteIcon ml="8px" boxSize={5} />
             </Box>
             <AccordionIcon />
@@ -114,6 +120,7 @@ const SchemaJson = () => {
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
+
   return (
     <>
       <Accordion w="100%" allowToggle>
@@ -131,7 +138,9 @@ const SchemaJson = () => {
                 <option value="array">Array</option>
                 {/*boolean, null*/}
               </Select>
-              <AddIcon ml="8px" boxSize={5}/>
+              <Tooltip hasArrow label="Add child" placement="top">
+                <AddIcon ml="8px" boxSize={5} onClick={addProperty} />
+              </Tooltip>
               <DeleteIcon ml="8px" boxSize={5} />
             </Box>
             <AccordionIcon />
@@ -139,24 +148,35 @@ const SchemaJson = () => {
           <AccordionPanel>
             <Box>
               <chakra.h2>Properties:</chakra.h2>
-              {children.map((child) => {
-                return (
-                  <Box
-                    my="5px"
-                    key={child.key}
-                    display="flex"
-                    gap="2"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Mapper
-                      objectKeys={["root", "properties", child.key]}
-                      objectKey={child.key}
-                      data={child.data as JSONSchema7}
-                    />
-                  </Box>
-                );
-              })}
+              {children.length !== 0 ? (
+                <>
+                  {children.map((child) => {
+                    return (
+                      <Box
+                        my="5px"
+                        key={child.key}
+                        display="flex"
+                        gap="2"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Mapper
+                          objectKeys={["root", "properties", child.key]}
+                          objectKey={child.key}
+                          data={child.data as JSONSchema7}
+                        />
+                      </Box>
+                    );
+                  })}
+                </>
+              ) : (
+                <Box my="20px">
+                    <Text fontSize='lg' as="i">
+                      Add Properties using + button
+                    </Text>
+                </Box>
+                
+              )}
             </Box>
           </AccordionPanel>
         </AccordionItem>

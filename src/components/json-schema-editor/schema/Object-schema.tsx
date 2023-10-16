@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { ChangeEvent, useContext, MouseEvent } from "react";
+import { ChangeEvent, useContext, MouseEvent, useMemo, useEffect } from "react";
 
 import Mapper from "./mapper";
 import { SchemaContext } from "./SchemaProvider";
@@ -32,8 +32,7 @@ const ObjectSchema = ({
   objectKey,
   objectKeys = [],
 }: ObjectSchemaType) => {
-  const children =
-    properties !== undefined
+  const children = properties !== undefined
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
@@ -69,7 +68,6 @@ const ObjectSchema = ({
       let currObj = draftSchema as any;
       for(let i = 1; i < objectKeys.length - 1; i++){
         const key = objectKeys[i];
-        console.log("key", key)
         if (currObj[key] == null || typeof currObj[key] !== 'object') {
           return; // Property doesn't exist or is not an object
         }
@@ -129,27 +127,33 @@ const ObjectSchema = ({
         <AccordionPanel px="0">
           <Box>
             <chakra.h2>Properties:</chakra.h2>
-            {children.map((child) => {
-              return (
-                <Box
-                  my="5px"
-                  key={child.key}
-                  display="flex"
-                  gap="2"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  {/* <Input flex="1" defaultValue={child.key} /> */}
-                  <Box flex="2" display="flex" alignItems="center"> 
-                    <Mapper
-                      objectKeys={[...objectKeys, "properties", child.key]}
-                      objectKey={child.key}
-                      data={child.data as JSONSchema7}
-                    />
+            {
+              children.length !== 0 ? 
+              <>
+                {children.map((child) => {
+                return (
+                  <Box
+                    my="5px"
+                    key={child.key}
+                    display="flex"
+                    gap="2"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    {/* <Input flex="1" defaultValue={child.key} /> */}
+                    <Box flex="2" display="flex" alignItems="center"> 
+                      <Mapper
+                        objectKeys={[...objectKeys, "properties", child.key]}
+                        objectKey={child.key}
+                        data={child.data as JSONSchema7}
+                      />
+                    </Box>
                   </Box>
-                </Box>
-              );
-            })}
+                );
+              })}
+              </>:
+              <AddIcon mx="8px" my="10px" boxSize={5}/>
+            }
           </Box>
         </AccordionPanel>
       </AccordionItem>
