@@ -10,11 +10,12 @@ import {
   Input,
   AccordionIcon,
   Text,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { ChangeEvent, useContext, MouseEvent, useMemo, useEffect } from "react";
+import SelectType from "./SelectType";
 
 import Mapper from "./mapper";
 import { SchemaContext } from "./SchemaProvider";
@@ -126,20 +127,13 @@ const ObjectSchema = ({
                 :
               </>
             ) : null}
-            <Select
-              defaultValue="object"
-              onChange={handleTypeChange}
+            <SelectType
               flex="2"
-              mx="5px"
-              placeholder="select type"
               w="70%"
-            >
-              <option value="string">String</option>
-              <option value="number">Number</option>
-              <option value="object">Object</option>
-              <option value="array">Array</option>
-              {/*boolean, null*/}
-            </Select>
+              mx="5px"
+              value="object"
+              onChange={handleTypeChange}
+            />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
             ) : null}
@@ -171,15 +165,15 @@ const ObjectSchema = ({
               );
             })}
             <Box my="20px" display="flex" alignItems="center">
-                <Tooltip hasArrow label="Add child" placement="top">
-                  <AddIcon
-                    cursor="pointer"
-                    mx="8px"
-                    my="10px"
-                    boxSize={4}
-                    onClick={addProperty}
-                  />
-                </Tooltip>
+              <Tooltip hasArrow label="Add child" placement="top">
+                <AddIcon
+                  cursor="pointer"
+                  mx="8px"
+                  my="10px"
+                  boxSize={4}
+                  onClick={addProperty}
+                />
+              </Tooltip>
               <Text fontSize="lg" as="i">
                 Add More Properties
               </Text>

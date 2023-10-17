@@ -67,7 +67,7 @@ const SchemaJson = () => {
   if (data.type !== "object" && data.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
-        <SelectType width="80%" value={schema.type as string} handleTypeChange={handleTypeChange}/>
+        <SelectType w="80%" value={schema.type as string} onChange={handleTypeChange}/>
         {/* <AddIcon ml="8px" boxSize={5} />
         <DeleteIcon ml="8px" boxSize={5} /> */}
       </Box>
@@ -80,7 +80,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <SelectType value="array" handleTypeChange={handleTypeChange}/>
+              <SelectType value="array" onChange={handleTypeChange}/>
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
@@ -120,7 +120,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <SelectType value="object" handleTypeChange={handleTypeChange}/>
+              <SelectType value="object" onChange={handleTypeChange}/>
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />

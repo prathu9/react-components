@@ -1,24 +1,16 @@
 import { ChangeEvent, MouseEvent } from "react"
-import {Select} from "@chakra-ui/react"
+import {Select, SelectProps} from "@chakra-ui/react"
 
 
-type SelectTypeProps = {
-    value: string,
-    handleTypeChange: (e: ChangeEvent<HTMLSelectElement>) => void
-    width?: string
-}
 
-const SelectType = ({value,handleTypeChange, width}: SelectTypeProps) => {
+const SelectType = (props: SelectProps) => {
     return(
         <Select
-          value={value}
-          w={width}
-          onChange={handleTypeChange}
           onClick={(e: MouseEvent<HTMLSelectElement>) => {
             e.stopPropagation();
             e.preventDefault();
           }}
-          placeholder="select type"
+          {...props}
         >
           <option value="string">String</option>
           <option value="number">Number</option>

@@ -15,6 +15,7 @@ import { SchemaContext } from "./SchemaProvider";
 import { JSONSchema7Definition } from "json-schema";
 
 import Mapper from "./mapper";
+import SelectType from "./SelectType";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 
 type ObjectSchemaType = {
@@ -89,20 +90,12 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
                 :
               </>
             ) : null}
-            <Select
-              flex="2"
+            <SelectType flex="2"
               value="array"
               mx="5px"
               onChange={handleTypeChange}
               placeholder="select type"
-              w="70%"
-            >
-              <option value="string">String</option>
-              <option value="number">Number</option>
-              <option value="object">Object</option>
-              <option value="array">Array</option>
-              {/*boolean, null*/}
-            </Select>
+              w="70%" />
             {
               objectKeys[objectKeys.length - 1] !== "items"?
               <>
