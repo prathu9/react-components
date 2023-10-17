@@ -14,54 +14,54 @@ import {
   Input,
   Select,
   Text,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 
 const SchemaJson = () => {
-  const {schema, setSchema, uniqueKey, setUniqueKey} = useContext(SchemaContext) as SchemaContextType;
+  const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(
+    SchemaContext
+  ) as SchemaContextType;
 
   const data = schema || { type: "string" };
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     e.stopPropagation();
-	  e.preventDefault();
-    
+    e.preventDefault();
+
     setSchema((draftSchema) => {
-        const newType = e.target.value as any;
-        draftSchema.type = newType;
+      const newType = e.target.value as any;
+      draftSchema.type = newType;
 
-        if (newType === "object") {
-          draftSchema.properties = {
-            field: {
-              type: "string",
-            },
-          };
-        }
-
-        if (newType === "array") {
-          draftSchema.items = {
+      if (newType === "object") {
+        draftSchema.properties = {
+          field: {
             type: "string",
-          };
-        }
-      });
+          },
+        };
+      }
+
+      if (newType === "array") {
+        draftSchema.items = {
+          type: "string",
+        };
+      }
+    });
   };
 
-
   const addProperty = (e: MouseEvent<SVGElement>) => {
-
     e.preventDefault();
     e.stopPropagation();
 
     setSchema((draftSchema) => {
       const newKey = `field_${uniqueKey}`;
-      if(draftSchema.properties){
+      if (draftSchema.properties) {
         draftSchema.properties[newKey] = {
-          type: "string"
-        } 
+          type: "string",
+        };
       }
-      setUniqueKey(prev => prev + 1)
-    })
-  }
+      setUniqueKey((prev) => prev + 1);
+    });
+  };
 
   if (data.type !== "object" && data.type !== "array") {
     return (
@@ -135,7 +135,6 @@ const SchemaJson = () => {
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
-
   return (
     <>
       <Accordion w="100%" allowToggle>
@@ -147,7 +146,7 @@ const SchemaJson = () => {
                 onChange={handleTypeChange}
                 onClick={(e: MouseEvent<HTMLSelectElement>) => {
                   e.stopPropagation();
-	                e.preventDefault();
+                  e.preventDefault();
                 }}
                 placeholder="select type"
               >
@@ -157,9 +156,6 @@ const SchemaJson = () => {
                 <option value="array">Array</option>
                 {/*boolean, null*/}
               </Select>
-              <Tooltip hasArrow label="Add child" placement="top">
-                <AddIcon ml="8px" boxSize={5} onClick={addProperty} />
-              </Tooltip>
               <DeleteIcon ml="8px" boxSize={5} />
             </Box>
             <AccordionIcon />
@@ -167,35 +163,39 @@ const SchemaJson = () => {
           <AccordionPanel>
             <Box>
               <chakra.h2>Properties:</chakra.h2>
-              {children.length !== 0 ? (
-                <>
-                  {children.map((child) => {
-                    return (
-                      <Box
-                        my="5px"
-                        key={child.key}
-                        display="flex"
-                        gap="2"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Mapper
-                          objectKeys={["root", "properties", child.key]}
-                          objectKey={child.key}
-                          data={child.data as JSONSchema7}
-                        />
-                      </Box>
-                    );
-                  })}
-                </>
-              ) : (
-                <Box my="20px">
-                    <Text fontSize='lg' as="i">
-                      Add Properties using + button
-                    </Text>
-                </Box>
-                
-              )}
+              {children.map((child) => {
+                return (
+                  <Box
+                    my="5px"
+                    key={child.key}
+                    display="flex"
+                    gap="2"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Mapper
+                      objectKeys={["root", "properties", child.key]}
+                      objectKey={child.key}
+                      data={child.data as JSONSchema7}
+                    />
+                  </Box>
+                );
+              })}
+              <Box my="20px" display="flex" alignItems="center">
+                <Tooltip hasArrow label="Add child" placement="top">
+                  <AddIcon
+                    cursor="pointer"
+                    mx="8px"
+                    my="10px"
+                    boxSize={4}
+                    onClick={addProperty}
+                  />
+                </Tooltip>
+
+                <Text fontSize="lg" as="i">
+                  Add More Properties
+                </Text>
+              </Box>
             </Box>
           </AccordionPanel>
         </AccordionItem>

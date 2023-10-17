@@ -9,6 +9,8 @@ import {
   Select,
   Input,
   AccordionIcon,
+  Text,
+  Tooltip
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
@@ -32,7 +34,8 @@ const ObjectSchema = ({
   objectKey,
   objectKeys = [],
 }: ObjectSchemaType) => {
-  const children = properties !== undefined
+  const children =
+    properties !== undefined
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
@@ -49,13 +52,12 @@ const ObjectSchema = ({
       currObj["type"] = newType;
 
       if (newType === "array") {
-        delete currObj["properties"]
+        delete currObj["properties"];
         currObj["items"] = {
           type: "string",
         };
-      }
-      else{
-        delete currObj["properties"]
+      } else {
+        delete currObj["properties"];
       }
     });
   };
@@ -64,9 +66,9 @@ const ObjectSchema = ({
     e.stopPropagation();
     setSchema((draftSchema) => {
       let currObj = draftSchema as any;
-      for(let i = 1; i < objectKeys.length - 1; i++){
+      for (let i = 1; i < objectKeys.length - 1; i++) {
         const key = objectKeys[i];
-        if (currObj[key] == null || typeof currObj[key] !== 'object') {
+        if (currObj[key] == null || typeof currObj[key] !== "object") {
           return; // Property doesn't exist or is not an object
         }
         currObj = currObj[key as string];
@@ -77,21 +79,19 @@ const ObjectSchema = ({
       if (currObj.hasOwnProperty(lastKey)) {
         delete currObj[lastKey];
       }
-      
-    })
-  }
+    });
+  };
 
   const addProperty = (e: MouseEvent<SVGElement>) => {
-
     e.preventDefault();
     e.stopPropagation();
 
     setSchema((draftSchema) => {
       let currObj = draftSchema as any;
-      for(let i = 1; i < objectKeys.length - 1; i++){
+      for (let i = 1; i < objectKeys.length - 1; i++) {
         const key = objectKeys[i];
-        console.log("keys", key)
-        if(currObj[key] == null || typeof currObj[key] !== 'object'){
+        console.log("keys", key);
+        if (currObj[key] == null || typeof currObj[key] !== "object") {
           return;
         }
         currObj = currObj[key as string];
@@ -100,14 +100,14 @@ const ObjectSchema = ({
       const lastKey = objectKeys[objectKeys.length - 1];
 
       const newKey = `field_${uniqueKey}`;
-      if(draftSchema.properties){
+      if (draftSchema.properties) {
         currObj[lastKey].properties[newKey] = {
-          type: "string"
-        } 
+          type: "string",
+        };
       }
-      setUniqueKey(prev => prev + 1)
-    })
-  }
+      setUniqueKey((prev) => prev + 1);
+    });
+  };
 
   return (
     <Accordion w="100%" allowToggle>
@@ -140,45 +140,50 @@ const ObjectSchema = ({
               <option value="array">Array</option>
               {/*boolean, null*/}
             </Select>
-            <AddIcon ml="8px" boxSize={5} onClick={addProperty}/>
-            {
-              objectKeys[objectKeys.length - 1] !== "items"?
-                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
-              :null
-            }
+            {objectKeys[objectKeys.length - 1] !== "items" ? (
+              <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+            ) : null}
           </Box>
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel px="0">
           <Box>
             <chakra.h2>Properties:</chakra.h2>
-            {
-              children.length !== 0 ? 
-              <>
-                {children.map((child) => {
-                return (
-                  <Box
-                    my="5px"
-                    key={child.key}
-                    display="flex"
-                    gap="2"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    {/* <Input flex="1" defaultValue={child.key} /> */}
-                    <Box flex="2" display="flex" alignItems="center"> 
-                      <Mapper
-                        objectKeys={[...objectKeys, "properties", child.key]}
-                        objectKey={child.key}
-                        data={child.data as JSONSchema7}
-                      />
-                    </Box>
+            {children.map((child) => {
+              return (
+                <Box
+                  my="5px"
+                  key={child.key}
+                  display="flex"
+                  gap="2"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  {/* <Input flex="1" defaultValue={child.key} /> */}
+                  <Box flex="2" display="flex" alignItems="center">
+                    <Mapper
+                      objectKeys={[...objectKeys, "properties", child.key]}
+                      objectKey={child.key}
+                      data={child.data as JSONSchema7}
+                    />
                   </Box>
-                );
-              })}
-              </>:
-              <AddIcon mx="8px" my="10px" boxSize={5}/>
-            }
+                </Box>
+              );
+            })}
+            <Box my="20px" display="flex" alignItems="center">
+                <Tooltip hasArrow label="Add child" placement="top">
+                  <AddIcon
+                    cursor="pointer"
+                    mx="8px"
+                    my="10px"
+                    boxSize={4}
+                    onClick={addProperty}
+                  />
+                </Tooltip>
+              <Text fontSize="lg" as="i">
+                Add More Properties
+              </Text>
+            </Box>
           </Box>
         </AccordionPanel>
       </AccordionItem>

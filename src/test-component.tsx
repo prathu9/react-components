@@ -18,20 +18,22 @@ import { useMultiSelect, MultiSelect } from "./components/multi-select";
 
 import JSONSchemaEditor from "./components/json-schema-editor/JsonSchemaEditor";
 import { JSONSchema7 } from "json-schema";
+import Editor from "@monaco-editor/react";
 
 const initialSchema = {
   type: "object",
   properties: {
     cars: {
-      type: "array",
-      items: {
-            type: "object",
-            properties: {
-              electric: {
-                type: "string"
-              }
-            }
-      }
+      type: "string"
+      // type: "array",
+      // items: {
+      //       type: "object",
+      //       properties: {
+      //         electric: {
+      //           type: "string"
+      //         }
+      //       }
+      // }
     },
   },
 } as JSONSchema7
@@ -41,8 +43,20 @@ const TestComponent = () => {
   
   return (
     <>
-    <Box maxW="500px">
-      <JSONSchemaEditor value={value} setValue={setValue} />
+    <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
+      <Box w="400px">
+        <JSONSchemaEditor value={value} setValue={setValue} />
+      </Box>
+      {/* <Editor
+              width="400px"
+              height="300px"
+              theme="vs-dark"
+              defaultLanguage="json"
+              defaultValue={JSON.stringify(value)}
+              onChange={(v) =>{v && setValue(JSON.parse(v))}}
+              options={{}}
+              value={JSON.stringify(value)}
+            /> */}
     </Box>
     {/* <MultiSelectExample single={false}/> */}
       {/* <Stepper step={1} orientation={useBreakpointValue({ base: 'vertical', md: 'horizontal' })}>
