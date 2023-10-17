@@ -98,15 +98,14 @@ const ObjectSchema = ({
       }
 
       const lastKey = objectKeys[objectKeys.length - 1];
-      console.log("lastkey", Object.keys(currObj[lastKey]), lastKey)
 
-      // const newKey = `field_${uniqueKey}`;
-      // if(draftSchema.properties){
-      //   draftSchema.properties[newKey] = {
-      //     type: "string"
-      //   } 
-      // }
-      // setUniqueKey(prev => prev + 1)
+      const newKey = `field_${uniqueKey}`;
+      if(draftSchema.properties){
+        currObj[lastKey].properties[newKey] = {
+          type: "string"
+        } 
+      }
+      setUniqueKey(prev => prev + 1)
     })
   }
 

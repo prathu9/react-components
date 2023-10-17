@@ -17,15 +17,32 @@ import { VariableSizeList as List } from 'react-window';
 import { useMultiSelect, MultiSelect } from "./components/multi-select";
 
 import JSONSchemaEditor from "./components/json-schema-editor/JsonSchemaEditor";
+import { JSONSchema7 } from "json-schema";
 
-
+const initialSchema = {
+  type: "object",
+  properties: {
+    cars: {
+      type: "array",
+      items: {
+            type: "object",
+            properties: {
+              electric: {
+                type: "string"
+              }
+            }
+      }
+    },
+  },
+} as JSONSchema7
 
 const TestComponent = () => {
-  const [count, setCount] = useState(0);
+  const [value, setValue] = useState(initialSchema);
+  
   return (
     <>
     <Box maxW="500px">
-      <JSONSchemaEditor />
+      <JSONSchemaEditor value={value} setValue={setValue} />
     </Box>
     {/* <MultiSelectExample single={false}/> */}
       {/* <Stepper step={1} orientation={useBreakpointValue({ base: 'vertical', md: 'horizontal' })}>

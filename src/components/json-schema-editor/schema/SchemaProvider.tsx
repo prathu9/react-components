@@ -1,5 +1,5 @@
 import { JSONSchema7 } from "json-schema";
-import  React, { createContext, useState } from 'react'
+import  React, { createContext, useState, useEffect } from 'react'
 
 import {type Updater, useImmer} from "use-immer"
 
@@ -51,9 +51,13 @@ export type SchemaContextType = {
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
 
-const SchemaProvider = ({children}: any) => {
-    const [schema, setSchema] = useImmer<JSONSchema7>(initialSchema);
+const SchemaProvider = ({value, setValue, children}: any) => {
+    const [schema, setSchema] = useImmer<JSONSchema7>(value);
     const [uniqueKey, setUniqueKey] = useState(0);
+
+    useEffect(() => {
+      setValue(schema);
+    },[schema])
 
     return(
         <SchemaContext.Provider value={{schema, setSchema, uniqueKey, setUniqueKey}}>
