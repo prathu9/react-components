@@ -53,24 +53,23 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
   
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
-    // setSchema((draftSchema) => {
-    //   let currObj = draftSchema as any;
-    //   for(let i = 1; i < objectKeys.length - 1; i++){
-    //     const key = objectKeys[i];
-    //     // if (currObj[key] == null || typeof currObj[key] !== 'object') {
-    //     //   return; // Property doesn't exist or is not an object
-    //     // }
-    //     console.log("key", key)
-    //     // currObj = currObj[key as string];
-    //   }
-
-    //   // const lastKey = objectKeys[objectKeys.length - 1];
-
-    //   // if (currObj.hasOwnProperty(lastKey)) {
-    //   //   delete currObj[lastKey];
-    //   // }
+    setSchema((draftSchema) => {
+      let currObj = draftSchema as any;
+      for(let i = 1; i < objectKeys.length - 1; i++){
+        const key = objectKeys[i];
+        if (currObj[key] == null || typeof currObj[key] !== 'object') {
+          return; // Property doesn't exist or is not an object
+        }
+        currObj = currObj[key as string];
+      }
       
-    // })
+      const lastKey = objectKeys[objectKeys.length - 1];
+
+      if (currObj.hasOwnProperty(lastKey)) {
+        delete currObj[lastKey];
+      }
+      
+    })
   }
 
   return (

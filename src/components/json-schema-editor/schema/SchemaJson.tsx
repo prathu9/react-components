@@ -78,8 +78,8 @@ const SchemaJson = () => {
           <option value="array">Array</option>
           {/*boolean, null*/}
         </Select>
-        <AddIcon ml="8px" boxSize={5} />
-        <DeleteIcon ml="8px" boxSize={5} />
+        {/* <AddIcon ml="8px" boxSize={5} />
+        <DeleteIcon ml="8px" boxSize={5} /> */}
       </Box>
     );
   }
@@ -101,8 +101,7 @@ const SchemaJson = () => {
                 <option value="array">Array</option>
                 {/*boolean, null*/}
               </Select>
-              <AddIcon ml="8px" boxSize={5} />
-              <DeleteIcon ml="8px" boxSize={5} />
+              {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -156,7 +155,7 @@ const SchemaJson = () => {
                 <option value="array">Array</option>
                 {/*boolean, null*/}
               </Select>
-              <DeleteIcon ml="8px" boxSize={5} />
+              {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
           </AccordionButton>
