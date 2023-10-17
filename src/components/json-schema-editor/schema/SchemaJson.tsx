@@ -3,6 +3,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { SchemaContext, SchemaContextType } from "./SchemaProvider";
 import Mapper from "./mapper";
 import { JSONSchema7 } from "json-schema";
+import SelectType from "./SelectType";
 import {
   Accordion,
   AccordionItem,
@@ -66,18 +67,7 @@ const SchemaJson = () => {
   if (data.type !== "object" && data.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
-        <Select
-          value="string"
-          w="80%"
-          onChange={handleTypeChange}
-          placeholder="select type"
-        >
-          <option value="string">String</option>
-          <option value="number">Number</option>
-          <option value="object">Object</option>
-          <option value="array">Array</option>
-          {/*boolean, null*/}
-        </Select>
+        <SelectType width="80%" value={schema.type as string} handleTypeChange={handleTypeChange}/>
         {/* <AddIcon ml="8px" boxSize={5} />
         <DeleteIcon ml="8px" boxSize={5} /> */}
       </Box>
@@ -90,17 +80,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <Select
-                value="array"
-                onChange={handleTypeChange}
-                placeholder="select type"
-              >
-                <option value="string">String</option>
-                <option value="number">Number</option>
-                <option value="object">Object</option>
-                <option value="array">Array</option>
-                {/*boolean, null*/}
-              </Select>
+              <SelectType value="array" handleTypeChange={handleTypeChange}/>
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
@@ -140,21 +120,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <Select
-                value="object"
-                onChange={handleTypeChange}
-                onClick={(e: MouseEvent<HTMLSelectElement>) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-                placeholder="select type"
-              >
-                <option value="string">String</option>
-                <option value="number">Number</option>
-                <option value="object">Object</option>
-                <option value="array">Array</option>
-                {/*boolean, null*/}
-              </Select>
+              <SelectType value="object" handleTypeChange={handleTypeChange}/>
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
