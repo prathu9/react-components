@@ -27,7 +27,6 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
 
       const newType = e.target.value;
       currObj["type"] = newType;
-      console.log(currObj["items"]);
 
       if (newType === "object") {
         currObj["properties"] = {
@@ -64,7 +63,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
       }
     });
   };
-  console.log(schema);
+
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">
