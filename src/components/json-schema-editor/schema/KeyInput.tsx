@@ -1,7 +1,9 @@
 import { Input, InputProps } from "@chakra-ui/react"
-import { ChangeEvent, useContext } from "react";
+import { FocusEvent, ChangeEvent, KeyboardEvent, useContext, useState, useCallback } from "react";
 
 import { SchemaContext } from "./SchemaProvider";
+
+import { JSONSchema7 } from "json-schema";
 
 type KeyInputType = {
     value: string,
@@ -10,36 +12,71 @@ type KeyInputType = {
 
 const KeyInput = ({value, objectKeys, ...props}: KeyInputType) => {
     const { setSchema } = useContext(SchemaContext)!;
+    const [inputValue, setInputValue] = useState(value);
 
-    // console.log(value, objectKeys)
+    const updateSchema = useCallback(() => {
+        setSchema((draftSchema) => {
+            let currObj = draftSchema as any;
+            let objToChange;
+            
+            for(let i = 1; i < objectKeys.length - 1; i++){
+              const key = objectKeys[i];
+              if (currObj[key] == null || typeof currObj[key] !== "object") {
+                return;
+              }
+  
+              if(i === objectKeys.length-2){
+                  objToChange = currObj;
+              }
+              currObj = currObj[key as string];
+            }
+  
+            const remainingKeys = Object.keys(currObj);
+            const newKey = inputValue;
+            const lastKey = objectKeys[objectKeys.length - 1];
+  
+            objToChange.properties = remainingKeys.reduce((acc: Record<string, any>, val) => {
+              if(val === lastKey){
+                  acc[newKey] = currObj[lastKey];
+              }
+              else{
+                  acc[val] = currObj[val]
+              }
+  
+              return acc;
+            }, {})
+        })
+    }, [setSchema, objectKeys, inputValue])
 
-    const handleKeyUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleKeyUpdate = (e: FocusEvent<HTMLInputElement>) => {
         e.stopPropagation();
         e.preventDefault();
-        console.log("check")
-
-        setSchema((draftSchema) => {
-          let currObj = draftSchema as any;
-          for(let i = 0; i < objectKeys.length; i++){
-            const key = objectKeys[i];
-            if (currObj[key] == null || typeof currObj[key] !== "object") {
-              return;
-            }
-            currObj = currObj[key as string];
-          }
-    
-          console.log(Object.keys(currObj))
-    
-        })
-    
+        console.log("changed")
+        updateSchema();
       }
 
+      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        
+        if(newValue.length > 10){
+            return;
+        }
+        setInputValue(newValue);
+      } 
+
+      const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === "Enter"){
+            updateSchema();
+        }
+      }
 
     return (
         <Input
-            value={value}
+            value={inputValue}
             placeholder="key"
-            onChange={handleKeyUpdate}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onBlur={handleKeyUpdate}
             {...props}
         />
     )
