@@ -17,6 +17,7 @@ import { JSONSchema7Definition } from "json-schema";
 import Mapper from "./mapper";
 import SelectType from "./SelectType";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import KeyInput from "./KeyInput";
 
 type ObjectSchemaType = {
   items: JSONSchema7Definition | JSONSchema7Definition[] | undefined;
@@ -37,41 +38,39 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
       const newType = e.target.value;
 
       currObj["type"] = newType;
-      
+
       if (newType === "object") {
-        delete currObj["items"]
+        delete currObj["items"];
         currObj["properties"] = {
           field: {
             type: "string",
           },
         };
-      } 
-      else{
-        delete currObj["items"]
+      } else {
+        delete currObj["items"];
       }
     });
   };
-  
+
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
     setSchema((draftSchema) => {
       let currObj = draftSchema as any;
-      for(let i = 1; i < objectKeys.length - 1; i++){
+      for (let i = 1; i < objectKeys.length - 1; i++) {
         const key = objectKeys[i];
-        if (currObj[key] == null || typeof currObj[key] !== 'object') {
+        if (currObj[key] == null || typeof currObj[key] !== "object") {
           return; // Property doesn't exist or is not an object
         }
         currObj = currObj[key as string];
       }
-      
+
       const lastKey = objectKeys[objectKeys.length - 1];
 
       if (currObj.hasOwnProperty(lastKey)) {
         delete currObj[lastKey];
       }
-      
-    })
-  }
+    });
+  };
 
   return (
     <Accordion w="100%" allowToggle>
@@ -80,28 +79,29 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
           <Box w="80%" display="flex" alignItems="center">
             {objectKey.length !== 0 ? (
               <>
-                <Input
+                <KeyInput
                   value={objectKey}
                   flex="1"
                   mr="5px"
                   placeholder="key"
-                  onChange={() => {}}
+                  objectKeys={objectKeys}
                 />{" "}
                 :
               </>
             ) : null}
-            <SelectType flex="2"
+            <SelectType
+              flex="2"
               value="array"
               mx="5px"
               onChange={handleTypeChange}
               placeholder="select type"
-              w="70%" />
-            {
-              objectKeys[objectKeys.length - 1] !== "items"?
+              w="70%"
+            />
+            {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete}/>
-              </>:null
-            }
+                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+              </>
+            ) : null}
           </Box>
           <AccordionIcon />
         </AccordionButton>

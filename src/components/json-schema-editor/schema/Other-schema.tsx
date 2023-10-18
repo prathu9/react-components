@@ -8,6 +8,7 @@ import { ChangeEvent, MouseEventHandler, MouseEvent, useContext } from "react";
 import { SchemaContext } from "./SchemaProvider";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import SelectType from "./SelectType";
+import KeyInput from "./KeyInput";
 
 type OtherSchemaType = {
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -69,7 +70,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
       <Box w="80%" display="flex" alignItems="center">
         {objectKey && objectKey.length !== 0 ? (
           <>
-            <Input flex="1" mr="5px" defaultValue={objectKey} />:
+            <KeyInput flex="1" mr="5px" value={objectKey} objectKeys={objectKeys} />:
           </>
         ) : null}
         <SelectType

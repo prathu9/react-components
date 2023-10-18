@@ -14,11 +14,19 @@ import {
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { ChangeEvent, useContext, MouseEvent, useMemo, useEffect } from "react";
+import {
+  ChangeEvent,
+  useContext,
+  MouseEvent,
+  useMemo,
+  useEffect,
+  useState,
+} from "react";
 import SelectType from "./SelectType";
 
 import Mapper from "./mapper";
 import { SchemaContext } from "./SchemaProvider";
+import KeyInput from "./KeyInput";
 
 type ObjectSchemaType = {
   properties:
@@ -117,12 +125,11 @@ const ObjectSchema = ({
           <Box w="80%" display="flex" alignItems="center">
             {objectKey.length !== 0 ? (
               <>
-                <Input
-                  value={objectKey}
+                <KeyInput
                   flex="1"
                   mr="5px"
-                  placeholder="key"
-                  onChange={() => {}}
+                  value={objectKey}
+                  objectKeys={objectKeys}
                 />{" "}
                 :
               </>
