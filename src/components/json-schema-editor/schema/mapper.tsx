@@ -1,7 +1,6 @@
-import { JSONSchema7,  JSONSchema7TypeName } from "json-schema";
+import { JSONSchema7 } from "json-schema";
 import ArraySchema from "./Array-schema";
 import ObjectSchema from "./Object-schema";
-import {Box, Select, Input} from '@chakra-ui/react';
 import OtherSchema from "./Other-schema";
 
 type MapperProps = {

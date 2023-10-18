@@ -5,8 +5,6 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  Select,
-  Input,
   AccordionIcon,
 } from "@chakra-ui/react";
 
@@ -16,7 +14,7 @@ import { JSONSchema7Definition } from "json-schema";
 
 import Mapper from "./mapper";
 import SelectType from "./SelectType";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import KeyInput from "./KeyInput";
 
 type ObjectSchemaType = {
@@ -26,7 +24,7 @@ type ObjectSchemaType = {
 };
 
 const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
-  const { schema, setSchema } = useContext(SchemaContext)!;
+  const { setSchema } = useContext(SchemaContext)!;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {

@@ -1,5 +1,5 @@
-import { useContext, ChangeEvent, MouseEvent, useState } from "react";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useContext, ChangeEvent, MouseEvent } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 import { SchemaContext, SchemaContextType } from "./SchemaProvider";
 import Mapper from "./mapper";
 import { JSONSchema7 } from "json-schema";
@@ -12,8 +12,6 @@ import {
   AccordionPanel,
   Box,
   chakra,
-  Input,
-  Select,
   Text,
   Tooltip,
 } from "@chakra-ui/react";

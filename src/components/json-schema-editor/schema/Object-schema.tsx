@@ -6,8 +6,6 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  Select,
-  Input,
   AccordionIcon,
   Text,
   Tooltip,
@@ -18,9 +16,6 @@ import {
   ChangeEvent,
   useContext,
   MouseEvent,
-  useMemo,
-  useEffect,
-  useState,
 } from "react";
 import SelectType from "./SelectType";
 

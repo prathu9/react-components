@@ -3,7 +3,6 @@ import { FocusEvent, ChangeEvent, KeyboardEvent, useContext, useState, useCallba
 
 import { SchemaContext } from "./SchemaProvider";
 
-import { JSONSchema7 } from "json-schema";
 
 type KeyInputType = {
     value: string,

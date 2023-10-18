@@ -1,12 +1,10 @@
-import { Box, Select, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import {
-  JSONSchema7,
-  JSONSchema7Definition,
   JSONSchema7TypeName,
 } from "json-schema";
-import { ChangeEvent, MouseEventHandler, MouseEvent, useContext } from "react";
+import { ChangeEvent, MouseEvent, useContext } from "react";
 import { SchemaContext } from "./SchemaProvider";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import SelectType from "./SelectType";
 import KeyInput from "./KeyInput";
 
