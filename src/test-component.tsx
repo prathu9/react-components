@@ -47,16 +47,17 @@ const TestComponent = () => {
       <Box w="400px">
         <JSONSchemaEditor value={value} setValue={setValue} />
       </Box>
-      {/* <Editor
+      
+      <Editor
               width="400px"
               height="300px"
               theme="vs-dark"
               defaultLanguage="json"
               defaultValue={JSON.stringify(value)}
-              onChange={(v) =>{v && setValue(JSON.parse(v))}}
+              onChange={(v) =>{console.log(JSON.parse(v)); v && setValue(JSON.parse(v))}}
               options={{}}
               value={JSON.stringify(value)}
-            /> */}
+            />
     </Box>
     {/* <MultiSelectExample single={false}/> */}
       {/* <Stepper step={1} orientation={useBreakpointValue({ base: 'vertical', md: 'horizontal' })}>

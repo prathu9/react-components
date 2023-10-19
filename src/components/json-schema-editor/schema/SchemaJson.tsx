@@ -32,17 +32,22 @@ const SchemaJson = () => {
       draftSchema.type = newType;
 
       if (newType === "object") {
+        delete draftSchema["items"];
         draftSchema.properties = {
           field: {
             type: "string",
           },
         };
       }
-
-      if (newType === "array") {
+      else if (newType === "array") {
+        delete draftSchema["properties"];
         draftSchema.items = {
           type: "string",
         };
+      }
+      else{
+        delete draftSchema["items"];
+        delete draftSchema["properties"];
       }
     });
   };
