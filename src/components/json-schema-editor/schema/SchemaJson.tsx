@@ -76,7 +76,7 @@ const SchemaJson = () => {
       </Box>
     );
   }
-
+console.log(schema)
   if (data.type === "array") {
     return (
       <Accordion w="100%" allowToggle>

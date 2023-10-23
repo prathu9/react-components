@@ -6,22 +6,17 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { useContext, ChangeEvent, MouseEvent } from "react";
 import { SchemaContext } from "./SchemaProvider";
-import { JSONSchema7Definition } from "json-schema";
+import {handleRequiredCheckBox} from "./utils";
 
 import Mapper from "./mapper";
 import SelectType from "./SelectType";
 import { DeleteIcon } from "@chakra-ui/icons";
 import KeyInput from "./KeyInput";
-
-type ObjectSchemaType = {
-  items: JSONSchema7Definition | JSONSchema7Definition[] | undefined;
-  objectKey: string;
-  objectKeys?: string[];
-};
 
 const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
   const { setSchema } = useContext(SchemaContext)!;
@@ -70,6 +65,10 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
     });
   };
 
+  const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
+  }
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -97,6 +96,7 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
+                <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}

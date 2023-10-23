@@ -9,9 +9,11 @@ import {
   AccordionIcon,
   Text,
   Tooltip,
+  Checkbox
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import {handleRequiredCheckBox} from "./utils";
 import {
   ChangeEvent,
   useContext,
@@ -113,6 +115,11 @@ const ObjectSchema = ({
     });
   };
 
+  const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
+  }
+
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -137,7 +144,10 @@ const ObjectSchema = ({
               onChange={handleTypeChange}
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
-              <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+              <>
+                <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox} />
+                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+              </>
             ) : null}
           </Box>
           <AccordionIcon />

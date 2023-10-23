@@ -4,9 +4,11 @@ import {
 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext } from "react";
 import { SchemaContext } from "./SchemaProvider";
+import { Checkbox } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import SelectType from "./SelectType";
 import KeyInput from "./KeyInput";
+import {handleRequiredCheckBox} from "./utils";
 
 type OtherSchemaType = {
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -63,6 +65,10 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
     });
   };
 
+  const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
+  }
+  
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">
@@ -81,6 +87,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
         />
         {objectKeys[objectKeys.length - 1] !== "items" ? (
           <>
+            <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
           </>
         ) : null}
