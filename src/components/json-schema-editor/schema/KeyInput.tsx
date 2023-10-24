@@ -60,6 +60,11 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
         return;
       }
 
+      if(objToChange.hasOwnProperty("required")){
+        objToChange.required = objToChange.required.filter((prop: string) => prop !== lastKey);
+        objToChange.required.push(newKey);
+      }
+
       objToChange.properties = remainingKeys.reduce(
         (acc: Record<string, any>, val) => {
           if (val === lastKey) {
