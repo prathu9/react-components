@@ -7,6 +7,7 @@ import {
   AccordionPanel,
   AccordionIcon,
   Checkbox,
+  Tooltip
 } from "@chakra-ui/react";
 
 import { useContext, ChangeEvent, MouseEvent, useState } from "react";
@@ -86,7 +87,15 @@ const ArraySchema = ({ items, objectKey, objectKeys = [], requiredProperties }: 
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <Checkbox isChecked={isPropertyRequired} ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
+                <Tooltip label="required" hasArrow placement="top">
+                  <Box ml="8px" display="flex">
+                    <Checkbox
+                      isChecked={isPropertyRequired}
+                      colorScheme="blue"
+                      onChange={handleCheckBox}
+                    />
+                  </Box>
+                </Tooltip>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}

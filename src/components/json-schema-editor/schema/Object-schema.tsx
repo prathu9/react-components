@@ -13,8 +13,19 @@ import {
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { handleRequiredCheckBox, checkIsPropertyRequired, deleteProperty } from "./utils";
-import { ChangeEvent, useContext, MouseEvent, useMemo,useRef, useState } from "react";
+import {
+  handleRequiredCheckBox,
+  checkIsPropertyRequired,
+  deleteProperty,
+} from "./utils";
+import {
+  ChangeEvent,
+  useContext,
+  MouseEvent,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import SelectType from "./SelectType";
 
 import Mapper from "./mapper";
@@ -43,7 +54,9 @@ const ObjectSchema = ({
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
 
-  const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const { setSchema, uniqueKey, setUniqueKey } =
+    useContext(SchemaContext)!;
+
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -82,7 +95,7 @@ const ObjectSchema = ({
       let currObj = draftSchema as any;
       for (let i = 1; i < objectKeys.length - 1; i++) {
         const key = objectKeys[i];
-        console.log("keys", key);
+
         if (currObj[key] == null || typeof currObj[key] !== "object") {
           return;
         }
@@ -131,12 +144,15 @@ const ObjectSchema = ({
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <Checkbox
-                  isChecked={isPropertyRequired}
-                  ml="8px"
-                  colorScheme="blue"
-                  onChange={handleCheckBox}
-                />
+                <Tooltip label="required" hasArrow placement="top">
+                  <Box ml="8px" display="flex">
+                    <Checkbox
+                      isChecked={isPropertyRequired}
+                      colorScheme="blue"
+                      onChange={handleCheckBox}
+                    />
+                  </Box>
+                </Tooltip>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}
@@ -147,7 +163,6 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
-              console.log("child", child)
               return (
                 <Box
                   my="5px"
