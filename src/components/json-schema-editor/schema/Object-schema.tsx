@@ -33,25 +33,22 @@ import { SchemaContext } from "./SchemaProvider";
 import KeyInput from "./KeyInput";
 
 type ObjectSchemaType = {
-  properties:
-    | {
-        [key: string]: JSONSchema7Definition;
-      }
-    | undefined;
+  data: JSONSchema7;
   objectKey: string;
   objectKeys?: string[];
   requiredProperties?: string[];
 };
 
 const ObjectSchema = ({
-  properties,
+  data,
   objectKey,
   objectKeys = [],
   requiredProperties,
 }: ObjectSchemaType) => {
+  console.log("data", data)
   const children =
-    properties !== undefined
-      ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
+    data.properties !== undefined
+      ? Object.keys(data.properties).map((key) => ({ key, data: data.properties![key] }))
       : [];
 
   const { setSchema, uniqueKey, setUniqueKey } =
@@ -163,6 +160,7 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
+              console.log("child", child)
               return (
                 <Box
                   my="5px"
@@ -178,7 +176,7 @@ const ObjectSchema = ({
                       objectKeys={[...objectKeys, "properties", child.key]}
                       objectKey={child.key}
                       data={child.data as JSONSchema7}
-                      requiredProperties={requiredProperties}
+                      requiredProperties={data.hasOwnProperty("required") ? data.required : undefined}
                     />
                   </Box>
                 </Box>

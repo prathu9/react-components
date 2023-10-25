@@ -63,9 +63,11 @@ export const deleteProperty = (
 
     const lastKey = objectKeys[objectKeys.length - 1];
 
-    currObj.required = currObj.required.filter(
-      (prop: string) => prop !== lastKey
-    );
+    if(currObj.hasOwnProperty("required")){
+      currObj.required = currObj.required.filter(
+        (prop: string) => prop !== lastKey
+      );
+    }
 
     if (currObj.properties.hasOwnProperty(lastKey)) {
       delete currObj.properties[lastKey];
