@@ -32,3 +32,16 @@ export const handleRequiredCheckBox = (
     }
   });
 };
+
+
+export const checkIsPropertyRequired = (
+  objectKey: string,
+  requiredProperties?: string[]
+) => {
+  console.log(objectKey, requiredProperties)
+  if (requiredProperties === undefined) {
+    return false;
+  }
+
+  return requiredProperties.some((prop) => prop === objectKey);
+};

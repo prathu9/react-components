@@ -9,16 +9,12 @@ import {
   AccordionIcon,
   Text,
   Tooltip,
-  Checkbox
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import {handleRequiredCheckBox} from "./utils";
-import {
-  ChangeEvent,
-  useContext,
-  MouseEvent,
-} from "react";
+import { handleRequiredCheckBox, checkIsPropertyRequired } from "./utils";
+import { ChangeEvent, useContext, MouseEvent, useMemo,useRef, useState } from "react";
 import SelectType from "./SelectType";
 
 import Mapper from "./mapper";
@@ -33,19 +29,24 @@ type ObjectSchemaType = {
     | undefined;
   objectKey: string;
   objectKeys?: string[];
+  requiredProperties?: string[];
 };
 
 const ObjectSchema = ({
   properties,
   objectKey,
   objectKeys = [],
+  requiredProperties,
 }: ObjectSchemaType) => {
   const children =
     properties !== undefined
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
-
-  const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+console.log(requiredProperties)
+  const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const [isPropertyRequired, setIsPropertyRequired] = useState(
+    checkIsPropertyRequired(objectKey, requiredProperties)
+  );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -115,10 +116,11 @@ const ObjectSchema = ({
     });
   };
 
+  // const isPropertyRequired = useRef(checkIsPropertyRequired(objectKey, requiredProperties))
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
-  }
-
+  };
 
   return (
     <Accordion w="100%" allowToggle>
@@ -145,7 +147,12 @@ const ObjectSchema = ({
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox} />
+                <Checkbox
+                  isChecked={isPropertyRequired}
+                  ml="8px"
+                  colorScheme="blue"
+                  onChange={handleCheckBox}
+                />
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}
@@ -171,6 +178,7 @@ const ObjectSchema = ({
                       objectKeys={[...objectKeys, "properties", child.key]}
                       objectKey={child.key}
                       data={child.data as JSONSchema7}
+                      requiredProperties={requiredProperties}
                     />
                   </Box>
                 </Box>

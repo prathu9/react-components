@@ -2,22 +2,26 @@ import { Box } from "@chakra-ui/react";
 import {
   JSONSchema7TypeName,
 } from "json-schema";
-import { ChangeEvent, MouseEvent, useContext } from "react";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 import { SchemaContext } from "./SchemaProvider";
 import { Checkbox } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import SelectType from "./SelectType";
 import KeyInput from "./KeyInput";
-import {handleRequiredCheckBox} from "./utils";
+import {handleRequiredCheckBox, checkIsPropertyRequired} from "./utils";
 
 type OtherSchemaType = {
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
   objectKey: string;
   objectKeys?: string[];
+  requiredProperties?: string[];
 };
 
-const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
-  const { schema, setSchema } = useContext(SchemaContext)!;
+const OtherSchema = ({ type, objectKey, objectKeys = [], requiredProperties }: OtherSchemaType) => {
+  const { setSchema } = useContext(SchemaContext)!;
+  const [isPropertyRequired, setIsPropertyRequired] = useState(
+    checkIsPropertyRequired(objectKey, requiredProperties)
+  );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -66,6 +70,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
   };
 
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   }
   
@@ -87,7 +92,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [] }: OtherSchemaType) => {
         />
         {objectKeys[objectKeys.length - 1] !== "items" ? (
           <>
-            <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
+            <Checkbox isChecked={isPropertyRequired} ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
           </>
         ) : null}

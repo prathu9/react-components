@@ -76,7 +76,7 @@ const SchemaJson = () => {
       </Box>
     );
   }
-console.log(schema)
+//console.log(schema)
   if (data.type === "array") {
     return (
       <Accordion w="100%" allowToggle>
@@ -145,6 +145,7 @@ console.log(schema)
                       objectKeys={["root", "properties", child.key]}
                       objectKey={child.key}
                       data={child.data as JSONSchema7}
+                      requiredProperties={data.hasOwnProperty("required")? data.required : undefined}
                     />
                   </Box>
                 );

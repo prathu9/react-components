@@ -40,6 +40,7 @@ const initialSchema = {
         }
       },
     },
+    required: ["cars", "bmw"]
   } as JSONSchema7
 
 export type SchemaContextType = {

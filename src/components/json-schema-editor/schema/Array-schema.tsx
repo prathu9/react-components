@@ -9,17 +9,21 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 
-import { useContext, ChangeEvent, MouseEvent } from "react";
+import { useContext, ChangeEvent, MouseEvent, useState } from "react";
 import { SchemaContext } from "./SchemaProvider";
-import {handleRequiredCheckBox} from "./utils";
+import {handleRequiredCheckBox, checkIsPropertyRequired} from "./utils";
 
 import Mapper from "./mapper";
 import SelectType from "./SelectType";
 import { DeleteIcon } from "@chakra-ui/icons";
 import KeyInput from "./KeyInput";
 
-const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
+const ArraySchema = ({ items, objectKey, objectKeys = [], requiredProperties }: any) => {
   const { setSchema } = useContext(SchemaContext)!;
+  const [isPropertyRequired, setIsPropertyRequired] = useState(
+    checkIsPropertyRequired(objectKey, requiredProperties)
+  );
+
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -66,6 +70,7 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
   };
 
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   }
 
@@ -96,7 +101,7 @@ const ArraySchema = ({ items, objectKey, objectKeys = [] }: any) => {
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <Checkbox ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
+                <Checkbox isChecked={isPropertyRequired} ml="8px" colorScheme="blue" onChange={handleCheckBox}/>
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}
