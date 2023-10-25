@@ -8,7 +8,7 @@ import { Checkbox } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import SelectType from "./SelectType";
 import KeyInput from "./KeyInput";
-import {handleRequiredCheckBox, checkIsPropertyRequired} from "./utils";
+import {handleRequiredCheckBox, checkIsPropertyRequired, deleteProperty} from "./utils";
 
 type OtherSchemaType = {
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -49,24 +49,7 @@ const OtherSchema = ({ type, objectKey, objectKeys = [], requiredProperties }: O
 
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
-    setSchema((draftSchema) => {
-      let currObj = draftSchema as any;
-
-      for (let i = 1; i < objectKeys.length - 1; i++) {
-        const key = objectKeys[i];
-
-        if (currObj[key] == null || typeof currObj[key] !== "object") {
-          return; // Property doesn't exist or is not an object
-        }
-        currObj = currObj[key as string];
-      }
-
-      const lastKey = objectKeys[objectKeys.length - 1];
-
-      if (currObj.hasOwnProperty(lastKey)) {
-        delete currObj[lastKey];
-      }
-    });
+    deleteProperty(objectKeys, setSchema);
   };
 
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {

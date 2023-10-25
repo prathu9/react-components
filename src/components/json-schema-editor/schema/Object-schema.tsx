@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { handleRequiredCheckBox, checkIsPropertyRequired } from "./utils";
+import { handleRequiredCheckBox, checkIsPropertyRequired, deleteProperty } from "./utils";
 import { ChangeEvent, useContext, MouseEvent, useMemo,useRef, useState } from "react";
 import SelectType from "./SelectType";
 
@@ -71,22 +71,7 @@ console.log(requiredProperties)
 
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
-    setSchema((draftSchema) => {
-      let currObj = draftSchema as any;
-      for (let i = 1; i < objectKeys.length - 1; i++) {
-        const key = objectKeys[i];
-        if (currObj[key] == null || typeof currObj[key] !== "object") {
-          return; // Property doesn't exist or is not an object
-        }
-        currObj = currObj[key as string];
-      }
-
-      const lastKey = objectKeys[objectKeys.length - 1];
-
-      if (currObj.hasOwnProperty(lastKey)) {
-        delete currObj[lastKey];
-      }
-    });
+    deleteProperty(objectKeys, setSchema);
   };
 
   const addProperty = (e: MouseEvent<SVGElement>) => {

@@ -15,7 +15,7 @@ const schemaComp = (
   objectKey: string,
   objectKeys?: string[],
   requiredProperties?: string[]
-) => {console.log(objectKeys)
+) => {
   if (data.type === "object") {
     const properties = data.properties;
 

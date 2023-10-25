@@ -1,6 +1,9 @@
 import { JSONSchema7 } from "json-schema";
 
-import { DraftFunction} from "use-immer";
+import { DraftFunction } from "use-immer";
+
+import { useContext } from "react";
+import { SchemaContext } from "./SchemaProvider";
 
 export const handleRequiredCheckBox = (
   isChecked: boolean,
@@ -12,7 +15,7 @@ export const handleRequiredCheckBox = (
     for (let i = 1; i < objectKeys.length - 2; i++) {
       currObj = currObj[objectKeys[i] as string];
     }
-    
+
     const lastKey = objectKeys[objectKeys.length - 1];
 
     if (isChecked) {
@@ -33,15 +36,39 @@ export const handleRequiredCheckBox = (
   });
 };
 
-
 export const checkIsPropertyRequired = (
   objectKey: string,
   requiredProperties?: string[]
 ) => {
-  console.log(objectKey, requiredProperties)
   if (requiredProperties === undefined) {
     return false;
   }
 
   return requiredProperties.some((prop) => prop === objectKey);
+};
+
+export const deleteProperty = (
+  objectKeys: string[],
+  setSchema: (arg: JSONSchema7 | DraftFunction<JSONSchema7>) => void
+) => {
+  setSchema((draftSchema) => {
+    let currObj = draftSchema as any;
+    for (let i = 1; i < objectKeys.length - 2; i++) {
+      const key = objectKeys[i];
+      if (currObj[key] == null || typeof currObj[key] !== "object") {
+        return; // Property doesn't exist or is not an object
+      }
+      currObj = currObj[key as string];
+    }
+
+    const lastKey = objectKeys[objectKeys.length - 1];
+
+    currObj.required = currObj.required.filter(
+      (prop: string) => prop !== lastKey
+    );
+
+    if (currObj.properties.hasOwnProperty(lastKey)) {
+      delete currObj.properties[lastKey];
+    }
+  });
 };
