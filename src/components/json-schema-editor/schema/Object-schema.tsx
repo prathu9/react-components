@@ -42,7 +42,7 @@ const ObjectSchema = ({
     properties !== undefined
       ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
       : [];
-console.log(requiredProperties)
+
   const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
@@ -101,7 +101,6 @@ console.log(requiredProperties)
     });
   };
 
-  // const isPropertyRequired = useRef(checkIsPropertyRequired(objectKey, requiredProperties))
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
@@ -148,6 +147,7 @@ console.log(requiredProperties)
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
+              console.log("child", child)
               return (
                 <Box
                   my="5px"
