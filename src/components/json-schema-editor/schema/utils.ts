@@ -2,9 +2,6 @@ import { JSONSchema7 } from "json-schema";
 
 import { DraftFunction } from "use-immer";
 
-import { useContext } from "react";
-import { SchemaContext } from "./SchemaProvider";
-
 export const handleRequiredCheckBox = (
   isChecked: boolean,
   objectKeys: string[],

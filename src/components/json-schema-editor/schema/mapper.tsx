@@ -18,12 +18,6 @@ const schemaComp = (
 ) => {
   if (data.type === "object") {
     const properties = data.properties;
-    
-    // if(objectKeys && objectKeys[objectKeys.length - 3] !== "root"){
-    //   requiredProperties = data.hasOwnProperty("required")
-    //   ? data.required
-    //   : undefined;
-    // }
 
     return (
       <ObjectSchema

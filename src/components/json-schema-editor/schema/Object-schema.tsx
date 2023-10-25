@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { JSONSchema7 } from "json-schema";
 import {
   handleRequiredCheckBox,
   checkIsPropertyRequired,
@@ -22,8 +22,6 @@ import {
   ChangeEvent,
   useContext,
   MouseEvent,
-  useMemo,
-  useRef,
   useState,
 } from "react";
 import SelectType from "./SelectType";

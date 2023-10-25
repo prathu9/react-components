@@ -71,12 +71,10 @@ const SchemaJson = () => {
     return (
       <Box w="80%" display="flex" alignItems="center">
         <SelectType w="80%" value={schema.type as string} onChange={handleTypeChange}/>
-        {/* <AddIcon ml="8px" boxSize={5} />
-        <DeleteIcon ml="8px" boxSize={5} /> */}
       </Box>
     );
   }
-console.log(schema)
+
   if (data.type === "array") {
     return (
       <Accordion w="100%" allowToggle>
