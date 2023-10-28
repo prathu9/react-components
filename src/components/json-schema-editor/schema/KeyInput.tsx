@@ -1,11 +1,11 @@
 import { Input, InputProps, Tooltip } from "@chakra-ui/react";
 import {
-  FocusEvent,
   ChangeEvent,
+  FocusEvent,
   KeyboardEvent,
+  useCallback,
   useContext,
   useState,
-  useCallback,
 } from "react";
 
 import { SchemaContext } from "./SchemaProvider";
@@ -52,7 +52,7 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
         return;
       }
 
-      if(newKey.length === 0){
+      if (newKey.length === 0) {
         setInputError({
           status: true,
           message: "Key cannot be empty",
@@ -60,9 +60,11 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
         return;
       }
 
-      if(objToChange.hasOwnProperty("required")){
-        if(objToChange.required.some((prop: string) => prop === lastKey)){
-          objToChange.required = objToChange.required.filter((prop: string) => prop !== lastKey);
+      if (objToChange.hasOwnProperty("required")) {
+        if (objToChange.required.some((prop: string) => prop === lastKey)) {
+          objToChange.required = objToChange.required.filter(
+            (prop: string) => prop !== lastKey,
+          );
           objToChange.required.push(newKey);
         }
       }
@@ -77,7 +79,7 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
 
           return acc;
         },
-        {}
+        {},
       );
     });
   }, [setSchema, objectKeys, inputValue]);

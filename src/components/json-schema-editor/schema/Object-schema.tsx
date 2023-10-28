@@ -1,34 +1,28 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
-  chakra,
-  Box,
   Accordion,
-  AccordionItem,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  chakra,
+  Checkbox,
   Text,
   Tooltip,
-  Checkbox,
 } from "@chakra-ui/react";
-
 import { JSONSchema7 } from "json-schema";
-import {
-  handleRequiredCheckBox,
-  checkIsPropertyRequired,
-  deleteProperty,
-} from "./utils";
-import {
-  ChangeEvent,
-  useContext,
-  MouseEvent,
-  useState,
-} from "react";
-import SelectType from "./SelectType";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 
+import KeyInput from "./KeyInput";
 import Mapper from "./mapper";
 import { SchemaContext } from "./SchemaProvider";
-import KeyInput from "./KeyInput";
+import SelectType from "./SelectType";
+import {
+  checkIsPropertyRequired,
+  deleteProperty,
+  handleRequiredCheckBox,
+} from "./utils";
 
 type ObjectSchemaType = {
   data: JSONSchema7;
@@ -43,17 +37,19 @@ const ObjectSchema = ({
   objectKeys = [],
   requiredProperties,
 }: ObjectSchemaType) => {
-  console.log("data", data)
+  console.log("data", data);
   const children =
     data.properties !== undefined
-      ? Object.keys(data.properties).map((key) => ({ key, data: data.properties![key] }))
+      ? Object.keys(data.properties).map((key) => ({
+          key,
+          data: data.properties![key],
+        }))
       : [];
 
-  const { setSchema, uniqueKey, setUniqueKey } =
-    useContext(SchemaContext)!;
+  const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties)
+    checkIsPropertyRequired(objectKey, requiredProperties),
   );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -158,7 +154,7 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
-              console.log("child", child)
+              console.log("child", child);
               return (
                 <Box
                   my="5px"
@@ -174,7 +170,11 @@ const ObjectSchema = ({
                       objectKeys={[...objectKeys, "properties", child.key]}
                       objectKey={child.key}
                       data={child.data as JSONSchema7}
-                      requiredProperties={data.hasOwnProperty("required") ? data.required : undefined}
+                      requiredProperties={
+                        data.hasOwnProperty("required")
+                          ? data.required
+                          : undefined
+                      }
                     />
                   </Box>
                 </Box>

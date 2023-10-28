@@ -1,30 +1,37 @@
-import {
-  chakra,
-  Box,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Checkbox,
-  Tooltip
-} from "@chakra-ui/react";
-
-import { useContext, ChangeEvent, MouseEvent, useState } from "react";
-import { SchemaContext } from "./SchemaProvider";
-import {handleRequiredCheckBox, checkIsPropertyRequired, deleteProperty} from "./utils";
-
-import Mapper from "./mapper";
-import SelectType from "./SelectType";
 import { DeleteIcon } from "@chakra-ui/icons";
-import KeyInput from "./KeyInput";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  chakra,
+  Checkbox,
+  Tooltip,
+} from "@chakra-ui/react";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 
-const ArraySchema = ({ items, objectKey, objectKeys = [], requiredProperties }: any) => {
+import KeyInput from "./KeyInput";
+import Mapper from "./mapper";
+import { SchemaContext } from "./SchemaProvider";
+import SelectType from "./SelectType";
+import {
+  checkIsPropertyRequired,
+  deleteProperty,
+  handleRequiredCheckBox,
+} from "./utils";
+
+const ArraySchema = ({
+  items,
+  objectKey,
+  objectKeys = [],
+  requiredProperties,
+}: any) => {
   const { setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties)
+    checkIsPropertyRequired(objectKey, requiredProperties),
   );
-
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -58,7 +65,7 @@ const ArraySchema = ({ items, objectKey, objectKeys = [], requiredProperties }: 
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
-  }
+  };
 
   return (
     <Accordion w="100%" allowToggle>

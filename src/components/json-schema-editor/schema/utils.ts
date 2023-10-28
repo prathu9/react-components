@@ -1,11 +1,10 @@
 import { JSONSchema7 } from "json-schema";
-
 import { DraftFunction } from "use-immer";
 
 export const handleRequiredCheckBox = (
   isChecked: boolean,
   objectKeys: string[],
-  setSchema: (arg: JSONSchema7 | DraftFunction<JSONSchema7>) => void
+  setSchema: (arg: JSONSchema7 | DraftFunction<JSONSchema7>) => void,
 ) => {
   setSchema((draftSchema) => {
     let currObj = draftSchema as any;
@@ -23,7 +22,7 @@ export const handleRequiredCheckBox = (
     } else {
       if (currObj.hasOwnProperty("required")) {
         currObj["required"] = currObj["required"].filter(
-          (requiredProp: string) => requiredProp !== lastKey
+          (requiredProp: string) => requiredProp !== lastKey,
         );
         if (currObj["required"].length === 0) {
           delete currObj["required"];
@@ -35,7 +34,7 @@ export const handleRequiredCheckBox = (
 
 export const checkIsPropertyRequired = (
   objectKey: string,
-  requiredProperties?: string[]
+  requiredProperties?: string[],
 ) => {
   if (requiredProperties === undefined) {
     return false;
@@ -46,7 +45,7 @@ export const checkIsPropertyRequired = (
 
 export const deleteProperty = (
   objectKeys: string[],
-  setSchema: (arg: JSONSchema7 | DraftFunction<JSONSchema7>) => void
+  setSchema: (arg: JSONSchema7 | DraftFunction<JSONSchema7>) => void,
 ) => {
   setSchema((draftSchema) => {
     let currObj = draftSchema as any;
@@ -60,9 +59,9 @@ export const deleteProperty = (
 
     const lastKey = objectKeys[objectKeys.length - 1];
 
-    if(currObj.hasOwnProperty("required")){
+    if (currObj.hasOwnProperty("required")) {
       currObj.required = currObj.required.filter(
-        (prop: string) => prop !== lastKey
+        (prop: string) => prop !== lastKey,
       );
     }
 

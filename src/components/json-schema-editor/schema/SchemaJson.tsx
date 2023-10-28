@@ -1,24 +1,25 @@
-import { useContext, ChangeEvent, MouseEvent } from "react";
 import { AddIcon } from "@chakra-ui/icons";
-import { SchemaContext, SchemaContextType } from "./SchemaProvider";
-import Mapper from "./mapper";
-import { JSONSchema7 } from "json-schema";
-import SelectType from "./SelectType";
 import {
   Accordion,
-  AccordionItem,
   AccordionButton,
   AccordionIcon,
+  AccordionItem,
   AccordionPanel,
   Box,
   chakra,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import { JSONSchema7 } from "json-schema";
+import { ChangeEvent, MouseEvent, useContext } from "react";
+
+import Mapper from "./mapper";
+import { SchemaContext, SchemaContextType } from "./SchemaProvider";
+import SelectType from "./SelectType";
 
 const SchemaJson = () => {
   const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(
-    SchemaContext
+    SchemaContext,
   ) as SchemaContextType;
 
   const data = schema || { type: "string" };
@@ -38,14 +39,12 @@ const SchemaJson = () => {
             type: "string",
           },
         };
-      }
-      else if (newType === "array") {
+      } else if (newType === "array") {
         delete draftSchema["properties"];
         draftSchema.items = {
           type: "string",
         };
-      }
-      else{
+      } else {
         delete draftSchema["items"];
         delete draftSchema["properties"];
       }
@@ -70,7 +69,11 @@ const SchemaJson = () => {
   if (data.type !== "object" && data.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
-        <SelectType w="80%" value={schema.type as string} onChange={handleTypeChange}/>
+        <SelectType
+          w="80%"
+          value={schema.type as string}
+          onChange={handleTypeChange}
+        />
       </Box>
     );
   }
@@ -81,7 +84,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <SelectType value="array" onChange={handleTypeChange}/>
+              <SelectType value="array" onChange={handleTypeChange} />
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
@@ -121,7 +124,7 @@ const SchemaJson = () => {
         <AccordionItem>
           <AccordionButton display="flex" justifyContent="space-between">
             <Box w="80%" display="flex" alignItems="center">
-              <SelectType value="object" onChange={handleTypeChange}/>
+              <SelectType value="object" onChange={handleTypeChange} />
               {/* <DeleteIcon ml="8px" boxSize={5} /> */}
             </Box>
             <AccordionIcon />
@@ -143,7 +146,11 @@ const SchemaJson = () => {
                       objectKeys={["root", "properties", child.key]}
                       objectKey={child.key}
                       data={child.data as JSONSchema7}
-                      requiredProperties={data.hasOwnProperty("required")? data.required : undefined}
+                      requiredProperties={
+                        data.hasOwnProperty("required")
+                          ? data.required
+                          : undefined
+                      }
                     />
                   </Box>
                 );

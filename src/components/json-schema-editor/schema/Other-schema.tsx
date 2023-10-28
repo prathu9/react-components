@@ -1,14 +1,16 @@
-import { Box, Tooltip } from "@chakra-ui/react";
-import {
-  JSONSchema7TypeName,
-} from "json-schema";
-import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import { SchemaContext } from "./SchemaProvider";
-import { Checkbox } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import SelectType from "./SelectType";
+import { Box, Checkbox, Tooltip } from "@chakra-ui/react";
+import { JSONSchema7TypeName } from "json-schema";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
+
 import KeyInput from "./KeyInput";
-import {handleRequiredCheckBox, checkIsPropertyRequired, deleteProperty} from "./utils";
+import { SchemaContext } from "./SchemaProvider";
+import SelectType from "./SelectType";
+import {
+  checkIsPropertyRequired,
+  deleteProperty,
+  handleRequiredCheckBox,
+} from "./utils";
 
 type OtherSchemaType = {
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -17,10 +19,15 @@ type OtherSchemaType = {
   requiredProperties?: string[];
 };
 
-const OtherSchema = ({ type, objectKey, objectKeys = [], requiredProperties }: OtherSchemaType) => {
+const OtherSchema = ({
+  type,
+  objectKey,
+  objectKeys = [],
+  requiredProperties,
+}: OtherSchemaType) => {
   const { setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties)
+    checkIsPropertyRequired(objectKey, requiredProperties),
   );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -55,14 +62,20 @@ const OtherSchema = ({ type, objectKey, objectKeys = [], requiredProperties }: O
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
-  }
-  
+  };
+
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">
         {objectKey && objectKey.length !== 0 ? (
           <>
-            <KeyInput flex="1" mr="5px" value={objectKey} objectKeys={objectKeys} />:
+            <KeyInput
+              flex="1"
+              mr="5px"
+              value={objectKey}
+              objectKeys={objectKeys}
+            />
+            :
           </>
         ) : null}
         <SelectType
@@ -77,7 +90,11 @@ const OtherSchema = ({ type, objectKey, objectKeys = [], requiredProperties }: O
           <>
             <Tooltip label="required" hasArrow placement="top">
               <Box ml="8px" display="flex">
-                <Checkbox isChecked={isPropertyRequired} colorScheme="blue" onChange={handleCheckBox}/>
+                <Checkbox
+                  isChecked={isPropertyRequired}
+                  colorScheme="blue"
+                  onChange={handleCheckBox}
+                />
               </Box>
             </Tooltip>
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />

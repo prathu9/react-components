@@ -1,4 +1,5 @@
 import { JSONSchema7 } from "json-schema";
+
 import ArraySchema from "./Array-schema";
 import ObjectSchema from "./Object-schema";
 import OtherSchema from "./Other-schema";
@@ -14,7 +15,7 @@ const schemaComp = (
   data: JSONSchema7,
   objectKey: string,
   objectKeys?: string[],
-  requiredProperties?: string[]
+  requiredProperties?: string[],
 ) => {
   if (data.type === "object") {
     const properties = data.properties;
@@ -52,8 +53,12 @@ const schemaComp = (
   );
 };
 
-const Mapper = ({ data, objectKey, objectKeys = [], requiredProperties }: MapperProps) => {
-
+const Mapper = ({
+  data,
+  objectKey,
+  objectKeys = [],
+  requiredProperties,
+}: MapperProps) => {
   const item = schemaComp(data, objectKey, objectKeys, requiredProperties);
 
   return item;
