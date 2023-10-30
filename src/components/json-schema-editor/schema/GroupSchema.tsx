@@ -48,12 +48,15 @@ const GroupSchema = ({
       currObj["type"] = newType;
 
       if (newType === "array") {
-        delete currObj["properties"];
         currObj["items"] = {
           type: "string",
         };
-      } else {
-        delete currObj["properties"];
+      } else if(newType === "object") {
+        currObj["properties"] = {
+          field: {
+            type: "string",
+          },
+        };
       }
     });
   };

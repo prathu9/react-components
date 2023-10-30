@@ -106,6 +106,7 @@ const ObjectSchema = ({
       const lastKey = objectKeys[objectKeys.length - 1];
 
       const newKey = `field_${uniqueKey}`;
+      
       if (draftSchema.properties) {
         currObj[lastKey].properties[newKey] = {
           type: "string",
