@@ -24,16 +24,10 @@ const initialSchema = {
   type: "object",
   properties: {
     cars: {
-      type: "string"
-      // type: "array",
-      // items: {
-      //       type: "object",
-      //       properties: {
-      //         electric: {
-      //           type: "string"
-      //         }
-      //       }
-      // }
+      "anyOf": [
+        {type: "string"},
+        {type: "number"}
+      ]
     },
   },
   required: ["cars", "bmw"]

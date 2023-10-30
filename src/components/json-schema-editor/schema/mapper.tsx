@@ -1,6 +1,7 @@
 import { JSONSchema7 } from "json-schema";
 
 import ArraySchema from "./Array-schema";
+import GroupSchema from "./GroupSchema";
 import ObjectSchema from "./Object-schema";
 import OtherSchema from "./Other-schema";
 
@@ -15,8 +16,19 @@ const schemaComp = (
   data: JSONSchema7,
   objectKey: string,
   objectKeys?: string[],
-  requiredProperties?: string[],
+  requiredProperties?: string[]
 ) => {
+  if (!data.hasOwnProperty("type")) {
+    console.log("mapper-data", data);
+    return (
+      <GroupSchema
+        objectKey={objectKey}
+        subSchema={[]}
+        objectKeys={objectKeys}
+      />
+    );
+  }
+
   if (data.type === "object") {
     const properties = data.properties;
 

@@ -16,6 +16,7 @@ const SelectType = (props: SelectProps) => {
       <option value="array">Array</option>
       <option value="boolean">Boolean</option>
       <option value="null">Null</option>
+      <option value="group">Group</option>
     </Select>
   );
 };
