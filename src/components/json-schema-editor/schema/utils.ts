@@ -57,15 +57,24 @@ export const deleteProperty = (
       currObj = currObj[key as string];
     }
 
+    console.log(Object.keys(currObj), objectKeys)
+
     const lastKey = objectKeys[objectKeys.length - 1];
 
+    const constraints = ["anyOf", "oneOf", "allOf", "not"];
+
+    if(Object.keys(currObj).some(key => constraints.includes(key))){
+      const constraint = Object.keys(currObj)[0];
+      currObj[constraint].splice(parseInt(lastKey), 1);
+    }
+    
     if (currObj.hasOwnProperty("required")) {
       currObj.required = currObj.required.filter(
         (prop: string) => prop !== lastKey,
       );
     }
 
-    if (currObj.properties.hasOwnProperty(lastKey)) {
+    if (currObj.hasOwnProperty("properties") && currObj.properties.hasOwnProperty(lastKey)) {
       delete currObj.properties[lastKey];
     }
   });

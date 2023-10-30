@@ -31,7 +31,7 @@ const GroupSchema = ({
   data,
   objectKeys = [],
 }: GroupSchemaProps) => {
-  console.log("multischema", objectKey, data);
+  // console.log("multischema", objectKey, data);
   const { setSchema } = useContext(SchemaContext)!;
   const constraint: ContraintType = Object.keys(data)[0] as ContraintType;
   const subSchema: JSONSchema7[] = data[constraint] as JSONSchema7[];
@@ -115,7 +115,7 @@ const GroupSchema = ({
               return (
                 <Box key={i} my="8px">
                   <Mapper
-                    objectKeys={[...objectKeys, constraint, `${0}`]}
+                    objectKeys={[...objectKeys, constraint, `${i}`]}
                     objectKey=""
                     data={item}
                   />
