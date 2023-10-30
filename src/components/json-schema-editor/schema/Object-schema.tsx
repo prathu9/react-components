@@ -164,7 +164,6 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
-              console.log("child", child);
               return (
                 <Box
                   my="5px"

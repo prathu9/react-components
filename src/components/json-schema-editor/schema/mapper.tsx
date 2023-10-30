@@ -19,11 +19,11 @@ const schemaComp = (
   requiredProperties?: string[]
 ) => {
   if (!data.hasOwnProperty("type")) {
-    console.log("mapper-data", data);
+    // console.log("mapper-data", data);
     return (
       <GroupSchema
         objectKey={objectKey}
-        subSchema={[]}
+        data={data}
         objectKeys={objectKeys}
       />
     );
