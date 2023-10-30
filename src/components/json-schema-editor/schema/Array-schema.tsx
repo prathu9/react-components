@@ -104,15 +104,17 @@ const ArraySchema = ({
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
               <>
-                <Tooltip label="required" hasArrow placement="top">
-                  <Box ml="8px" display="flex">
-                    <Checkbox
-                      isChecked={isPropertyRequired}
-                      colorScheme="blue"
-                      onChange={handleCheckBox}
-                    />
-                  </Box>
-                </Tooltip>
+                {objectKeys[objectKeys.length - 2] === "properties" ? (
+                  <Tooltip label="required" hasArrow placement="top">
+                    <Box ml="8px" display="flex">
+                      <Checkbox
+                        isChecked={isPropertyRequired}
+                        colorScheme="blue"
+                        onChange={handleCheckBox}
+                      />
+                    </Box>
+                  </Tooltip>
+                ) : null}
                 <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
               </>
             ) : null}

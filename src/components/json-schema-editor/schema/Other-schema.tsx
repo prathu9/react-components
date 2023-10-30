@@ -27,7 +27,7 @@ const OtherSchema = ({
 }: OtherSchemaType) => {
   const { setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties),
+    checkIsPropertyRequired(objectKey, requiredProperties)
   );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -39,15 +39,14 @@ const OtherSchema = ({
 
       const newType = e.target.value;
 
-      if(newType === "group"){
+      if (newType === "group") {
         delete currObj["type"];
         currObj["anyof"] = [
           {
-            type: "string"
-          }
+            type: "string",
+          },
         ];
-      }
-      else{
+      } else {
         currObj["type"] = newType;
 
         if (newType === "object") {
@@ -74,7 +73,7 @@ const OtherSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-
+  console.log(objectKeys);
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">
@@ -99,15 +98,17 @@ const OtherSchema = ({
         />
         {objectKeys[objectKeys.length - 1] !== "items" ? (
           <>
-            <Tooltip label="required" hasArrow placement="top">
-              <Box ml="8px" display="flex">
-                <Checkbox
-                  isChecked={isPropertyRequired}
-                  colorScheme="blue"
-                  onChange={handleCheckBox}
-                />
-              </Box>
-            </Tooltip>
+            {objectKeys[objectKeys.length - 2] === "properties" ? (
+              <Tooltip label="required" hasArrow placement="top">
+                <Box ml="8px" display="flex">
+                  <Checkbox
+                    isChecked={isPropertyRequired}
+                    colorScheme="blue"
+                    onChange={handleCheckBox}
+                  />
+                </Box>
+              </Tooltip>
+            ) : null}
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
           </>
         ) : null}

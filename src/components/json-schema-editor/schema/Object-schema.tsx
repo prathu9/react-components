@@ -115,7 +115,7 @@ const ObjectSchema = ({
       setUniqueKey((prev) => prev + 1);
     });
   };
-
+console.log(objectKeys)
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
@@ -145,19 +145,21 @@ const ObjectSchema = ({
               onChange={handleTypeChange}
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
-              <>
-                <Tooltip label="required" hasArrow placement="top">
-                  <Box ml="8px" display="flex">
-                    <Checkbox
-                      isChecked={isPropertyRequired}
-                      colorScheme="blue"
-                      onChange={handleCheckBox}
-                    />
-                  </Box>
-                </Tooltip>
-                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
-              </>
+          <>
+            {objectKeys[objectKeys.length - 2] === "properties" ? (
+              <Tooltip label="required" hasArrow placement="top">
+                <Box ml="8px" display="flex">
+                  <Checkbox
+                    isChecked={isPropertyRequired}
+                    colorScheme="blue"
+                    onChange={handleCheckBox}
+                  />
+                </Box>
+              </Tooltip>
             ) : null}
+            <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+          </>
+        ) : null}
           </Box>
           <AccordionIcon />
         </AccordionButton>
