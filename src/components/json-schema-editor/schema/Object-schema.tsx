@@ -60,7 +60,13 @@ const ObjectSchema = ({
         currObj = currObj[objectKeys[i] as string];
       }
       if(newType === "group"){
-        console.log("check")
+        delete currObj["type"];
+        delete currObj["properties"];
+        currObj["anyof"] = [
+          {
+            type: "string"
+          }
+        ];
       }
       else{
         currObj["type"] = newType;

@@ -30,7 +30,7 @@ const ArraySchema = ({
 }: any) => {
   const { setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties),
+    checkIsPropertyRequired(objectKey, requiredProperties)
   );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -42,17 +42,27 @@ const ArraySchema = ({
 
       const newType = e.target.value;
 
-      currObj["type"] = newType;
-
-      if (newType === "object") {
+      if (newType === "group") {
         delete currObj["items"];
-        currObj["properties"] = {
-          field: {
+        delete currObj["type"];
+        currObj["anyof"] = [
+          {
             type: "string",
           },
-        };
+        ];
       } else {
-        delete currObj["items"];
+        currObj["type"] = newType;
+
+        if (newType === "object") {
+          delete currObj["items"];
+          currObj["properties"] = {
+            field: {
+              type: "string",
+            },
+          };
+        } else {
+          delete currObj["items"];
+        }
       }
     });
   };

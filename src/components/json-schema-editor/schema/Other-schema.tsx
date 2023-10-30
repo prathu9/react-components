@@ -38,18 +38,29 @@ const OtherSchema = ({
       }
 
       const newType = e.target.value;
-      currObj["type"] = newType;
 
-      if (newType === "object") {
-        currObj["properties"] = {
-          field: {
+      if(newType === "group"){
+        delete currObj["type"];
+        currObj["anyof"] = [
+          {
+            type: "string"
+          }
+        ];
+      }
+      else{
+        currObj["type"] = newType;
+
+        if (newType === "object") {
+          currObj["properties"] = {
+            field: {
+              type: "string",
+            },
+          };
+        } else if (newType === "array") {
+          currObj["items"] = {
             type: "string",
-          },
-        };
-      } else if (newType === "array") {
-        currObj["items"] = {
-          type: "string",
-        };
+          };
+        }
       }
     });
   };
