@@ -59,16 +59,20 @@ const ObjectSchema = ({
       for (let i = 1; i < objectKeys.length; i++) {
         currObj = currObj[objectKeys[i] as string];
       }
-      
-      currObj["type"] = newType;
+      if(newType === "group"){
+        console.log("check")
+      }
+      else{
+        currObj["type"] = newType;
 
-      if (newType === "array") {
-        delete currObj["properties"];
-        currObj["items"] = {
-          type: "string",
-        };
-      } else {
-        delete currObj["properties"];
+        if (newType === "array") {
+          delete currObj["properties"];
+          currObj["items"] = {
+            type: "string",
+          };
+        } else {
+          delete currObj["properties"];
+        }
       }
     });
   };

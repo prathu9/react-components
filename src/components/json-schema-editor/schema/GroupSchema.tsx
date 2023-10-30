@@ -31,24 +31,25 @@ const GroupSchema = ({
   const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    // setSchema((draftSchema) => {
-    //   let currObj = draftSchema as any;
-    //   const newType = e.target.value;
-    //   for (let i = 1; i < objectKeys.length; i++) {
-    //     currObj = currObj[objectKeys[i] as string];
-    //   }
+    setSchema((draftSchema) => {
+      let currObj = draftSchema as any;
+      const newType = e.target.value;
+      for (let i = 1; i < objectKeys.length; i++) {
+        currObj = currObj[objectKeys[i] as string];
+      }
 
-    //   currObj["type"] = newType;
+      delete currObj[Object.keys(currObj)[0]]
+      currObj["type"] = newType;
 
-    //   if (newType === "array") {
-    //     delete currObj["properties"];
-    //     currObj["items"] = {
-    //       type: "string",
-    //     };
-    //   } else {
-    //     delete currObj["properties"];
-    //   }
-    // });
+      if (newType === "array") {
+        delete currObj["properties"];
+        currObj["items"] = {
+          type: "string",
+        };
+      } else {
+        delete currObj["properties"];
+      }
+    });
   }
 
   return (
@@ -77,7 +78,9 @@ const GroupSchema = ({
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel></AccordionPanel>
+        <AccordionPanel>
+
+        </AccordionPanel>
       </AccordionItem>
     </Accordion>
   );

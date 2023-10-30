@@ -24,7 +24,7 @@ const initialSchema = {
   type: "object",
   properties: {
     cars: {
-      "anyOf": [
+      anyOf: [
         {type: "string"},
         {type: "number"}
       ]
