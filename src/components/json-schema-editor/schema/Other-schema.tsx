@@ -41,7 +41,7 @@ const OtherSchema = ({
 
       if (newType === "group") {
         delete currObj["type"];
-        currObj["anyof"] = [
+        currObj["anyOf"] = [
           {
             type: "string",
           },

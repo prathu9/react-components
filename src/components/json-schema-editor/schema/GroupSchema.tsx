@@ -118,7 +118,7 @@ const GroupSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-
+console.log("constraint", constraint);
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>

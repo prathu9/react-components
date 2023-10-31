@@ -45,7 +45,7 @@ const ArraySchema = ({
       if (newType === "group") {
         delete currObj["items"];
         delete currObj["type"];
-        currObj["anyof"] = [
+        currObj["anyOf"] = [
           {
             type: "string",
           },
