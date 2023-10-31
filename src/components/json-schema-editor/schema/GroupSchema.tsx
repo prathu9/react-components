@@ -15,14 +15,20 @@ import {
 } from "@chakra-ui/react";
 import KeyInput from "./KeyInput";
 import SelectType from "./SelectType";
-import { ChangeEvent, MouseEvent, useContext } from "react";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 import { SchemaContext } from "./SchemaProvider";
 import Mapper from "./mapper";
+import {
+  checkIsPropertyRequired,
+  deleteProperty,
+  handleRequiredCheckBox,
+} from "./utils";
 
 type GroupSchemaProps = {
   objectKey: string;
   data: JSONSchema7;
   objectKeys?: string[];
+  requiredProperties?: string[];
 };
 
 type ContraintType = "anyOf" | "allOf" | "not" | "oneOf";
@@ -31,11 +37,15 @@ const GroupSchema = ({
   objectKey,
   data,
   objectKeys = [],
+  requiredProperties
 }: GroupSchemaProps) => {
   // console.log("multischema", objectKey, data);
   const { setSchema } = useContext(SchemaContext)!;
   const constraint: ContraintType = Object.keys(data)[0] as ContraintType;
   const subSchema: JSONSchema7[] = data[constraint] as JSONSchema7[];
+  const [isPropertyRequired, setIsPropertyRequired] = useState(
+    checkIsPropertyRequired(objectKey, requiredProperties)
+  );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSchema((draftSchema) => {
@@ -99,6 +109,16 @@ const GroupSchema = ({
     });
   }
 
+  const handleDelete = (e: MouseEvent<SVGElement>) => {
+    e.stopPropagation();
+    deleteProperty(objectKeys, setSchema);
+  };
+
+  const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsPropertyRequired(e.target.checked);
+    handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
+  };
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -122,6 +142,22 @@ const GroupSchema = ({
               value="group"
               onChange={handleTypeChange}
             />
+            {objectKeys[objectKeys.length - 1] !== "items" ? (
+              <>
+                {objectKeys[objectKeys.length - 2] === "properties" ? (
+                  <Tooltip label="required" hasArrow placement="top">
+                    <Box ml="8px" display="flex">
+                      <Checkbox
+                        isChecked={isPropertyRequired}
+                        colorScheme="blue"
+                        onChange={handleCheckBox}
+                      />
+                    </Box>
+                  </Tooltip>
+                ) : null}
+                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+              </>
+            ) : null}
           </Box>
           <AccordionIcon />
         </AccordionButton>

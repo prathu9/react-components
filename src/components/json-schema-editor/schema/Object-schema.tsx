@@ -49,7 +49,7 @@ const ObjectSchema = ({
   const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
-    checkIsPropertyRequired(objectKey, requiredProperties),
+    checkIsPropertyRequired(objectKey, requiredProperties)
   );
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -59,16 +59,15 @@ const ObjectSchema = ({
       for (let i = 1; i < objectKeys.length; i++) {
         currObj = currObj[objectKeys[i] as string];
       }
-      if(newType === "group"){
+      if (newType === "group") {
         delete currObj["type"];
         delete currObj["properties"];
         currObj["anyof"] = [
           {
-            type: "string"
-          }
+            type: "string",
+          },
         ];
-      }
-      else{
+      } else {
         currObj["type"] = newType;
 
         if (newType === "array") {
@@ -106,7 +105,7 @@ const ObjectSchema = ({
       const lastKey = objectKeys[objectKeys.length - 1];
 
       const newKey = `field_${uniqueKey}`;
-      
+
       if (draftSchema.properties) {
         currObj[lastKey].properties[newKey] = {
           type: "string",
@@ -115,12 +114,12 @@ const ObjectSchema = ({
       setUniqueKey((prev) => prev + 1);
     });
   };
-console.log(objectKeys)
+  console.log(objectKeys);
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-console.log("object",objectKey)
+  console.log("object", objectKey);
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -145,21 +144,21 @@ console.log("object",objectKey)
               onChange={handleTypeChange}
             />
             {objectKeys[objectKeys.length - 1] !== "items" ? (
-          <>
-            {objectKeys[objectKeys.length - 2] === "properties" ? (
-              <Tooltip label="required" hasArrow placement="top">
-                <Box ml="8px" display="flex">
-                  <Checkbox
-                    isChecked={isPropertyRequired}
-                    colorScheme="blue"
-                    onChange={handleCheckBox}
-                  />
-                </Box>
-              </Tooltip>
+              <>
+                {objectKeys[objectKeys.length - 2] === "properties" ? (
+                  <Tooltip label="required" hasArrow placement="top">
+                    <Box ml="8px" display="flex">
+                      <Checkbox
+                        isChecked={isPropertyRequired}
+                        colorScheme="blue"
+                        onChange={handleCheckBox}
+                      />
+                    </Box>
+                  </Tooltip>
+                ) : null}
+                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+              </>
             ) : null}
-            <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
-          </>
-        ) : null}
           </Box>
           <AccordionIcon />
         </AccordionButton>

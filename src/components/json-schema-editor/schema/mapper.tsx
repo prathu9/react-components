@@ -25,6 +25,7 @@ const schemaComp = (
         objectKey={objectKey}
         data={data}
         objectKeys={objectKeys}
+        requiredProperties={requiredProperties}
       />
     );
   }
