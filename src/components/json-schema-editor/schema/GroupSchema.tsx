@@ -37,7 +37,7 @@ const GroupSchema = ({
   objectKey,
   data,
   objectKeys = [],
-  requiredProperties
+  requiredProperties,
 }: GroupSchemaProps) => {
   const { setSchema } = useContext(SchemaContext)!;
   const constraint: ContraintType = Object.keys(data)[0] as ContraintType;
@@ -61,7 +61,7 @@ const GroupSchema = ({
         currObj["items"] = {
           type: "string",
         };
-      } else if(newType === "object") {
+      } else if (newType === "object") {
         currObj["properties"] = {
           field: {
             type: "string",
@@ -90,23 +90,32 @@ const GroupSchema = ({
 
     setSchema((draftSchema) => {
       let currObj = draftSchema as any;
-      for (let i = 1; i < objectKeys.length - 1; i++) {
-        const key = objectKeys[i];
-
-        if (currObj[key] == null || typeof currObj[key] !== "object") {
-          return;
-        }
-        currObj = currObj[key as string];
-      }
-
       const lastKey = objectKeys[objectKeys.length - 1];
-      const constraint = Object.keys(currObj[lastKey])[0];
-      
-      currObj[lastKey][constraint].push({
-        type: "string"
-      })
+
+      if(lastKey === "root"){
+        const constraint = Object.keys(currObj)[0];
+        currObj[constraint].push({
+          type: "string",
+        });
+      }
+      else{
+        for (let i = 1; i < objectKeys.length - 1; i++) {
+          const key = objectKeys[i];
+  
+          if (currObj[key] == null || typeof currObj[key] !== "object") {
+            return;
+          }
+          currObj = currObj[key as string];
+        }
+  
+        const constraint = Object.keys(currObj[lastKey])[0];
+  
+        currObj[lastKey][constraint].push({
+          type: "string",
+        });
+      }
     });
-  }
+  };
 
   const handleDelete = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
@@ -154,7 +163,9 @@ const GroupSchema = ({
                     </Box>
                   </Tooltip>
                 ) : null}
-                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+                {objectKeys[objectKeys.length - 1]  !== "root" ? (
+                  <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+                ) : null}
               </>
             ) : null}
           </Box>
@@ -187,18 +198,18 @@ const GroupSchema = ({
             })}
           </Box>
           <Box my="20px" display="flex" alignItems="center">
-              <Tooltip hasArrow label="Add SubSchema" placement="top">
-                <AddIcon
-                  cursor="pointer"
-                  mx="8px"
-                  my="10px"
-                  boxSize={4}
-                  onClick={addNewSubSchema}
-                />
-              </Tooltip>
-              <Text fontSize="lg" as="i">
-                Add New SubSchema
-              </Text>
+            <Tooltip hasArrow label="Add SubSchema" placement="top">
+              <AddIcon
+                cursor="pointer"
+                mx="8px"
+                my="10px"
+                boxSize={4}
+                onClick={addNewSubSchema}
+              />
+            </Tooltip>
+            <Text fontSize="lg" as="i">
+              Add New SubSchema
+            </Text>
           </Box>
         </AccordionPanel>
       </AccordionItem>

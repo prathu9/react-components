@@ -32,6 +32,14 @@ const SchemaJson = () => {
       const newType = e.target.value as any;
       draftSchema.type = newType;
 
+      if(newType === "group"){
+        delete draftSchema["type"];
+        draftSchema["anyOf"] = [
+          {
+            type: "string",
+          },
+        ];
+      }
       if (newType === "object") {
         delete draftSchema["items"];
         draftSchema.properties = {
@@ -47,6 +55,7 @@ const SchemaJson = () => {
       } else {
         delete draftSchema["items"];
         delete draftSchema["properties"];
+        delete draftSchema["required"];
       }
     });
   };
@@ -65,6 +74,16 @@ const SchemaJson = () => {
       setUniqueKey((prev) => prev + 1);
     });
   };
+  console.log("a", data)
+  if(!data.hasOwnProperty("type")){
+    return (
+      <Mapper 
+          data={data}
+          objectKey=""
+          objectKeys={["root"]}
+      />
+    )
+  }
 
   if (data.type !== "object" && data.type !== "array") {
     return (
