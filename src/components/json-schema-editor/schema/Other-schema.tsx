@@ -73,7 +73,7 @@ const OtherSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-  console.log(objectKeys);
+  
   return (
     <>
       <Box w="80%" display="flex" alignItems="center">

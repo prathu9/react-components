@@ -1,4 +1,5 @@
 import { JSONSchema7 } from "json-schema";
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
@@ -14,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import KeyInput from "./KeyInput";
 import SelectType from "./SelectType";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, MouseEvent, useContext } from "react";
 import { SchemaContext } from "./SchemaProvider";
 import Mapper from "./mapper";
 
@@ -74,6 +75,30 @@ const GroupSchema = ({
     });
   };
 
+  const addNewSubSchema = (e: MouseEvent<SVGElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setSchema((draftSchema) => {
+      let currObj = draftSchema as any;
+      for (let i = 1; i < objectKeys.length - 1; i++) {
+        const key = objectKeys[i];
+
+        if (currObj[key] == null || typeof currObj[key] !== "object") {
+          return;
+        }
+        currObj = currObj[key as string];
+      }
+
+      const lastKey = objectKeys[objectKeys.length - 1];
+      const constraint = Object.keys(currObj[lastKey])[0];
+      
+      currObj[lastKey][constraint].push({
+        type: "string"
+      })
+    });
+  }
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -125,6 +150,20 @@ const GroupSchema = ({
                 </Box>
               );
             })}
+          </Box>
+          <Box my="20px" display="flex" alignItems="center">
+              <Tooltip hasArrow label="Add SubSchema" placement="top">
+                <AddIcon
+                  cursor="pointer"
+                  mx="8px"
+                  my="10px"
+                  boxSize={4}
+                  onClick={addNewSubSchema}
+                />
+              </Tooltip>
+              <Text fontSize="lg" as="i">
+                Add New SubSchema
+              </Text>
           </Box>
         </AccordionPanel>
       </AccordionItem>
