@@ -104,7 +104,7 @@ const GroupSchema = ({
       <AccordionItem>
         <AccordionButton px="0" display="flex" justifyContent="space-between">
           <Box w="80%" display="flex" alignItems="center">
-            {objectKeys.length !== 0 ? (
+            {objectKey.length !== 0 ? (
               <>
                 <KeyInput
                   flex="1"
