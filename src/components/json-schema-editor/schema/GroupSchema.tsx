@@ -39,7 +39,6 @@ const GroupSchema = ({
   objectKeys = [],
   requiredProperties
 }: GroupSchemaProps) => {
-  // console.log("multischema", objectKey, data);
   const { setSchema } = useContext(SchemaContext)!;
   const constraint: ContraintType = Object.keys(data)[0] as ContraintType;
   const subSchema: JSONSchema7[] = data[constraint] as JSONSchema7[];
@@ -118,7 +117,7 @@ const GroupSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-console.log("constraint", constraint);
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>

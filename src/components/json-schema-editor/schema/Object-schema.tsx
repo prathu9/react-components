@@ -37,7 +37,6 @@ const ObjectSchema = ({
   objectKeys = [],
   requiredProperties,
 }: ObjectSchemaType) => {
-  console.log("data", data);
   const children =
     data.properties !== undefined
       ? Object.keys(data.properties).map((key) => ({
@@ -114,12 +113,12 @@ const ObjectSchema = ({
       setUniqueKey((prev) => prev + 1);
     });
   };
-  console.log(objectKeys);
+ 
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-  console.log("object", objectKey);
+ 
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>

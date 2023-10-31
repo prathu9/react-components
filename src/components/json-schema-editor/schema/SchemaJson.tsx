@@ -65,7 +65,7 @@ const SchemaJson = () => {
       setUniqueKey((prev) => prev + 1);
     });
   };
-console.log("schema", schema)
+
   if (data.type !== "object" && data.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
