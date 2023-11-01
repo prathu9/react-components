@@ -19,7 +19,7 @@ import SelectType from "./SelectType";
 
 const SchemaJson = () => {
   const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(
-    SchemaContext
+    SchemaContext,
   ) as SchemaContextType;
 
   const data = schema || { type: "string" };
@@ -32,7 +32,7 @@ const SchemaJson = () => {
       const newType = e.target.value as any;
       draftSchema.type = newType;
 
-      if (newType === "group") {
+      if(newType === "group"){
         delete draftSchema["type"];
         draftSchema["anyOf"] = [
           {
@@ -59,24 +59,15 @@ const SchemaJson = () => {
       }
     });
   };
-
-  const addProperty = (e: MouseEvent<SVGElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    setSchema((draftSchema) => {
-      const newKey = `field_${uniqueKey}`;
-      if (draftSchema.properties) {
-        draftSchema.properties[newKey] = {
-          type: "string",
-        };
-      }
-      setUniqueKey((prev) => prev + 1);
-    });
-  };
-
-  if (!data.hasOwnProperty("type")) {
-    return <Mapper data={data} objectKey="" objectKeys={["root"]} />;
+ 
+  if(!data.hasOwnProperty("type")){
+    return (
+      <Mapper 
+          data={data}
+          objectKey=""
+          objectKeys={["root"]}
+      />
+    )
   }
 
   if (data.type !== "object" && data.type !== "array") {
@@ -124,16 +115,25 @@ const SchemaJson = () => {
     );
   }
 
+  const properties = data.properties || {};
+
+  const children =
+    properties !== undefined
+      ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
+      : [];
+
   return (
     <>
-      <Mapper
-        data={data}
-        objectKey=""
-        objectKeys={["root"]}
-        requiredProperties={
-          data.hasOwnProperty("required") ? data.required : undefined
-        }
-      />
+    <Mapper 
+      data={data}
+      objectKey=""
+      objectKeys={["root"]}
+      requiredProperties={
+        data.hasOwnProperty("required")
+          ? data.required
+          : undefined
+      }
+    />
     </>
   );
 };

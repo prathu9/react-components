@@ -58,9 +58,15 @@ const ObjectSchema = ({
       for (let i = 1; i < objectKeys.length; i++) {
         currObj = currObj[objectKeys[i] as string];
       }
+      
+      delete currObj["properties"];
+
+      if (currObj.hasOwnProperty("required")) {
+        delete currObj["required"];
+      }
+
       if (newType === "group") {
         delete currObj["type"];
-        delete currObj["properties"];
         currObj["anyOf"] = [
           {
             type: "string",
@@ -68,14 +74,11 @@ const ObjectSchema = ({
         ];
       } else {
         currObj["type"] = newType;
-
+        
         if (newType === "array") {
-          delete currObj["properties"];
           currObj["items"] = {
             type: "string",
           };
-        } else {
-          delete currObj["properties"];
         }
       }
     });
@@ -91,34 +94,44 @@ const ObjectSchema = ({
     e.stopPropagation();
 
     setSchema((draftSchema) => {
-      let currObj = draftSchema as any;
-      for (let i = 1; i < objectKeys.length - 1; i++) {
-        const key = objectKeys[i];
-
-        if (currObj[key] == null || typeof currObj[key] !== "object") {
-          return;
-        }
-        currObj = currObj[key as string];
-      }
-
+      const newKey = `field_${uniqueKey}`;
       const lastKey = objectKeys[objectKeys.length - 1];
 
-      const newKey = `field_${uniqueKey}`;
+      if (lastKey === "root") {
+        //for object at root
+        if (draftSchema.properties) {
+          draftSchema.properties[newKey] = {
+            type: "string",
+          };
+        }
+      } else {
+        //for nested object
+        let currObj = draftSchema as any;
+        for (let i = 1; i < objectKeys.length - 1; i++) {
+          const key = objectKeys[i];
 
-      if (draftSchema.properties) {
-        currObj[lastKey].properties[newKey] = {
-          type: "string",
-        };
+          if (currObj[key] == null || typeof currObj[key] !== "object") {
+            return;
+          }
+          currObj = currObj[key as string];
+        }
+
+        if (draftSchema.properties) {
+          currObj[lastKey].properties[newKey] = {
+            type: "string",
+          };
+        }
       }
+
       setUniqueKey((prev) => prev + 1);
     });
   };
- 
+
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
- console.log(objectKeys)
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -155,7 +168,7 @@ const ObjectSchema = ({
                     </Box>
                   </Tooltip>
                 ) : null}
-               {objectKeys[objectKeys.length - 1]  !== "root" ? (
+                {objectKeys[objectKeys.length - 1] !== "root" ? (
                   <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
                 ) : null}
               </>
