@@ -57,8 +57,6 @@ export const deleteProperty = (
       currObj = currObj[key as string];
     }
 
-    console.log(Object.keys(currObj), objectKeys)
-
     const lastKey = objectKeys[objectKeys.length - 1];
 
     const constraints = ["anyOf", "oneOf", "allOf", "not"];

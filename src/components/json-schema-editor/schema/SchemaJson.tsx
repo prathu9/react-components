@@ -1,26 +1,15 @@
-import { AddIcon } from "@chakra-ui/icons";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Box,
-  chakra,
-  Text,
-  Tooltip,
 } from "@chakra-ui/react";
-import { JSONSchema7 } from "json-schema";
-import { ChangeEvent, MouseEvent, useContext } from "react";
+
+import { ChangeEvent, useContext } from "react";
 
 import Mapper from "./mapper";
 import { SchemaContext, SchemaContextType } from "./SchemaProvider";
 import SelectType from "./SelectType";
 
 const SchemaJson = () => {
-  const { schema, setSchema, uniqueKey, setUniqueKey } = useContext(
-    SchemaContext,
-  ) as SchemaContextType;
+  const { schema, setSchema } = useContext(SchemaContext) as SchemaContextType;
 
   const data = schema || { type: "string" };
 
@@ -32,7 +21,7 @@ const SchemaJson = () => {
       const newType = e.target.value as any;
       draftSchema.type = newType;
 
-      if(newType === "group"){
+      if (newType === "group") {
         delete draftSchema["type"];
         draftSchema["anyOf"] = [
           {
@@ -59,15 +48,9 @@ const SchemaJson = () => {
       }
     });
   };
- 
-  if(!data.hasOwnProperty("type")){
-    return (
-      <Mapper 
-          data={data}
-          objectKey=""
-          objectKeys={["root"]}
-      />
-    )
+
+  if (!data.hasOwnProperty("type")) {
+    return <Mapper data={data} objectKey="" objectKeys={["root"]} />;
   }
 
   if (data.type !== "object" && data.type !== "array") {
@@ -83,27 +66,19 @@ const SchemaJson = () => {
   }
 
   if (data.type === "array") {
-    return (
-      <Mapper
-        objectKey=""
-        objectKeys={["root"]}
-        data={data}
-      />
-    );
+    return <Mapper objectKey="" objectKeys={["root"]} data={data} />;
   }
 
   return (
     <>
-    <Mapper 
-      data={data}
-      objectKey=""
-      objectKeys={["root"]}
-      requiredProperties={
-        data.hasOwnProperty("required")
-          ? data.required
-          : undefined
-      }
-    />
+      <Mapper
+        data={data}
+        objectKey=""
+        objectKeys={["root"]}
+        requiredProperties={
+          data.hasOwnProperty("required") ? data.required : undefined
+        }
+      />
     </>
   );
 };
