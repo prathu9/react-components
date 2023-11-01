@@ -115,13 +115,6 @@ const SchemaJson = () => {
     );
   }
 
-  const properties = data.properties || {};
-
-  const children =
-    properties !== undefined
-      ? Object.keys(properties).map((key) => ({ key, data: properties[key] }))
-      : [];
-
   return (
     <>
     <Mapper 
