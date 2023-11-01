@@ -24,11 +24,11 @@ const initialSchema = {
   type: "object",
   properties: {
     cars: {
-      anyOf: [
-        {type: "string"},
-        {type: "number"}
-      ]
-    },
+      type: "object",
+      properties: {
+        
+      }
+    }
   },
   required: ["cars", "bmw"]
 } as JSONSchema7

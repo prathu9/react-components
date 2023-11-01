@@ -118,7 +118,7 @@ const ObjectSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
- 
+ console.log(objectKeys)
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
