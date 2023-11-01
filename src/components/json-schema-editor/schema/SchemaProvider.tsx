@@ -1,6 +1,7 @@
 import { JSONSchema7 } from "json-schema";
 import React, { createContext, useEffect, useState } from "react";
 import { type Updater, useImmer } from "use-immer";
+import {schemaToData} from "./utils"
 
 const initialSchema = {
   type: "object",
@@ -25,16 +26,25 @@ export type SchemaContextType = {
   setSchema: Updater<JSONSchema7>;
   uniqueKey: number;
   setUniqueKey: React.Dispatch<React.SetStateAction<number>>;
+  value?: any,
+  setValue?: () => void
 };
+
+type SchemaProviderProps = {
+  jsonValue: JSONSchema7;
+  setJsonValue: React.Dispatch<React.SetStateAction<JSONSchema7>>;
+  children: React.ReactNode
+}
 
 export const SchemaContext = createContext<SchemaContextType | null>(null);
 
-const SchemaProvider = ({ value, setValue, children }: any) => {
-  const [schema, setSchema] = useImmer<JSONSchema7>(value);
+const SchemaProvider = ({ jsonValue, setJsonValue, children }: SchemaProviderProps) => {
+  const [schema, setSchema] = useImmer<JSONSchema7>(jsonValue || {type: "string"});
+  const [value, setValue] = useImmer(jsonValue? schemaToData(jsonValue):"");
   const [uniqueKey, setUniqueKey] = useState(0);
 
   useEffect(() => {
-    setValue(schema);
+    setJsonValue(schema);
   }, [schema]);
 
   return (

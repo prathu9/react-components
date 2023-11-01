@@ -11,8 +11,6 @@ import SelectType from "./SelectType";
 const SchemaJson = () => {
   const { schema, setSchema } = useContext(SchemaContext) as SchemaContextType;
 
-  const data = schema || { type: "string" };
-
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -49,11 +47,11 @@ const SchemaJson = () => {
     });
   };
 
-  if (!data.hasOwnProperty("type")) {
-    return <Mapper data={data} objectKey="" objectKeys={["root"]} />;
+  if (!schema.hasOwnProperty("type")) {
+    return <Mapper data={schema} objectKey="" objectKeys={["root"]} />;
   }
 
-  if (data.type !== "object" && data.type !== "array") {
+  if (schema.type !== "object" && schema.type !== "array") {
     return (
       <Box w="80%" display="flex" alignItems="center">
         <SelectType
@@ -65,18 +63,18 @@ const SchemaJson = () => {
     );
   }
 
-  if (data.type === "array") {
-    return <Mapper objectKey="" objectKeys={["root"]} data={data} />;
+  if (schema.type === "array") {
+    return <Mapper objectKey="" objectKeys={["root"]} data={schema} />;
   }
 
   return (
     <>
       <Mapper
-        data={data}
+        data={schema}
         objectKey=""
         objectKeys={["root"]}
         requiredProperties={
-          data.hasOwnProperty("required") ? data.required : undefined
+          schema.hasOwnProperty("required") ? schema.required : undefined
         }
       />
     </>

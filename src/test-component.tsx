@@ -26,7 +26,7 @@ const initialSchema = {
     cars: {
       type: "object",
       properties: {
-        
+
       }
     }
   },
@@ -40,7 +40,7 @@ const TestComponent = () => {
     <>
     <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
       <Box w="400px">
-        <JSONSchemaEditor value={value} setValue={setValue} />
+        <JSONSchemaEditor jsonValue={value} setJsonValue={setValue} />
       </Box>
       
       <Editor

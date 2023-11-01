@@ -2,6 +2,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, Checkbox, Tooltip } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
+import InputWrapper from "./InputWrapper";
 
 import KeyInput from "./KeyInput";
 import { SchemaContext } from "./SchemaProvider";
@@ -76,7 +77,8 @@ const OtherSchema = ({
   
   return (
     <>
-      <Box w="80%" display="flex" alignItems="center">
+    <Box w="80%" display="flex" flexDirection="column">
+      <Box w="100%" mt="10px" mb="5px" display="flex" alignItems="center">
         {objectKey && objectKey.length !== 0 ? (
           <>
             <KeyInput
@@ -112,6 +114,8 @@ const OtherSchema = ({
             <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
           </>
         ) : null}
+      </Box>
+      <InputWrapper />
       </Box>
     </>
   );

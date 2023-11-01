@@ -10,9 +10,11 @@ import {
   Checkbox,
   Text,
   Tooltip,
+  Input
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
+import InputWrapper from "./InputWrapper";
 
 import KeyInput from "./KeyInput";
 import Mapper from "./mapper";
@@ -178,14 +180,15 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
+              console.log(child.data)
               return (
                 <Box
                   my="5px"
-                  key={child.key}
                   display="flex"
                   gap="2"
                   justifyContent="space-between"
                   alignItems="center"
+                  key={child.key}
                 >
                   {/* <Input flex="1" defaultValue={child.key} /> */}
                   <Box flex="2" display="flex" alignItems="center">
@@ -201,6 +204,7 @@ const ObjectSchema = ({
                     />
                   </Box>
                 </Box>
+                
               );
             })}
             <Box my="20px" display="flex" alignItems="center">

@@ -77,3 +77,11 @@ export const deleteProperty = (
     }
   });
 };
+
+type schemaToDataReturn = string | boolean | {[key: string] : schemaToDataReturn}
+| null | schemaToDataReturn[];
+
+export const schemaToData = (jsonValue: JSONSchema7): schemaToDataReturn => {
+  console.log(jsonValue);
+  return "";
+}
