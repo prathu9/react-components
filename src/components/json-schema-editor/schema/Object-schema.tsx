@@ -58,7 +58,7 @@ const ObjectSchema = ({
       for (let i = 1; i < objectKeys.length; i++) {
         currObj = currObj[objectKeys[i] as string];
       }
-      
+
       delete currObj["properties"];
 
       if (currObj.hasOwnProperty("required")) {
@@ -74,7 +74,7 @@ const ObjectSchema = ({
         ];
       } else {
         currObj["type"] = newType;
-        
+
         if (newType === "array") {
           currObj["items"] = {
             type: "string",
@@ -116,11 +116,9 @@ const ObjectSchema = ({
           currObj = currObj[key as string];
         }
 
-        if (draftSchema.properties) {
-          currObj[lastKey].properties[newKey] = {
-            type: "string",
-          };
-        }
+        currObj[lastKey].properties[newKey] = {
+          type: "string",
+        };
       }
 
       setUniqueKey((prev) => prev + 1);

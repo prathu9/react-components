@@ -115,7 +115,9 @@ const ArraySchema = ({
                     </Box>
                   </Tooltip>
                 ) : null}
-                <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+                 {objectKeys[objectKeys.length - 1] !== "root" ? (
+                  <DeleteIcon ml="8px" boxSize={5} onClick={handleDelete} />
+                ) : null}
               </>
             ) : null}
           </Box>

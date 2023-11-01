@@ -84,34 +84,11 @@ const SchemaJson = () => {
 
   if (data.type === "array") {
     return (
-      <Accordion w="100%" allowToggle>
-        <AccordionItem>
-          <AccordionButton display="flex" justifyContent="space-between">
-            <Box w="80%" display="flex" alignItems="center">
-              <SelectType value="array" onChange={handleTypeChange} />
-              {/* <DeleteIcon ml="8px" boxSize={5} /> */}
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel>
-            <Box>
-              <chakra.h2>Items:</chakra.h2>
-              <Box
-                display="flex"
-                gap="2"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Mapper
-                  objectKey=""
-                  objectKeys={["root", "items"]}
-                  data={data.items as JSONSchema7}
-                />
-              </Box>
-            </Box>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+      <Mapper
+        objectKey=""
+        objectKeys={["root"]}
+        data={data}
+      />
     );
   }
 
