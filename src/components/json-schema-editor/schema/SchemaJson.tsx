@@ -11,7 +11,7 @@ import SelectType from "./SelectType";
 import {schemaToData} from "./utils";
 
 const SchemaJson = () => {
-  const { schema, setSchema, setValue } = useContext(SchemaContext) as SchemaContextType;
+  const { schema, setSchema, setJsonValue } = useContext(SchemaContext) as SchemaContextType;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     e.stopPropagation();
@@ -47,7 +47,7 @@ const SchemaJson = () => {
         delete draftSchema["required"];
       }
       
-      setValue(schemaToData(draftSchema));
+      setJsonValue(schemaToData(draftSchema));
     });
   };
 

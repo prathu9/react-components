@@ -48,7 +48,7 @@ const ObjectSchema = ({
         }))
       : [];
 
-  const { schema, setSchema, setValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const { schema, setSchema, setJsonValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
@@ -85,7 +85,7 @@ const ObjectSchema = ({
         }
       }
       console.log(draftSchema.type)
-      setValue(schemaToData(draftSchema));
+      setJsonValue(schemaToData(draftSchema));
     });
   };
 
@@ -125,7 +125,7 @@ const ObjectSchema = ({
           type: "string",
         };
       }
-      setValue(schemaToData(draftSchema));
+      setJsonValue(schemaToData(draftSchema));
       setUniqueKey((prev) => prev + 1);
     });
   };

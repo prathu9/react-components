@@ -29,7 +29,7 @@ const ArraySchema = ({
   objectKeys = [],
   requiredProperties,
 }: any) => {
-  const { setSchema, setValue } = useContext(SchemaContext)!;
+  const { setSchema, setJsonValue } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -65,7 +65,7 @@ const ArraySchema = ({
           delete currObj["items"];
         }
       }
-      setValue(schemaToData(draftSchema));
+      setJsonValue(schemaToData(draftSchema));
     });
   };
 

@@ -27,7 +27,7 @@ const OtherSchema = ({
   objectKeys = [],
   requiredProperties,
 }: OtherSchemaType) => {
-  const { schema, setSchema, setValue } = useContext(SchemaContext)!;
+  const { schema, setSchema, setJsonValue } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -63,7 +63,7 @@ const OtherSchema = ({
           };
         }
       }
-      setValue(schemaToData(draftSchema));
+      setJsonValue(schemaToData(draftSchema));
     });
   };
 
