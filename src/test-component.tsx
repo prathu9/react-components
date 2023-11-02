@@ -24,10 +24,7 @@ const initialSchema = {
   type: "object",
   properties: {
     cars: {
-      type: "object",
-      properties: {
-
-      }
+      type: "string",
     }
   },
   required: ["cars", "bmw"]
@@ -40,7 +37,7 @@ const TestComponent = () => {
     <>
     <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
       <Box w="400px">
-        <JSONSchemaEditor jsonValue={value} setJsonValue={setValue} />
+        <JSONSchemaEditor jsonSchema={value} setJsonSchemaValue={setValue} />
       </Box>
       
       <Editor
@@ -49,7 +46,7 @@ const TestComponent = () => {
               theme="vs-dark"
               defaultLanguage="json"
               defaultValue={JSON.stringify(value)}
-              onChange={(v) =>{console.log(JSON.parse(v)); v && setValue(JSON.parse(v))}}
+              onChange={(v) =>{console.log(JSON.parse(v!)); v && setValue(JSON.parse(v))}}
               options={{}}
               value={JSON.stringify(value)}
             />

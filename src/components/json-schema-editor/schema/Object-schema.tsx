@@ -24,6 +24,7 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
+  schemaToData
 } from "./utils";
 
 type ObjectSchemaType = {
@@ -47,7 +48,7 @@ const ObjectSchema = ({
         }))
       : [];
 
-  const { setSchema, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const { schema, setSchema, setValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
@@ -83,6 +84,8 @@ const ObjectSchema = ({
           };
         }
       }
+
+      setValue(schemaToData(draftSchema));
     });
   };
 
@@ -122,7 +125,7 @@ const ObjectSchema = ({
           type: "string",
         };
       }
-
+      setValue(schemaToData(draftSchema));
       setUniqueKey((prev) => prev + 1);
     });
   };
@@ -180,7 +183,6 @@ const ObjectSchema = ({
           <Box>
             <chakra.h2>Properties:</chakra.h2>
             {children.map((child) => {
-              console.log(child.data)
               return (
                 <Box
                   my="5px"
@@ -190,7 +192,6 @@ const ObjectSchema = ({
                   alignItems="center"
                   key={child.key}
                 >
-                  {/* <Input flex="1" defaultValue={child.key} /> */}
                   <Box flex="2" display="flex" alignItems="center">
                     <Mapper
                       objectKeys={[...objectKeys, "properties", child.key]}

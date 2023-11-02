@@ -11,6 +11,7 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
+  schemaToData
 } from "./utils";
 
 type OtherSchemaType = {
@@ -26,7 +27,7 @@ const OtherSchema = ({
   objectKeys = [],
   requiredProperties,
 }: OtherSchemaType) => {
-  const { setSchema } = useContext(SchemaContext)!;
+  const { schema, setSchema, setValue } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -62,6 +63,7 @@ const OtherSchema = ({
           };
         }
       }
+      setValue(schemaToData(draftSchema));
     });
   };
 
@@ -74,7 +76,12 @@ const OtherSchema = ({
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
-  
+
+  const updateValue = (newValue: string) => {
+    // console.log(newValue)
+  }
+
+  // console.log(objectKeys)
   return (
     <>
     <Box w="80%" display="flex" flexDirection="column">
@@ -115,7 +122,10 @@ const OtherSchema = ({
           </>
         ) : null}
       </Box>
-      <InputWrapper />
+      {
+        type !== "null"?
+        <InputWrapper type={type} updateValue={updateValue} />:null
+      }
       </Box>
     </>
   );
