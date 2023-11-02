@@ -8,8 +8,10 @@ import Mapper from "./mapper";
 import { SchemaContext, SchemaContextType } from "./SchemaProvider";
 import SelectType from "./SelectType";
 
+import {schemaToData} from "./utils";
+
 const SchemaJson = () => {
-  const { schema, setSchema } = useContext(SchemaContext) as SchemaContextType;
+  const { schema, setSchema, setValue } = useContext(SchemaContext) as SchemaContextType;
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     e.stopPropagation();
@@ -44,6 +46,8 @@ const SchemaJson = () => {
         delete draftSchema["properties"];
         delete draftSchema["required"];
       }
+      
+      setValue(schemaToData(draftSchema));
     });
   };
 

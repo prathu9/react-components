@@ -81,25 +81,16 @@ export const deleteProperty = (
   });
 };
 
-export type schemaToDataReturn =
-  | string
-  | boolean
-  | { [key: string]: schemaToDataReturn }
-  | null
-  | schemaToDataReturn[]
-  | undefined;
+type DataValue = string | boolean | null | undefined;
+interface DataObject {
+    [key: string]: DataValue | DataObject | DataValue[];
+}
+  
+export type SchemaToDataReturn = DataValue | DataObject;
 
-type JSONObjValueType =
-  | { [key: string]: JSONObjValueType }
-  | number
-  | string
-  | JSONObjValueType[]
-  | boolean
-  | null;
-
-export const schemaToData = (jsonValue: JSONSchema7): schemaToDataReturn => {
+export const schemaToData = (jsonValue: JSONSchema7): SchemaToDataReturn => {
   let objValue: any;
-
+ 
   if (!jsonValue || !jsonValue.hasOwnProperty("type")) {
     console.log("no type");
     return;

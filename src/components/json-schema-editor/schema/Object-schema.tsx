@@ -84,7 +84,7 @@ const ObjectSchema = ({
           };
         }
       }
-
+      console.log(draftSchema.type)
       setValue(schemaToData(draftSchema));
     });
   };

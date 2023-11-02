@@ -78,7 +78,8 @@ const OtherSchema = ({
   };
 
   const updateValue = (newValue: string) => {
-    // console.log(newValue)
+    console.log(objectKeys)
+    console.log(newValue)
   }
 
   // console.log(objectKeys)
