@@ -1,11 +1,11 @@
 import { Box, Input, Text } from "@chakra-ui/react";
-import { ChangeEvent, KeyboardEvent, useState, useEffect } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 const InputWrapper = ({ type, updateValue }: any) => {
-  const [value, setValue] = useState<number | string>(type === "number"? 0:"");
+  const [value, setValue] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+      setValue(e.target.value);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -15,7 +15,15 @@ const InputWrapper = ({ type, updateValue }: any) => {
   }
 
   const handleUpdate = () => {
-    updateValue(value);
+    if(type === "number"){
+      const newValue = parseInt(value);
+      if(!Number.isNaN(newValue)){
+        updateValue(newValue);
+      }
+    }
+    else if(type === "string"){
+      updateValue(value);
+    }
   };
 
   return (
@@ -23,7 +31,7 @@ const InputWrapper = ({ type, updateValue }: any) => {
       <Text>Value</Text>
       <Text mx="10px">:</Text>
       <Input
-        type={type === "number"? "number":"text"}
+        type={type === "number"?"number":"text"}
         w="50%"
         value={value}
         onChange={handleChange}

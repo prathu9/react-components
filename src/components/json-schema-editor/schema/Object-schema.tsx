@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import InputWrapper from "./InputWrapper";
+import InputWrapper from "./ValueFieldWrapper/InputWrapper";
 
 import KeyInput from "./KeyInput";
 import Mapper from "./mapper";

@@ -2,7 +2,8 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, Checkbox, Tooltip } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import InputWrapper from "./InputWrapper";
+import InputWrapper from "./ValueFieldWrapper/InputWrapper";
+import BooleanRadioWrapper from "./ValueFieldWrapper/BooleanRadioWrapper";
 
 import KeyInput from "./KeyInput";
 import { SchemaContext } from "./SchemaProvider";
@@ -80,9 +81,21 @@ const OtherSchema = ({
   const updateValue = (newValue: string) => {
     console.log(objectKeys)
     console.log(newValue)
+    setJsonValue(draftJsonValue => {
+      const jsonKeys = objectKeys.filter(key => key !== "properties" && key !== "root");
+      let currObj: any = draftJsonValue;
+
+      for(let i = 0; i < jsonKeys.length; i++){
+        if(typeof currObj[jsonKeys[i]] === "object"){
+          currObj = currObj[jsonKeys[i]];     
+        }
+      }
+
+      const lastKey = jsonKeys[jsonKeys.length - 1];
+      currObj[lastKey] = newValue;
+    })
   }
 
-  // console.log(objectKeys)
   return (
     <>
     <Box w="80%" display="flex" flexDirection="column">
@@ -124,8 +137,17 @@ const OtherSchema = ({
         ) : null}
       </Box>
       {
-        type !== "null"?
+        type === "string"?
         <InputWrapper type={type} updateValue={updateValue} />:null
+      }
+      {
+        type === "number"?
+        <InputWrapper type={type} updateValue={updateValue} />:null
+      }
+      {
+        type === "boolean"?
+        <BooleanRadioWrapper updateValue={updateValue} />
+        :null
       }
       </Box>
     </>
