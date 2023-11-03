@@ -1,7 +1,7 @@
 import { JSONSchema7 } from "json-schema";
 import React, { createContext, useEffect, useState } from "react";
 import { type Updater, useImmer } from "use-immer";
-import {schemaToData, SchemaToDataReturn} from "./utils"
+import {schemaToData, SchemaToDataReturn} from "./utils/utils"
 
 const initialSchema = {
   type: "object",

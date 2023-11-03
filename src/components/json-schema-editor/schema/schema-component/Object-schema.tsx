@@ -14,18 +14,18 @@ import {
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import InputWrapper from "./ValueFieldWrapper/InputWrapper";
+import InputWrapper from "../ValueFieldWrapper/InputWrapper";
 
-import KeyInput from "./KeyInput";
-import Mapper from "./mapper";
-import { SchemaContext } from "./SchemaProvider";
-import SelectType from "./SelectType";
+import KeyInput from "../helper-ui/KeyInput";
+import Mapper from "../mapper";
+import { SchemaContext } from "../SchemaProvider";
+import SelectType from "../helper-ui/SelectType";
 import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
   schemaToData
-} from "./utils";
+} from "../utils/utils";
 
 type ObjectSchemaType = {
   data: JSONSchema7;

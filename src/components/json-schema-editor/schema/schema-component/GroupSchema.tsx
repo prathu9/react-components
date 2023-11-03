@@ -13,16 +13,16 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import KeyInput from "./KeyInput";
-import SelectType from "./SelectType";
+import KeyInput from "../helper-ui/KeyInput";
+import SelectType from "../helper-ui/SelectType";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import { SchemaContext } from "./SchemaProvider";
-import Mapper from "./mapper";
+import { SchemaContext } from "../SchemaProvider";
+import Mapper from "../mapper";
 import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
-} from "./utils";
+} from "../utils/utils";
 
 type GroupSchemaProps = {
   objectKey: string;

@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-import { SchemaContext } from "./SchemaProvider";
+import { SchemaContext } from "../SchemaProvider";
 
 type KeyInputType = {
   value: string;

@@ -6,9 +6,9 @@ import { ChangeEvent, useContext } from "react";
 
 import Mapper from "./mapper";
 import { SchemaContext, SchemaContextType } from "./SchemaProvider";
-import SelectType from "./SelectType";
+import SelectType from "./helper-ui/SelectType";
 
-import {schemaToData} from "./utils";
+import {schemaToData} from "./utils/utils";
 
 const SchemaJson = () => {
   const { schema, setSchema, setJsonValue } = useContext(SchemaContext) as SchemaContextType;
