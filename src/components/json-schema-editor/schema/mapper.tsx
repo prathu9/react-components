@@ -1,9 +1,9 @@
 import { JSONSchema7 } from "json-schema";
 
-import ArraySchema from "./SchemaComponent/Array-schema";
-import GroupSchema from "./SchemaComponent/GroupSchema";
-import ObjectSchema from "./SchemaComponent/Object-schema";
-import OtherSchema from "./SchemaComponent/Other-schema";
+import ArraySchema from "./schema-component/Array-schema";
+import GroupSchema from "./schema-component/GroupSchema";
+import ObjectSchema from "./schema-component/Object-schema";
+import OtherSchema from "./schema-component/Other-schema";
 
 type MapperProps = {
   data: JSONSchema7;

@@ -1,4 +1,4 @@
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { JSONSchema7 } from "json-schema";
 import { DraftFunction } from "use-immer";
 
 export const handleRequiredCheckBox = (

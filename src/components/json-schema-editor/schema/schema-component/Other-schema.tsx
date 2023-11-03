@@ -142,8 +142,8 @@ const OtherSchema = ({
             </>
           ) : null}
         </Box>
-        {objectKeys[objectKeys.length - 1] ? (
-          <ArrayWrapper />
+        {objectKeys[objectKeys.length - 1] === "items" ? (
+          <ArrayWrapper type={type} />
         ) : (
           <>
             {type === "string" ? (
