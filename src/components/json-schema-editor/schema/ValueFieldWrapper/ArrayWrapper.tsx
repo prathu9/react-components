@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 import InputWrapper from "./InputWrapper";
