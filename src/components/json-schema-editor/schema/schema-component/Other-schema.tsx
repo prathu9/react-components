@@ -82,23 +82,23 @@ const OtherSchema = ({
   const updateValue = (newValue: string) => {
     setJsonValue((draftJsonValue) => {
       const jsonKeys = objectKeys.filter(
-        (key) => key !== "properties" && key !== "root"
+        (key) => key !== "properties" && key !== "root" && key !== "items"
       );
+
       let currObj: any = draftJsonValue;
 
-      for (let i = 0; i < jsonKeys.length; i++) {
-        if (typeof currObj[jsonKeys[i]] === "object") {
+      for (let i = 0; i < jsonKeys.length-1; i++) {
           currObj = currObj[jsonKeys[i]];
-        }
       }
+ 
+      const lastJsonKey = jsonKeys[jsonKeys.length - 1];
+      const lastObjectKey = objectKeys[objectKeys.length - 1];
 
-      const lastKey = jsonKeys[jsonKeys.length - 1];
-
-      if (lastKey === "items") {
+      if (lastObjectKey === "items") {
+        currObj[lastJsonKey] = newValue;
       } else {
-        currObj[lastKey] = newValue;
+        currObj[lastJsonKey] = newValue;
       }
-      console.log("l", lastKey, objectKeys, jsonKeys);
     });
   };
 
@@ -143,7 +143,14 @@ const OtherSchema = ({
           ) : null}
         </Box>
         {objectKeys[objectKeys.length - 1] === "items" ? (
-          <ArrayWrapper type={type} />
+          <>
+            {type === "string" ? (
+              <ArrayWrapper type={type} updateValue={updateValue} />
+            ) : null}
+            {type === "number" ? (
+              <ArrayWrapper type={type} updateValue={updateValue} />
+            ) : null}
+          </>
         ) : (
           <>
             {type === "string" ? (

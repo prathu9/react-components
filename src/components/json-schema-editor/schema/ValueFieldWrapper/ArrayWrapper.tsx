@@ -1,34 +1,57 @@
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 import InputWrapper from "./InputWrapper";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import ArrayItemWrapper from "./ArrayItemWrapper";
 
 type ValueType = number | string;
 
 type ArrayWrapperProps = {
-    type: any
-}
+  type: any;
+  updateValue: (newValue: any) => void;
+};
 
-const ArrayWrapper = ({type}: ArrayWrapperProps) => {
+const ArrayWrapper = ({ type, updateValue }: ArrayWrapperProps) => {
   const [arrayItems, setArrayItems] = useState<ValueType[]>([]);
 
-  const updateValue = (newValue: string) => {
-    if(newValue){
-        setArrayItems([...arrayItems, newValue]);
+  const updateArrayItems = (newValue: string) => {
+    if (newValue) {
+      const newArray = [...arrayItems, newValue];
+      setArrayItems(newArray);
+      updateValue(newArray);
     }
+  };
+
+  const handleItemChange = (newValue: any, index: number) => {
+    const updatedArray = [...arrayItems];
+    updatedArray[index] = newValue;
+    setArrayItems(updatedArray);
+    updateValue(updatedArray);
+  };
+
+  const handleItemDelete = (itemIndex: number) => {
+    const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
+    console.log("index",itemIndex, filteredArray);
+    setArrayItems(filteredArray);
   }
 
   return (
-    <Box>
-      {arrayItems.map((item) => (
+    <Box mt="5px">
+      {arrayItems.map((item, index) => (
         <Box key={uuidv4()} display="flex" alignItems="center">
-          <Input w="100px" mr="10px" defaultValue={item}/>
-          <CloseIcon cursor="pointer" />
+          <ArrayItemWrapper
+            itemValue={item}
+            itemIndex={index}
+            handleItemChange={handleItemChange}
+            handleItemDelete={handleItemDelete}
+          />
         </Box>
       ))}
-      <InputWrapper type={type} updateValue={updateValue} />
+      <Box my="10px" ml="5px">
+        <InputWrapper type={type} updateValue={updateArrayItems} />
+      </Box>
     </Box>
   );
 };

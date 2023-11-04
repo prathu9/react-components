@@ -1,4 +1,4 @@
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Input, Text, Button } from "@chakra-ui/react";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type InputWrapperProps = {
@@ -8,7 +8,6 @@ type InputWrapperProps = {
 
 const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
   const [value, setValue] = useState<string>("");
-  const [keyPressed, setKeyPressed] = useState(false); // To avoid keydown and onblur from running simultaneously
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -17,22 +16,17 @@ const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleUpdate();
-      setKeyPressed(true);
     }
   };
 
   const handleUpdate = () => {
-    if (keyPressed) {
-      setKeyPressed(false);
-    } else {
-      if (type === "number") {
-        const newValue = parseInt(value);
-        if (!Number.isNaN(newValue)) {
-          updateValue(newValue);
-        }
-      } else if (type === "string") {
-        updateValue(value);
+    if (type === "number") {
+      const newValue = parseInt(value);
+      if (!Number.isNaN(newValue)) {
+        updateValue(newValue);
       }
+    } else if (type === "string") {
+      updateValue(value);
     }
   };
 
@@ -45,9 +39,11 @@ const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
         w="50%"
         value={value}
         onChange={handleChange}
-        onBlur={handleUpdate}
         onKeyDown={handleKeyDown}
       />
+      <Button mx="5px" py="18px" colorScheme="blue" onClick={handleUpdate}>
+        Add
+      </Button>
     </Box>
   );
 };
