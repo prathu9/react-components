@@ -1,16 +1,11 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { ChangeEvent, useState } from "react";
-import { SchemaToDataReturn } from "../utils/utils";
+
 import InputWrapper from "./InputWrapper";
-import { update } from "lodash";
 import { v4 as uuidv4 } from 'uuid';
 
 type ValueType = number | string;
-
-const generateKey = (pre: string | number) => {
-  return `${pre}_${new Date().getTime()}`;
-};
 
 type ArrayWrapperProps = {
     type: any
