@@ -20,7 +20,7 @@ const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
   };
 
   const handleUpdate = () => {
-    if(value.length < 0){
+    if(value.trim().length < 1){
       return;
     }
 
