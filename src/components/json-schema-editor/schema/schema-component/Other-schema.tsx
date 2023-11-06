@@ -79,7 +79,7 @@ const OtherSchema = ({
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
   };
 
-  const updateValue = (newValue: string) => {
+  const updateValue = (newValue: any) => {
     setJsonValue((draftJsonValue) => {
       const jsonKeys = objectKeys.filter(
         (key) => key !== "properties" && key !== "root" && key !== "items"

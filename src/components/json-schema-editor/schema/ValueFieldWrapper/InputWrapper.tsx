@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type InputWrapperProps = {
   type: "string" | "number";
-  updateValue: (newValue: any) => void;
+  updateValue: (newValue: string | number) => void;
 };
 
 const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
@@ -20,6 +20,10 @@ const InputWrapper = ({ type, updateValue }: InputWrapperProps) => {
   };
 
   const handleUpdate = () => {
+    if(value.length < 0){
+      return;
+    }
+
     if (type === "number") {
       const newValue = parseInt(value);
       if (!Number.isNaN(newValue)) {

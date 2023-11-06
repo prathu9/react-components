@@ -9,13 +9,13 @@ type ValueType = number | string;
 
 type ArrayWrapperProps = {
   type: any;
-  updateValue: (newValue: any) => void;
+  updateValue: (newValue: ValueType | ValueType[]) => void;
 };
 
 const ArrayWrapper = ({ type, updateValue }: ArrayWrapperProps) => {
   const [arrayItems, setArrayItems] = useState<ValueType[]>([]);
 
-  const updateArrayItems = (newValue: string) => {
+  const updateArrayItems = (newValue: string | number) => {
     if (newValue) {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
@@ -23,7 +23,7 @@ const ArrayWrapper = ({ type, updateValue }: ArrayWrapperProps) => {
     }
   };
 
-  const handleItemChange = (newValue: any, index: number) => {
+  const handleItemChange = (newValue: string, index: number) => {
     if(newValue !== arrayItems[index]){
       const updatedArray = [...arrayItems];
       updatedArray[index] = newValue;
