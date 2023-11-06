@@ -34,7 +34,6 @@ const ArrayWrapper = ({ type, updateValue }: ArrayWrapperProps) => {
 
   const handleItemDelete = (itemIndex: number) => {
     const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
-    console.log("index",itemIndex, filteredArray);
     setArrayItems(filteredArray);
   }
 
