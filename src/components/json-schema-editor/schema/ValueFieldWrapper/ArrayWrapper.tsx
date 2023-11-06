@@ -24,10 +24,12 @@ const ArrayWrapper = ({ type, updateValue }: ArrayWrapperProps) => {
   };
 
   const handleItemChange = (newValue: any, index: number) => {
-    const updatedArray = [...arrayItems];
-    updatedArray[index] = newValue;
-    setArrayItems(updatedArray);
-    updateValue(updatedArray);
+    if(newValue !== arrayItems[index]){
+      const updatedArray = [...arrayItems];
+      updatedArray[index] = newValue;
+      setArrayItems(updatedArray);
+      updateValue(updatedArray);
+    }
   };
 
   const handleItemDelete = (itemIndex: number) => {

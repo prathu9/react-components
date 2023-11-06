@@ -2,7 +2,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, Checkbox, Tooltip } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import InputWrapper from "../ValueFieldWrapper/InputWrapper";
+import PrimitiveValueWrapper from "../ValueFieldWrapper/PrimitiveValueWrapper";
 import BooleanRadioWrapper from "../ValueFieldWrapper/BooleanRadioWrapper";
 import ArrayWrapper from "../ValueFieldWrapper/ArrayWrapper";
 
@@ -154,10 +154,10 @@ const OtherSchema = ({
         ) : (
           <>
             {type === "string" ? (
-              <InputWrapper type={type} updateValue={updateValue} />
+              <PrimitiveValueWrapper type={type} updateValue={updateValue} />
             ) : null}
             {type === "number" ? (
-              <InputWrapper type={type} updateValue={updateValue} />
+              <PrimitiveValueWrapper type={type} updateValue={updateValue} />
             ) : null}
             {type === "boolean" ? (
               <BooleanRadioWrapper updateValue={updateValue} />
