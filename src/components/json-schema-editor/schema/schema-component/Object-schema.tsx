@@ -10,7 +10,7 @@ import {
   Checkbox,
   Text,
   Tooltip,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
@@ -24,7 +24,7 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
-  schemaToData
+  schemaToData,
 } from "../utils/utils";
 
 type ObjectSchemaType = {
@@ -48,7 +48,14 @@ const ObjectSchema = ({
         }))
       : [];
 
-  const { schema, setSchema, jsonValue, setJsonValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const {
+    schema,
+    setSchema,
+    jsonValue,
+    setJsonValue,
+    uniqueKey,
+    setUniqueKey,
+  } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
@@ -84,41 +91,42 @@ const ObjectSchema = ({
           };
         }
       }
-      setJsonValue(draftJsonValue => {
+      setJsonValue((draftJsonValue) => {
         let currJsonValue = draftJsonValue as any;
-        const jsonKeys: string[] = objectKeys.filter(key => key !== "root" && key!=="items" && key !== "properties");
+        const jsonKeys: string[] = objectKeys.filter(
+          (key) => key !== "root" && key !== "items" && key !== "properties"
+        );
         const lastObjectKey = objectKeys[objectKeys.length - 1];
-        for(let i = 0; i < jsonKeys.length - 1; i++){
+        for (let i = 0; i < jsonKeys.length - 1; i++) {
           const key = jsonKeys[i];
-          if(typeof currJsonValue[key] === "object"){
+          if (typeof currJsonValue[key] === "object") {
             currJsonValue = currJsonValue[key];
           }
         }
-        
-        const lastKey = jsonKeys[jsonKeys.length - 1];
-        console.log(Object.keys(currJsonValue))
 
-        if(lastObjectKey === "items"){
+        const lastKey = jsonKeys[jsonKeys.length - 1];
+        console.log(Object.keys(currJsonValue));
+
+        if (lastObjectKey === "items") {
           currJsonValue[lastKey] = [];
-        }
-        else{
-          if(newType === "array"){
+        } else {
+          if (newType === "array") {
             currJsonValue[lastKey] = [];
           }
-  
-          if(newType === "null"){
+
+          if (newType === "null") {
             currJsonValue[lastKey] = null;
           }
-  
-          if(newType === "number"){
+
+          if (newType === "number") {
             currJsonValue[lastKey] = 0;
           }
-  
-          if(newType === "string"){
+
+          if (newType === "string") {
             currJsonValue[lastKey] = "";
           }
-  
-          if(newType === "boolean"){
+
+          if (newType === "boolean") {
             currJsonValue[lastKey] = false;
           }
         }
@@ -163,18 +171,26 @@ const ObjectSchema = ({
         };
       }
 
-      console.log(jsonValue)
+      console.log(jsonValue);
 
-      setJsonValue(draftValue => {
+      setJsonValue((draftValue) => {
         let currJsonValue = draftValue as any;
-        const jsonKeys: string[] = objectKeys.filter(key => key !== "properties");
-        console.log(Object.keys(currJsonValue));
-console.log("keys", objectKeys, jsonKeys)
-        for (let i = 0; i < jsonKeys.length-1; i++) {
-          currJsonValue = currJsonValue[jsonKeys[i]];
+        const lastObjectKey = objectKeys[objectKeys.length - 1];
+        const jsonKeys: string[] = objectKeys.filter(
+          (key) => key !== "properties" && key !== "items" && key !== "root"
+        );
+  
+        for (let i = 0; i < jsonKeys.length; i++) {
+          const key = jsonKeys[i];
+          if (typeof currJsonValue[key] === "object") {
+            currJsonValue = currJsonValue[jsonKeys[i]];
+          }
         }
-
-        currJsonValue[newKey] = "";
+  
+        if (lastObjectKey === "items") {
+        } else {
+          currJsonValue[newKey] = "";
+        }
       });
 
       setUniqueKey((prev) => prev + 1);
@@ -256,7 +272,6 @@ console.log("keys", objectKeys, jsonKeys)
                     />
                   </Box>
                 </Box>
-                
               );
             })}
             <Box my="20px" display="flex" alignItems="center">

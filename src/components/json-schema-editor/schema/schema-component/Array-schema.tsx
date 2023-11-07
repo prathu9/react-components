@@ -82,6 +82,10 @@ const ArraySchema = ({
 
         if(lastObjectKey === "items"){
           currJsonValue[lastKey] = [];
+          if(newType === "object"){
+            currJsonValue[lastKey][0] = {};
+            currJsonValue[lastKey][0]["field"] = "";
+          }
         }
         else{
           if(newType === "null"){
