@@ -88,7 +88,7 @@ interface DataObject {
   
 export type SchemaToDataReturn = DataValue | DataObject;
 
-export const schemaToData = (jsonValue: JSONSchema7): SchemaToDataReturn => {
+export const schemaToData = (jsonValue: JSONSchema7, value?: any): SchemaToDataReturn => {
   let objValue: any;
  
   if (!jsonValue || !jsonValue.hasOwnProperty("type")) {
@@ -97,11 +97,11 @@ export const schemaToData = (jsonValue: JSONSchema7): SchemaToDataReturn => {
   }
 
   if(jsonValue.type === "string"){
-    objValue = "";
+    objValue = value || "";
   }
 
   if(jsonValue.type === "number"){
-    objValue = 0;
+    objValue = value || 0;
   }
 
   if(jsonValue.type === "null"){
@@ -109,16 +109,16 @@ export const schemaToData = (jsonValue: JSONSchema7): SchemaToDataReturn => {
   }
 
   if(jsonValue.type === "boolean"){
-    objValue = false;
+    objValue = value || false;
   }
 
   if(jsonValue.type === "array"){
-    objValue = [];
+    objValue = value || [];
   }
 
   if (jsonValue.type === "object") {
-    objValue = {};
-
+    objValue = value || {};
+    // console.log("objValue", objValue)
     const properties: { [key: string]: JSONSchema7 } =
       jsonValue.properties as any;
 

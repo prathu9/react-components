@@ -65,7 +65,47 @@ const ArraySchema = ({
           delete currObj["items"];
         }
       }
-      setJsonValue(schemaToData(draftSchema));
+      
+      setJsonValue(draftJsonValue => {
+        let currJsonValue = draftJsonValue as any;
+        const jsonKeys: string[] = objectKeys.filter((key: string) => key !== "root" && key !== "items" && key !== "properties");
+        const lastObjectKey = objectKeys[objectKeys.length - 1];
+        for(let i = 0; i < jsonKeys.length - 1; i++){
+          const key = jsonKeys[i];
+          if(typeof currJsonValue[key] === "object"){
+            currJsonValue = currJsonValue[key];
+          }
+        }
+        
+        const lastKey = jsonKeys[jsonKeys.length - 1];
+        console.log(Object.keys(currJsonValue))
+
+        if(lastObjectKey === "items"){
+          currJsonValue[lastKey] = [];
+        }
+        else{
+          if(newType === "null"){
+            currJsonValue[lastKey] = null;
+          }
+  
+          if(newType === "number"){
+            currJsonValue[lastKey] = 0;
+          }
+  
+          if(newType === "string"){
+            currJsonValue[lastKey] = "";
+          }
+  
+          if(newType === "boolean"){
+            currJsonValue[lastKey] = false;
+          }
+  
+          if(newType === "object"){
+            currJsonValue[lastKey] = {};
+            currJsonValue[lastKey]["field"] = "";
+          }
+          }
+        });
     });
   };
 

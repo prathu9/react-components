@@ -48,7 +48,7 @@ const ObjectSchema = ({
         }))
       : [];
 
-  const { schema, setSchema, setJsonValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
+  const { schema, setSchema, jsonValue, setJsonValue, uniqueKey, setUniqueKey } = useContext(SchemaContext)!;
 
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
@@ -84,8 +84,45 @@ const ObjectSchema = ({
           };
         }
       }
-      console.log(draftSchema.type)
-      setJsonValue(schemaToData(draftSchema));
+      setJsonValue(draftJsonValue => {
+        let currJsonValue = draftJsonValue as any;
+        const jsonKeys: string[] = objectKeys.filter(key => key !== "root" && key!=="items" && key !== "properties");
+        const lastObjectKey = objectKeys[objectKeys.length - 1];
+        for(let i = 0; i < jsonKeys.length - 1; i++){
+          const key = jsonKeys[i];
+          if(typeof currJsonValue[key] === "object"){
+            currJsonValue = currJsonValue[key];
+          }
+        }
+        
+        const lastKey = jsonKeys[jsonKeys.length - 1];
+        console.log(Object.keys(currJsonValue))
+
+        if(lastObjectKey === "items"){
+          currJsonValue[lastKey] = [];
+        }
+        else{
+          if(newType === "array"){
+            currJsonValue[lastKey] = [];
+          }
+  
+          if(newType === "null"){
+            currJsonValue[lastKey] = null;
+          }
+  
+          if(newType === "number"){
+            currJsonValue[lastKey] = 0;
+          }
+  
+          if(newType === "string"){
+            currJsonValue[lastKey] = "";
+          }
+  
+          if(newType === "boolean"){
+            currJsonValue[lastKey] = false;
+          }
+        }
+      });
     });
   };
 
@@ -125,7 +162,21 @@ const ObjectSchema = ({
           type: "string",
         };
       }
-      setJsonValue(schemaToData(draftSchema));
+
+      console.log(jsonValue)
+
+      setJsonValue(draftValue => {
+        let currJsonValue = draftValue as any;
+        const jsonKeys: string[] = objectKeys.filter(key => key !== "properties");
+        console.log(Object.keys(currJsonValue));
+console.log("keys", objectKeys, jsonKeys)
+        for (let i = 0; i < jsonKeys.length-1; i++) {
+          currJsonValue = currJsonValue[jsonKeys[i]];
+        }
+
+        currJsonValue[newKey] = "";
+      });
+
       setUniqueKey((prev) => prev + 1);
     });
   };

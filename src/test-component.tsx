@@ -25,9 +25,19 @@ const initialSchema = {
   properties: {
     cars: {
       type: "string",
+      // properties: {
+      //   tesla: {
+      //     type: "array",
+      //     items: {
+      //       type: "array",
+      //       items: {
+      //         type: "string"
+      //       }
+      //     }
+      //   }
+      // }
     },
   },
-  required: ["cars", "bmw"],
 } as JSONSchema7;
 
 const TestComponent = () => {

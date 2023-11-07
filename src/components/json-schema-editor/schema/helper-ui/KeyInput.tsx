@@ -8,6 +8,8 @@ import {
   useState,
 } from "react";
 
+import { schemaToData } from "../utils/utils";
+
 import { SchemaContext } from "../SchemaProvider";
 
 type KeyInputType = {
@@ -16,14 +18,14 @@ type KeyInputType = {
 } & InputProps;
 
 const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
-  const { schema, setSchema } = useContext(SchemaContext)!;
+  const { schema, setSchema, setJsonValue } = useContext(SchemaContext)!;
   const [inputValue, setInputValue] = useState(value);
   const [inputError, setInputError] = useState({
     status: false,
     message: "",
   });
 
-  const updateSchema = useCallback(() => {
+  const updateKeySchema = useCallback(() => {
     setSchema((draftSchema) => {
       let currObj = draftSchema as any;
       let objToChange;
@@ -81,13 +83,16 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
         },
         {},
       );
+
+      setJsonValue(schemaToData(draftSchema));
+
     });
   }, [setSchema, objectKeys, inputValue]);
 
   const handleKeyUpdate = (e: FocusEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    updateSchema();
+    updateKeySchema();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +111,7 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateSchema();
+      updateKeySchema();
     }
   };
 
