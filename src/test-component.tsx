@@ -17,8 +17,10 @@ import { VariableSizeList as List } from "react-window";
 import { useMultiSelect, MultiSelect } from "./components/multi-select";
 
 import JSONSchemaEditor from "./components/json-schema-editor/JsonSchemaEditor";
+import JsonUI from "./components/json-value-editor/json-ui/Jsonui";
 import { JSONSchema7 } from "json-schema";
 import Editor from "@monaco-editor/react";
+import JSONValueEditor from "./components/json-value-editor/JsonValueEditor";
 
 const initialSchema = {
   type: "object",
@@ -42,13 +44,17 @@ const initialSchema = {
 
 const TestComponent = () => {
   const [schema, setSchema] = useState(initialSchema);
-  // const [value, setValue] = useState();
+  const [value, setValue] = useState<any>();
 
   return (
     <>
       <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
         <Box w="400px">
           <JSONSchemaEditor jsonSchema={schema} setJsonSchemaValue={setSchema} />
+        </Box>
+
+        <Box w="400px">
+          <JSONValueEditor jsonSchema={schema} setJsonValue={setValue}/>
         </Box>
 
         <Editor
