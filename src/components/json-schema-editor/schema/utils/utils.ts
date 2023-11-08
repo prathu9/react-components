@@ -83,8 +83,3 @@ export const deleteProperty = (
   });
 };
 
-type DataValue = string | boolean | null | undefined;
-interface DataObject {
-    [key: string]: DataValue | DataObject | DataValue[];
-}
-  

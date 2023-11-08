@@ -10,7 +10,6 @@ import {
   Checkbox,
   Text,
   Tooltip,
-  Input,
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
