@@ -8,8 +8,6 @@ import {
   useState,
 } from "react";
 
-import { schemaToData } from "../utils/utils";
-
 import { SchemaContext } from "../SchemaProvider";
 
 type KeyInputType = {
@@ -18,7 +16,7 @@ type KeyInputType = {
 } & InputProps;
 
 const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
-  const { schema, setSchema, setJsonValue } = useContext(SchemaContext)!;
+  const { schema, setSchema } = useContext(SchemaContext)!;
   const [inputValue, setInputValue] = useState(value);
   const [inputError, setInputError] = useState({
     status: false,
@@ -83,9 +81,6 @@ const KeyInput = ({ value, objectKeys, ...props }: KeyInputType) => {
         },
         {},
       );
-
-      setJsonValue(schemaToData(draftSchema));
-
     });
   }, [setSchema, objectKeys, inputValue]);
 

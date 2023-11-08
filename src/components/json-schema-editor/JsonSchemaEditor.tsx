@@ -4,12 +4,12 @@ import SchemaJson from "./schema/SchemaJson";
 import SchemaProvider from "./schema/SchemaProvider";
 import { JSONSchema7 } from "json-schema";
 
-const JSONSchemaEditor = ({jsonSchema, setJsonSchemaValue, setValue}: any) => {
+const JSONSchemaEditor = ({jsonSchema, setJsonSchemaValue}: any) => {
   
 
   return (
     <>
-      <SchemaProvider jsonSchema={jsonSchema} setValue={setValue} setJsonSchemaValue={setJsonSchemaValue}>
+      <SchemaProvider jsonSchema={jsonSchema} setJsonSchemaValue={setJsonSchemaValue}>
         <chakra.div>
           <chakra.h1>JSON</chakra.h1>
           <SchemaJson />

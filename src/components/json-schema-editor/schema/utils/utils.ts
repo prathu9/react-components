@@ -78,6 +78,8 @@ export const deleteProperty = (
     ) {
       delete currObj.properties[lastKey];
     }
+
+    
   });
 };
 
@@ -86,62 +88,3 @@ interface DataObject {
     [key: string]: DataValue | DataObject | DataValue[];
 }
   
-export type SchemaToDataReturn = DataValue | DataObject;
-
-export const schemaToData = (jsonValue: JSONSchema7, value?: any): SchemaToDataReturn => {
-  let objValue: any;
- 
-  if (!jsonValue || !jsonValue.hasOwnProperty("type")) {
-    console.log("no type");
-    return;
-  }
-
-  if(jsonValue.type === "string"){
-    objValue = value || "";
-  }
-
-  if(jsonValue.type === "number"){
-    objValue = value || 0;
-  }
-
-  if(jsonValue.type === "null"){
-    objValue = null;
-  }
-
-  if(jsonValue.type === "boolean"){
-    objValue = value || false;
-  }
-
-  if(jsonValue.type === "array"){
-    objValue = value || [];
-  }
-
-  if (jsonValue.type === "object") {
-    objValue = value || {};
-    // console.log("objValue", objValue)
-    const properties: { [key: string]: JSONSchema7 } =
-      jsonValue.properties as any;
-
-    Object.keys(properties).map((key) => {
-      if (properties[key].type === "string") {
-        objValue[key] = "";
-      } 
-      else if (properties[key].type === "number") {
-        objValue[key] = 0;
-      } 
-      else if (properties[key].type === "null"){
-        objValue[key] = null;
-      } 
-      else if (properties[key].type === "boolean"){
-        objValue[key] = false;
-      }
-      else if (properties[key].type === "object"){
-        objValue[key] = schemaToData(properties[key])
-      }
-      else if(properties[key].type === "array"){
-        objValue[key] = [];
-      }
-    });
-  }
-  return objValue;
-};

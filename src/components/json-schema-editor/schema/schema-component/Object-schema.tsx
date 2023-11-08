@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { JSONSchema7 } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import InputWrapper from "../ValueFieldWrapper/InputWrapper";
 
 import KeyInput from "../helper-ui/KeyInput";
 import Mapper from "../mapper";
@@ -24,7 +23,6 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
-  schemaToData,
 } from "../utils/utils";
 
 type ObjectSchemaType = {
@@ -51,8 +49,6 @@ const ObjectSchema = ({
   const {
     schema,
     setSchema,
-    jsonValue,
-    setJsonValue,
     uniqueKey,
     setUniqueKey,
   } = useContext(SchemaContext)!;
@@ -91,46 +87,7 @@ const ObjectSchema = ({
           };
         }
       }
-      setJsonValue((draftJsonValue) => {
-        let currJsonValue = draftJsonValue as any;
-        const jsonKeys: string[] = objectKeys.filter(
-          (key) => key !== "root" && key !== "items" && key !== "properties"
-        );
-        const lastObjectKey = objectKeys[objectKeys.length - 1];
-        for (let i = 0; i < jsonKeys.length - 1; i++) {
-          const key = jsonKeys[i];
-          if (typeof currJsonValue[key] === "object") {
-            currJsonValue = currJsonValue[key];
-          }
-        }
 
-        const lastKey = jsonKeys[jsonKeys.length - 1];
-        console.log(Object.keys(currJsonValue));
-
-        if (lastObjectKey === "items") {
-          currJsonValue[lastKey] = [];
-        } else {
-          if (newType === "array") {
-            currJsonValue[lastKey] = [];
-          }
-
-          if (newType === "null") {
-            currJsonValue[lastKey] = null;
-          }
-
-          if (newType === "number") {
-            currJsonValue[lastKey] = 0;
-          }
-
-          if (newType === "string") {
-            currJsonValue[lastKey] = "";
-          }
-
-          if (newType === "boolean") {
-            currJsonValue[lastKey] = false;
-          }
-        }
-      });
     });
   };
 
@@ -170,29 +127,6 @@ const ObjectSchema = ({
           type: "string",
         };
       }
-
-      console.log(jsonValue);
-
-      setJsonValue((draftValue) => {
-        let currJsonValue = draftValue as any;
-        const lastObjectKey = objectKeys[objectKeys.length - 1];
-        const jsonKeys: string[] = objectKeys.filter(
-          (key) => key !== "properties" && key !== "items" && key !== "root"
-        );
-  
-        for (let i = 0; i < jsonKeys.length; i++) {
-          const key = jsonKeys[i];
-          if (typeof currJsonValue[key] === "object") {
-            currJsonValue = currJsonValue[jsonKeys[i]];
-          }
-        }
-  
-        if (lastObjectKey === "items") {
-        } else {
-          currJsonValue[newKey] = "";
-        }
-      });
-
       setUniqueKey((prev) => prev + 1);
     });
   };

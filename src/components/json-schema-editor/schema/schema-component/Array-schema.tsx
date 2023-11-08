@@ -20,7 +20,6 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
-  schemaToData
 } from "../utils/utils";
 
 const ArraySchema = ({
@@ -29,7 +28,7 @@ const ArraySchema = ({
   objectKeys = [],
   requiredProperties,
 }: any) => {
-  const { setSchema, setJsonValue } = useContext(SchemaContext)!;
+  const { setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -65,51 +64,6 @@ const ArraySchema = ({
           delete currObj["items"];
         }
       }
-      
-      setJsonValue(draftJsonValue => {
-        let currJsonValue = draftJsonValue as any;
-        const jsonKeys: string[] = objectKeys.filter((key: string) => key !== "root" && key !== "items" && key !== "properties");
-        const lastObjectKey = objectKeys[objectKeys.length - 1];
-        for(let i = 0; i < jsonKeys.length - 1; i++){
-          const key = jsonKeys[i];
-          if(typeof currJsonValue[key] === "object"){
-            currJsonValue = currJsonValue[key];
-          }
-        }
-        
-        const lastKey = jsonKeys[jsonKeys.length - 1];
-        console.log(Object.keys(currJsonValue))
-
-        if(lastObjectKey === "items"){
-          currJsonValue[lastKey] = [];
-          if(newType === "object"){
-            currJsonValue[lastKey][0] = {};
-            currJsonValue[lastKey][0]["field"] = "";
-          }
-        }
-        else{
-          if(newType === "null"){
-            currJsonValue[lastKey] = null;
-          }
-  
-          if(newType === "number"){
-            currJsonValue[lastKey] = 0;
-          }
-  
-          if(newType === "string"){
-            currJsonValue[lastKey] = "";
-          }
-  
-          if(newType === "boolean"){
-            currJsonValue[lastKey] = false;
-          }
-  
-          if(newType === "object"){
-            currJsonValue[lastKey] = {};
-            currJsonValue[lastKey]["field"] = "";
-          }
-          }
-        });
     });
   };
 

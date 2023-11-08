@@ -42,13 +42,13 @@ const initialSchema = {
 
 const TestComponent = () => {
   const [schema, setSchema] = useState(initialSchema);
-  const [value, setValue] = useState();
+  // const [value, setValue] = useState();
 
   return (
     <>
       <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
         <Box w="400px">
-          <JSONSchemaEditor setValue={setValue} jsonSchema={schema} setJsonSchemaValue={setSchema} />
+          <JSONSchemaEditor jsonSchema={schema} setJsonSchemaValue={setSchema} />
         </Box>
 
         <Editor
@@ -64,7 +64,7 @@ const TestComponent = () => {
           options={{}}
           value={JSON.stringify(schema)}
         />
-        <Editor
+        {/* <Editor
           width="400px"
           height="300px"
           theme="vs-dark"
@@ -76,7 +76,7 @@ const TestComponent = () => {
           }}
           options={{}}
           value={JSON.stringify(value)}
-        />
+        /> */}
       </Box>
       {/* <MultiSelectExample single={false}/> */}
       {/* <Stepper step={1} orientation={useBreakpointValue({ base: 'vertical', md: 'horizontal' })}>

@@ -2,9 +2,6 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, Checkbox, Tooltip } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, MouseEvent, useContext, useState } from "react";
-import PrimitiveValueWrapper from "../ValueFieldWrapper/PrimitiveValueWrapper";
-import BooleanRadioWrapper from "../ValueFieldWrapper/BooleanRadioWrapper";
-import ArrayWrapper from "../ValueFieldWrapper/ArrayWrapper";
 
 import KeyInput from "../helper-ui/KeyInput";
 import { SchemaContext } from "../SchemaProvider";
@@ -13,7 +10,6 @@ import {
   checkIsPropertyRequired,
   deleteProperty,
   handleRequiredCheckBox,
-  schemaToData,
 } from "../utils/utils";
 
 type OtherSchemaType = {
@@ -29,7 +25,7 @@ const OtherSchema = ({
   objectKeys = [],
   requiredProperties,
 }: OtherSchemaType) => {
-  const { schema, setSchema, setJsonValue } = useContext(SchemaContext)!;
+  const { schema, setSchema } = useContext(SchemaContext)!;
   const [isPropertyRequired, setIsPropertyRequired] = useState(
     checkIsPropertyRequired(objectKey, requiredProperties)
   );
@@ -66,56 +62,6 @@ const OtherSchema = ({
         }
       }
 
-      setJsonValue(draftJsonValue => {
-        let currJsonValue = draftJsonValue as any;
-        const jsonKeys: string[] = objectKeys.filter(key => key !== "root" && key !== "items" && key !== "properties");
-        const lastObjectKey = objectKeys[objectKeys.length - 1];
-        // console.log("keys", objectKeys)
-        for(let i = 0; i < jsonKeys.length - 1; i++){
-          const key = jsonKeys[i];
-          
-          if(typeof currJsonValue[key] === "object"){
-            currJsonValue = currJsonValue[key];
-          }
-        }
-        
-        const lastKey = jsonKeys[jsonKeys.length - 1];
-        
-        if(lastObjectKey === "items"){
-          currJsonValue[lastKey] = [];
-          if(newType === "object"){
-            currJsonValue[lastKey][0] = {};
-            currJsonValue[lastKey][0]["field"] = "";
-          }
-        }
-        else{
-          if(newType === "array"){
-            currJsonValue[lastKey] = [];
-          }
-          
-          if(newType === "object"){
-            currJsonValue[lastKey] = {};
-            currJsonValue[lastKey]["field"] = "";
-          }
-  
-          if(newType === "null"){
-            currJsonValue[lastKey] = null;
-          }
-  
-          if(newType === "number"){
-            currJsonValue[lastKey] = 0;
-          }
-  
-          if(newType === "boolean"){
-            currJsonValue[lastKey] = false;
-          }
-
-          if(newType === "string"){
-            currJsonValue[lastKey] = "";
-          }
-        }
-       
-      });
     });
   };
 
@@ -127,29 +73,6 @@ const OtherSchema = ({
   const handleCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPropertyRequired(e.target.checked);
     handleRequiredCheckBox(e.target.checked, objectKeys, setSchema);
-  };
-
-  const updateValue = (newValue: any) => {
-    setJsonValue((draftJsonValue) => {
-      const jsonKeys = objectKeys.filter(
-        (key) => key !== "properties" && key !== "root" && key !== "items"
-      );
-
-      let currObj: any = draftJsonValue;
-
-      for (let i = 0; i < jsonKeys.length-1; i++) {
-          currObj = currObj[jsonKeys[i]];
-      }
- 
-      const lastJsonKey = jsonKeys[jsonKeys.length - 1];
-      const lastObjectKey = objectKeys[objectKeys.length - 1];
-
-      if (lastObjectKey === "items") {
-        currObj[lastJsonKey] = newValue;
-      } else {
-        currObj[lastJsonKey] = newValue;
-      }
-    });
   };
 
   return (
@@ -192,28 +115,6 @@ const OtherSchema = ({
             </>
           ) : null}
         </Box>
-        {objectKeys[objectKeys.length - 1] === "items" ? (
-          <>
-            {type === "string" ? (
-              <ArrayWrapper type={type} updateValue={updateValue} />
-            ) : null}
-            {type === "number" ? (
-              <ArrayWrapper type={type} updateValue={updateValue} />
-            ) : null}
-          </>
-        ) : (
-          <>
-            {type === "string" ? (
-              <PrimitiveValueWrapper type={type} updateValue={updateValue} />
-            ) : null}
-            {type === "number" ? (
-              <PrimitiveValueWrapper type={type} updateValue={updateValue} />
-            ) : null}
-            {type === "boolean" ? (
-              <BooleanRadioWrapper updateValue={updateValue} />
-            ) : null}
-          </>
-        )}
       </Box>
     </>
   );
