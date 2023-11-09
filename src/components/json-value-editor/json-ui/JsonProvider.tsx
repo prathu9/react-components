@@ -11,9 +11,9 @@ interface ObjectType {
 type JSONType = ObjectType | PrimitiveType;
 
 export type JSONContextType = {
+  jsonSchema: JSONSchema7;
   value: JSONType;
   setValue: Updater<JSONType>;
-  jsonSchema: JSONSchema7;
 };
 
 type JSONProviderProps = {
