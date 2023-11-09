@@ -5,14 +5,14 @@ import {JSONContext, JSONContextType} from "./JsonProvider";
 const JsonUI = () => {
     const {jsonSchema} = useContext(JSONContext) as JSONContextType;
 
-    if(jsonSchema.type === "object"){
+    if(jsonSchema.type === "object" || jsonSchema.type === "array"){
         return(
-            <Mapper schema={jsonSchema} objectKeys={["root"]} />
+            <Mapper data={jsonSchema} objectKeys={["root"]} />
         )
     }
 
     return(
-        <Mapper schema={jsonSchema} />
+        <Mapper data={jsonSchema} />
     )
 }
 
