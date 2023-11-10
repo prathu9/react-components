@@ -4,12 +4,14 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box
+  Box,
+  chakra
 } from "@chakra-ui/react";
-import { JSONSchema7 } from "json-schema";
+import { JSONSchema7, JSONSchema7Object } from "json-schema";
+import { v4 as uuidv4 } from "uuid";
 
 type ObjectComponentProps = {
-  data: JSONSchema7;
+  data: JSONSchema7Object;
   objectKeys?: string[];
   objectKey?: string;
 };
@@ -19,16 +21,28 @@ const ObjectComponent = ({
   objectKeys = [],
   objectKey = "",
 }: ObjectComponentProps) => {
+
+  const properties = Object.keys(data.properties as {});
+  console.log(properties)
   return (
     <Accordion allowToggle>
       <AccordionItem>
         <AccordionButton>
             <Box flex="1" textAlign="left">
-            object
+              object
             </Box>
             <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel></AccordionPanel>
+        <AccordionPanel>
+            <chakra.h1>properties:</chakra.h1>
+            <Box>
+              {
+                properties.map(property => (
+                  <h1 key={uuidv4()}>{property}</h1>
+                ))
+              }
+            </Box>
+        </AccordionPanel>
       </AccordionItem>
     </Accordion>
   );
