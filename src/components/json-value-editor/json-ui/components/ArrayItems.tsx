@@ -4,8 +4,9 @@ import { ChangeEvent, useState } from "react";
 import InputWrapper from "./InputWrapper";
 import { v4 as uuidv4 } from "uuid";
 import ArrayItemWrapper from "./ArrayItemWrapper";
+import BooleanValueWrapper from "./BooleanValueWrapper";
 
-type ValueType = number | string;
+type ValueType = number | string | boolean;
 
 type ArrayItemsProps = {
   itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -15,8 +16,13 @@ type ArrayItemsProps = {
 const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
   const [arrayItems, setArrayItems] = useState<ValueType[]>([]);
 
-  const updateArrayItems = (newValue: string | number) => {
-    if (newValue) {
+  const updateArrayItems = (newValue: string | number | boolean) => {
+    if (itemType !== "boolean" && newValue) {
+      const newArray = [...arrayItems, newValue];
+      setArrayItems(newArray);
+      updateValue(newArray);
+    }
+    else if(itemType === "boolean"){
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
       updateValue(newArray);
@@ -49,8 +55,10 @@ const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
           />
         </Box>
       ))}
-      <Box my="10px" ml="5px">
+      <Box my="10px" ml="5px">{
+        itemType === "boolean"? <BooleanValueWrapper initialValue={false} updateValue={updateArrayItems} />:
         <InputWrapper type={itemType} updateValue={updateArrayItems} />
+        }
       </Box>
     </Box>
   );

@@ -50,6 +50,9 @@ const ArrayComponent = ({
            {(data.items as JSONSchema7).type === "number" ? (
             <ArrayItems itemType="number" updateValue={updateArrayValues} />
           ) : null}
+          {(data.items as JSONSchema7).type === "boolean" ? (
+            <ArrayItems itemType="boolean" updateValue={updateArrayValues} />
+          ) : null}
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
