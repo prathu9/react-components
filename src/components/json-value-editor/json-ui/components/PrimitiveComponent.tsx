@@ -1,9 +1,6 @@
 import { JSONSchema7, JSONSchema7TypeName } from "json-schema";
 import {
   Box,
-  Button,
-  Input,
-  Text,
   Tag,
   TagRightIcon,
   TagLabel,

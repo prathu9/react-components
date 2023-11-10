@@ -1,7 +1,7 @@
 import { Box, Input, Text, Button } from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
 
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { useState } from "react";
 
 import { CloseIcon } from "@chakra-ui/icons";
 
@@ -47,9 +47,6 @@ const ArrayItemWrapper = ({
         }}
         value={value}
       />
-      {/* <Button mx="5px" p="8px" colorScheme='blue'> 
-        <AiFillEdit size="20px"/>
-      </Button> */}
       <Button mx="5px" p="8px" colorScheme="blue" onClick={() => handleItemDelete(itemIndex)}>
         <CloseIcon cursor="pointer" />
       </Button>
