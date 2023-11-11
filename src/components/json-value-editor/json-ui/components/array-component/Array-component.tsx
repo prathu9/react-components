@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
 import { ChangeEvent, useState } from "react";
+import Mapper from "../../mapper";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -34,7 +35,7 @@ const ArrayComponent = ({
   }
 
   const updateArrayValues = (newValue: any) => {
-    console.log(newValue);
+    // console.log(newValue);
   };
 
   return (
@@ -57,9 +58,7 @@ const ArrayComponent = ({
                     <Text mx="10px">:</Text>
                   </>
                 ) : null}
-                <Text fontSize="15px">
-                  {isExpanded? "Array": "[...]"}
-                </Text>
+                <Text fontSize="15px">{isExpanded ? "Array" : "[...]"}</Text>
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -75,6 +74,15 @@ const ArrayComponent = ({
                   itemType="boolean"
                   updateValue={updateArrayValues}
                 />
+              ) : null}
+              {(data.items as JSONSchema7).type === "null" ? (
+                <ArrayItems
+                  itemType="null"
+                  updateValue={updateArrayValues}
+                />
+              ) : null}
+              {(data.items as JSONSchema7).type === "object" ? (
+                <Mapper data={data.items as JSONSchema7} objectKeys={[...objectKeys, "items"]} />
               ) : null}
             </AccordionPanel>
           </>

@@ -70,7 +70,10 @@ const PrimitiveComponent = ({
               handleEdit={() => handleEdit(false)}
             />
           ) : (
-            <PrimitiveValue value={primitiveValue+""} handleEdit={() => handleEdit(true)}/>
+            <PrimitiveValue
+              value={primitiveValue + ""}
+              handleEdit={() => handleEdit(true)}
+            />
           )}
         </Box>
       </Box>
@@ -79,15 +82,25 @@ const PrimitiveComponent = ({
 
   if (data.type === "null") {
     return (
-      <Tag
-        px="10px"
-        py="5px"
-        colorScheme="blue"
-        variant="outline"
-        fontSize="15px"
-      >
-        Null
-      </Tag>
+      <Box display="flex" alignItems="center">
+        {objectKey ? (
+          <>
+            <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
+              <TagLabel fontSize="15px">{objectKey}</TagLabel>
+            </Tag>
+            <Text mx="10px">:</Text>
+          </>
+        ) : null}
+        <Tag
+          px="10px"
+          py="5px"
+          colorScheme="blue"
+          variant="outline"
+          fontSize="15px"
+        >
+          Null
+        </Tag>
+      </Box>
     );
   }
 
@@ -110,7 +123,10 @@ const PrimitiveComponent = ({
             initialValue={primitiveValue as string | number}
           />
         ) : (
-          <PrimitiveValue value={primitiveValue} handleEdit={() => handleEdit(true)}/>
+          <PrimitiveValue
+            value={primitiveValue}
+            handleEdit={() => handleEdit(true)}
+          />
         )}
       </Box>
     </Box>

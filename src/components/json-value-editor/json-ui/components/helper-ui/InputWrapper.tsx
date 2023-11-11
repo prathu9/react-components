@@ -58,7 +58,7 @@ const InputWrapper = ({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <Button title="Add" colorScheme="blue" variant="outline" onClick={handleUpdate}>
+      <Button ml="10px" title="Add" colorScheme="blue" variant="outline" onClick={handleUpdate}>
         Add
       </Button>
       {handleEdit ? (
