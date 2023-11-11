@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 import InputWrapper from "../helper-ui/InputWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
+import PrimitiveValue from "../helper-ui/PrimitiveValue";
 
 type PrimitiveComponentProps = {
   data: JSONSchema7;
@@ -68,16 +69,7 @@ const PrimitiveComponent = ({
               updateValue={updateValue}
             />
           ) : (
-            <Box display="flex" alignItems="center">
-              <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
-                <TagLabel fontSize="15px">{primitiveValue + ""}</TagLabel>
-                <TagRightIcon
-                  as={EditIcon}
-                  cursor="pointer"
-                  onClick={handleEdit}
-                />
-              </Tag>
-            </Box>
+            <PrimitiveValue value={primitiveValue+""} handleEdit={handleEdit}/>
           )}
         </Box>
       </Box>
@@ -91,7 +83,7 @@ const PrimitiveComponent = ({
         py="5px"
         colorScheme="blue"
         variant="outline"
-        fontSize="20px"
+        fontSize="15px"
       >
         Null
       </Tag>
@@ -116,16 +108,7 @@ const PrimitiveComponent = ({
             initialValue={primitiveValue as string | number}
           />
         ) : (
-          <Box display="flex" alignItems="center">
-            <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
-              <TagLabel fontSize="15px">{primitiveValue}</TagLabel>
-              <TagRightIcon
-                as={EditIcon}
-                cursor="pointer"
-                onClick={handleEdit}
-              />
-            </Tag>
-          </Box>
+          <PrimitiveValue value={primitiveValue} handleEdit={handleEdit}/>
         )}
       </Box>
     </Box>
