@@ -58,12 +58,14 @@ const InputWrapper = ({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <Button title="Add" mx="5px" py="5px" colorScheme="blue" variant="outline" onClick={handleUpdate}>
+      <Button title="Add" colorScheme="blue" variant="outline" onClick={handleUpdate}>
         Add
       </Button>
-      <Button title="Cancel" onClick={handleEdit} variant="outline">
-        <CloseIcon />
-      </Button>
+      {handleEdit ? (
+        <Button title="Cancel" onClick={handleEdit} variant="outline">
+          <CloseIcon />
+        </Button>
+      ) : null}
     </Box>
   );
 };

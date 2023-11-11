@@ -53,12 +53,20 @@ const BooleanValueWrapper = ({
           false
         </Radio>
       </RadioGroup>
-      <Button mx="5px" py="5px" onClick={handleUpdate} colorScheme="blue" variant="outline">
+      <Button
+        mx="5px"
+        py="5px"
+        onClick={handleUpdate}
+        colorScheme="blue"
+        variant="outline"
+      >
         Add
       </Button>
-      <Button title="Cancel" onClick={handleEdit} variant="outline">
-        <CloseIcon />
-      </Button>
+      {handleEdit ? (
+        <Button title="Cancel" onClick={handleEdit} variant="outline">
+          <CloseIcon />
+        </Button>
+      ) : null}
     </Box>
   );
 };
