@@ -47,8 +47,8 @@ const PrimitiveComponent = ({
     setEdit(false);
   };
 
-  const handleEdit = () => {
-    setEdit(true);
+  const handleEdit = (edit: boolean) => {
+    setEdit(edit || false);
   };
 
   if (data.type === "boolean") {
@@ -67,9 +67,10 @@ const PrimitiveComponent = ({
             <BooleanValueWrapper
               initialValue={primitiveValue as boolean}
               updateValue={updateValue}
+              handleEdit={() => handleEdit(false)}
             />
           ) : (
-            <PrimitiveValue value={primitiveValue+""} handleEdit={handleEdit}/>
+            <PrimitiveValue value={primitiveValue+""} handleEdit={() => handleEdit(true)}/>
           )}
         </Box>
       </Box>
@@ -105,10 +106,11 @@ const PrimitiveComponent = ({
           <InputWrapper
             type={data.type as string | number}
             updateValue={updateValue}
+            handleEdit={() => handleEdit(false)}
             initialValue={primitiveValue as string | number}
           />
         ) : (
-          <PrimitiveValue value={primitiveValue} handleEdit={handleEdit}/>
+          <PrimitiveValue value={primitiveValue} handleEdit={() => handleEdit(true)}/>
         )}
       </Box>
     </Box>

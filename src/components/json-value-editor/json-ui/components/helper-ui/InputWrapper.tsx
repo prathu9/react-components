@@ -1,9 +1,11 @@
 import { Box, Input, Button, Text } from "@chakra-ui/react";
+import { CloseIcon } from "@saas-ui/react";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type InputWrapperProps = {
   type: string | number;
   updateValue: (newValue: any) => void;
+  handleEdit?: () => void;
   initialValue?: string | number;
   showValueTag?: boolean;
 };
@@ -11,6 +13,7 @@ type InputWrapperProps = {
 const InputWrapper = ({
   type,
   updateValue,
+  handleEdit,
   initialValue,
   showValueTag,
 }: InputWrapperProps) => {
@@ -55,8 +58,11 @@ const InputWrapper = ({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <Button mx="5px" py="5px" colorScheme="blue" variant="outline" onClick={handleUpdate}>
+      <Button title="Add" mx="5px" py="5px" colorScheme="blue" variant="outline" onClick={handleUpdate}>
         Add
+      </Button>
+      <Button title="Cancel" onClick={handleEdit} variant="outline">
+        <CloseIcon />
       </Button>
     </Box>
   );

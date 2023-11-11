@@ -40,31 +40,45 @@ const ArrayComponent = ({
   return (
     <Accordion allowToggle>
       <AccordionItem px="0">
-        <AccordionButton px="0">
-          <Box display="flex" flex="1" textAlign="left" alignItems="center">
-            {objectKey ? (
-              <>
-                <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
-                  <TagLabel fontSize="15px">{objectKey}</TagLabel>
-                </Tag>
-                <Text mx="10px">:</Text>
-              </>
-            ) : null}
-            <Text fontSize="15px">Array</Text>
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel px="0">
-          {(data.items as JSONSchema7).type === "string" ? (
-            <ArrayItems itemType="string" updateValue={updateArrayValues} />
-          ) : null}
-          {(data.items as JSONSchema7).type === "number" ? (
-            <ArrayItems itemType="number" updateValue={updateArrayValues} />
-          ) : null}
-          {(data.items as JSONSchema7).type === "boolean" ? (
-            <ArrayItems itemType="boolean" updateValue={updateArrayValues} />
-          ) : null}
-        </AccordionPanel>
+        {({ isExpanded }) => (
+          <>
+            <AccordionButton px="0">
+              <Box display="flex" flex="1" textAlign="left" alignItems="center">
+                {objectKey ? (
+                  <>
+                    <Tag
+                      px="10px"
+                      py="5px"
+                      colorScheme="blue"
+                      variant="outline"
+                    >
+                      <TagLabel fontSize="15px">{objectKey}</TagLabel>
+                    </Tag>
+                    <Text mx="10px">:</Text>
+                  </>
+                ) : null}
+                <Text fontSize="15px">
+                  {isExpanded? "Array": "[...]"}
+                </Text>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel px="0">
+              {(data.items as JSONSchema7).type === "string" ? (
+                <ArrayItems itemType="string" updateValue={updateArrayValues} />
+              ) : null}
+              {(data.items as JSONSchema7).type === "number" ? (
+                <ArrayItems itemType="number" updateValue={updateArrayValues} />
+              ) : null}
+              {(data.items as JSONSchema7).type === "boolean" ? (
+                <ArrayItems
+                  itemType="boolean"
+                  updateValue={updateArrayValues}
+                />
+              ) : null}
+            </AccordionPanel>
+          </>
+        )}
       </AccordionItem>
     </Accordion>
   );
