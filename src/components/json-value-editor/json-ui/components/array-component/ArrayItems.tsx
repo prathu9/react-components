@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, useState } from "react";
-import InputWrapper from "./InputWrapper";
+import InputWrapper from "../helper-ui/InputWrapper";
 import { v4 as uuidv4 } from "uuid";
 import ArrayItemWrapper from "./ArrayItemWrapper";
-import BooleanValueWrapper from "./BooleanValueWrapper";
+import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 
 type ValueType = number | string | boolean;
 
@@ -57,7 +57,7 @@ const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
       ))}
       <Box my="10px" ml="5px">{
         itemType === "boolean"? <BooleanValueWrapper initialValue={false} updateValue={updateArrayItems} />:
-        <InputWrapper type={itemType} updateValue={updateArrayItems} />
+        <InputWrapper type={itemType as string | number} updateValue={updateArrayItems} />
         }
       </Box>
     </Box>

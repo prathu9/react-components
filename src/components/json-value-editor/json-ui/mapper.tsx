@@ -1,7 +1,7 @@
-import { JSONSchema7 } from "json-schema";
-import ArrayComponent from "./components/Array-component";
-import ObjectComponent from "./components/Object-component";
-import PrimitiveComponent from "./components/PrimitiveComponent";
+import { JSONSchema7, JSONSchema7Object } from "json-schema";
+import ArrayComponent from "./components/array-component/Array-component";
+import ObjectComponent from "./components/object-component/Object-component";
+import PrimitiveComponent from "./components/primitive-component/PrimitiveComponent";
 
 const jsonComp = (
   data: JSONSchema7,
@@ -11,7 +11,7 @@ const jsonComp = (
   if (data.type === "object") {
     return (
       <ObjectComponent
-        data={data}
+        data={data as JSONSchema7Object}
         objectKeys={objectKeys}
         objectKey={objectKey}
       />
