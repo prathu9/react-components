@@ -7,9 +7,6 @@ import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 const ArrayPrimitiveWrapper = ({ type, value, handleArrayItemChange }: any) => {
   const [edit, setEdit] = useState<boolean>(false);
 
-  const handleEdit = (edit: boolean) => {
-    setEdit(edit);
-  };
 
   if(type === "boolean"){
     return(
@@ -18,10 +15,10 @@ const ArrayPrimitiveWrapper = ({ type, value, handleArrayItemChange }: any) => {
             <BooleanValueWrapper
                 initialValue={value}
                 updateValue={handleArrayItemChange}
-                handleEdit={() => handleEdit(false)}
+                handleEdit={() => setEdit(false)}
             />
             ) : (
-            <PrimitiveValue value={value+""} handleEdit={() => handleEdit(true)} />
+            <PrimitiveValue value={value+""} handleEdit={() => setEdit(true)} />
             )}
       </Box>
     )
@@ -47,10 +44,10 @@ const ArrayPrimitiveWrapper = ({ type, value, handleArrayItemChange }: any) => {
             type={type}
             initialValue={value}
             updateValue={handleArrayItemChange}
-            handleEdit={() => handleEdit(false)}
+            handleEdit={() => setEdit(false)}
           />
         ) : (
-          <PrimitiveValue value={value+""} handleEdit={() => handleEdit(true)} />
+          <PrimitiveValue value={value+""} handleEdit={() => setEdit(true)} />
         )}
       </Box>
     </>
