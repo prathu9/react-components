@@ -5,9 +5,10 @@ import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 import { ChangeEvent, useState } from "react";
 
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
+import ArrayObjectWrapper from "./ArrayObjectWrapper";
 
 type ArrayItemWrapperProp = {
-  itemType: any,
+  itemType: any;
   itemValue: any;
   itemIndex: number;
   handleItemChange: (newValue: any, index: number) => void;

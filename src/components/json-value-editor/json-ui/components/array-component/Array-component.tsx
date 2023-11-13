@@ -16,6 +16,7 @@ import {
 import ArrayItems from "./ArrayItems";
 import { ChangeEvent, useState } from "react";
 import Mapper from "../../mapper";
+import ArrayObjectWrapper from "./ArrayObjectWrapper";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -76,13 +77,11 @@ const ArrayComponent = ({
                 />
               ) : null}
               {(data.items as JSONSchema7).type === "null" ? (
-                <ArrayItems
-                  itemType="null"
-                  updateValue={updateArrayValues}
-                />
+                <ArrayItems itemType="null" updateValue={updateArrayValues} />
               ) : null}
               {(data.items as JSONSchema7).type === "object" ? (
-                <Mapper data={data.items as JSONSchema7} objectKeys={[...objectKeys, "items"]} />
+                // <Mapper data={data.items as JSONSchema7} objectKeys={[...objectKeys, "items"]} />
+                <ArrayObjectWrapper data={data.items as JSONSchema7} updateValue={updateArrayValues} />
               ) : null}
             </AccordionPanel>
           </>

@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import ArrayItemWrapper from "./ArrayItemWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { AddIcon } from "@chakra-ui/icons";
+import {PrimitiveType, DataType, ObjectType} from "../../type";
 
-type ValueType = number | string | boolean | null;
 
 type ArrayItemsProps = {
   itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -15,9 +15,9 @@ type ArrayItemsProps = {
 };
 
 const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
-  const [arrayItems, setArrayItems] = useState<ValueType[]>([]);
+  const [arrayItems, setArrayItems] = useState<DataType[]>([]);
 
-  const updateArrayItems = (newValue: string | number | boolean | null) => {
+  const updateArrayItems = (newValue: PrimitiveType) => {
     if (itemType !== "boolean" && newValue) {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
@@ -35,7 +35,7 @@ const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
     }
   };
 
-  const handleItemChange = (newValue: string, index: number) => {
+  const handleItemChange = (newValue: string | ObjectType, index: number) => {
     if (newValue !== arrayItems[index]) {
       const updatedArray = [...arrayItems];
       updatedArray[index] = newValue;
