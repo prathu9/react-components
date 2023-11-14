@@ -10,21 +10,14 @@ const ObjectWrapper = ({ data, objectKey, objectKeys }: any) => {
     <>
       {edit ? (
         <Box display="flex">
-          <Box w="90%">
+          <Box w="100%" position="relative">
             <Mapper
               data={data}
               objectKey={objectKey}
               objectKeys={[...objectKeys, objectKey]}
+              setEdit={setEdit}
             />
           </Box>
-          <Button
-            m="5px"
-            colorScheme="blue"
-            variant="outline"
-            onClick={() => setEdit(false)}
-          >
-            Ok
-          </Button>
         </Box>
       ) : (
         <Box display="flex" alignItems="center">

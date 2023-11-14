@@ -9,23 +9,27 @@ import {
   Tag,
   TagLabel,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import { JSONSchema7, JSONSchema7Object } from "json-schema";
 import { v4 as uuidv4 } from "uuid";
 import Mapper from "../../mapper";
 import ArrayWrapper from "../helper-ui/ArrayWrapper";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
+import { Dispatch } from "react";
 
 type ObjectComponentProps = {
   data: JSONSchema7Object;
   objectKeys?: string[];
   objectKey?: string;
+  setEdit?: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ObjectComponent = ({
   data,
   objectKeys = [],
   objectKey = "",
+  setEdit,
 }: ObjectComponentProps) => {
   const properties = Object.keys(data.properties as {});
 
@@ -52,6 +56,18 @@ const ObjectComponent = ({
                 <Text fontSize="15px">{isExpanded ? "Object" : "{...}"}</Text>
               </Box>
               <AccordionIcon />
+              {setEdit ? (
+                <Button
+                  mx="15px"
+                  colorScheme="blue"
+                  variant="outline"
+                  position="absolute"
+                  right="10px"
+                  onClick={() => setEdit(false)}
+                >
+                  Ok
+                </Button>
+              ) : null}
             </AccordionButton>
             <AccordionPanel px="0">
               <chakra.h1>properties:</chakra.h1>

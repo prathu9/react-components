@@ -8,13 +8,13 @@ import {
   Box,
   chakra,
   Input,
-  Button,
   Tag,
   TagLabel,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, Dispatch } from "react";
 import Mapper from "../../mapper";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
 
@@ -24,12 +24,14 @@ type ArrayComponentProps = {
   data: JSONSchema7;
   objectKeys?: string[];
   objectKey?: string;
+  setEdit?: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ArrayComponent = ({
   data,
   objectKeys = [],
   objectKey = "",
+  setEdit,
 }: ArrayComponentProps) => {
   if (data.items === undefined) {
     return <chakra.h1>items does not exist</chakra.h1>;
@@ -61,6 +63,16 @@ const ArrayComponent = ({
                 ) : null}
                 <Text fontSize="15px">{isExpanded ? "Array" : "[...]"}</Text>
               </Box>
+              {setEdit ? (
+                <Button
+                  mx="15px"
+                  colorScheme="blue"
+                  variant="outline"
+                  onClick={() => setEdit(false)}
+                >
+                  Ok
+                </Button>
+              ) : null}
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel px="0">
@@ -81,7 +93,10 @@ const ArrayComponent = ({
               ) : null}
               {(data.items as JSONSchema7).type === "object" ? (
                 // <Mapper data={data.items as JSONSchema7} objectKeys={[...objectKeys, "items"]} />
-                <ArrayObjectWrapper data={data.items as JSONSchema7} updateValue={updateArrayValues} />
+                <ArrayObjectWrapper
+                  data={data.items as JSONSchema7}
+                  updateValue={updateArrayValues}
+                />
               ) : null}
             </AccordionPanel>
           </>
