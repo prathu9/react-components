@@ -39,7 +39,7 @@ const ArrayComponent = ({
   }
 
   const updateArrayValues = (newValue: any) => {
-    // console.log(newValue);
+    console.log(newValue);
   };
 
   return (

@@ -3,11 +3,9 @@ import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, useState } from "react";
 import InputWrapper from "../helper-ui/InputWrapper";
 import { v4 as uuidv4 } from "uuid";
-import ArrayItemWrapper from "./ArrayItemWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { PrimitiveType, DataType, ObjectType } from "../../type";
-import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 
 type ArrayItemsProps = {

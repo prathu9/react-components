@@ -17,15 +17,15 @@ const ArrayWrapper = ({ data, objectKey, objectKeys }: any) => {
         <Box display="flex" alignItems="center">
           {objectKey ? (
             <>
-              <Tag colorScheme="blue" variant="outline">
-                <TagLabel>{objectKey}</TagLabel>
+              <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
+                <TagLabel fontSize="15px">{objectKey}</TagLabel>
               </Tag>
               <Text mx="10px">:</Text>
             </>
           ) : null}
           <Box>
             <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
-                <TagLabel>Array</TagLabel>
+                <TagLabel fontSize="15px">Array</TagLabel>
                 <TagRightIcon as={EditIcon} cursor="pointer" onClick={() => setEdit(true)} />
             </Tag>
           </Box>

@@ -5,10 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 import { JSONSchema7 } from "json-schema";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
 import Mapper from "../../mapper";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 type ArrayObjectWrapperProps = {
   data: JSONSchema7;
-  updateValue: (newValue: string) => void;
+  updateValue: (newValue: any) => void;
   objectKeys?: string[];
 };
 
@@ -29,18 +30,38 @@ const ArrayObjectWrapper = ({
       }
     }
     const newObj = Object.fromEntries(newObjKeyValue);
-    console.log(newObj);
-    setArrayItems([...arrayItems, newObj]);
+    const newArray = [...arrayItems, newObj];
+    setArrayItems(newArray);
+    updateValue(newArray);
+  };
+
+  const handleItemDelete = (itemIndex: number) => {
+    const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
+    setArrayItems(filteredArray);
+    updateValue(filteredArray);
   };
 
   return (
     <Box>
       <Box>
-        {arrayItems.map((item, index) => {
-          const properties = Object.keys(item);
+        {arrayItems.map((_, index) => {
           return (
-            <Box my="10px" key={uuidv4()}>
-              <ObjectWrapper data={data} objectKeys={[...objectKeys, `${index}`]}  />
+            <Box my="10px" key={uuidv4()} display="flex">
+              <ObjectWrapper
+                data={data}
+                objectKeys={[...objectKeys, `${index}`]}
+              />
+              <Button
+                m="5px"
+                px="10px"
+                py="5px"
+                height="28px"
+                colorScheme="red"
+                variant="outline"
+                onClick={() => handleItemDelete(index)}
+              >
+                <DeleteIcon color="red" cursor="pointer" />
+              </Button>
             </Box>
           );
         })}
