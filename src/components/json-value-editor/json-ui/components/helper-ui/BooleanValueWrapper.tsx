@@ -1,6 +1,14 @@
-import { Box, Radio, RadioGroup, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Radio,
+  RadioGroup,
+  Button,
+  Tag,
+  TagLabel,
+  TagRightIcon,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { CloseIcon } from "@saas-ui/react";
+import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 
 type BooleanValueWrapperProp = {
   initialValue: boolean;
@@ -11,8 +19,8 @@ type BooleanValueWrapperProp = {
 const BooleanValueWrapper = ({
   initialValue,
   updateValue,
-  handleEdit,
 }: BooleanValueWrapperProp) => {
+  const [edit, setEdit] = useState<boolean>(false);
   const [value, setValue] = useState<string>(
     initialValue === true ? "true" : "false"
   );
@@ -30,44 +38,54 @@ const BooleanValueWrapper = ({
     const newValue = value === "true" ? true : false;
 
     updateValue(newValue);
+    setEdit(false);
   };
 
   return (
-    <Box display="flex" alignItems="center">
-      <RadioGroup value={value} onChange={handleChange}>
-        <Radio
-          value="true"
-          size="lg"
-          mr="10px"
-          colorScheme="blue"
-          border="1px solid cyan"
-        >
-          true
-        </Radio>
-        <Radio
-          value="false"
-          size="lg"
-          colorScheme="blue"
-          border="1px solid cyan"
-        >
-          false
-        </Radio>
-      </RadioGroup>
-      <Button
-        mx="5px"
-        py="5px"
-        onClick={handleUpdate}
-        colorScheme="blue"
-        variant="outline"
-      >
-        Add
-      </Button>
-      {handleEdit ? (
-        <Button title="Cancel" onClick={handleEdit} variant="outline">
-          <CloseIcon />
-        </Button>
-      ) : null}
-    </Box>
+    <>
+      {edit ? (
+        <Box display="flex" alignItems="center">
+          <RadioGroup value={value} onChange={handleChange}>
+            <Radio
+              value="true"
+              size="lg"
+              mr="10px"
+              colorScheme="blue"
+              border="1px solid cyan"
+            >
+              true
+            </Radio>
+            <Radio
+              value="false"
+              size="lg"
+              colorScheme="blue"
+              border="1px solid cyan"
+            >
+              false
+            </Radio>
+          </RadioGroup>
+          <Button
+            mx="5px"
+            py="5px"
+            onClick={handleUpdate}
+            colorScheme="blue"
+            variant="outline"
+          >
+            Add
+          </Button>
+          <Button title="Cancel" onClick={() => setEdit(false)} variant="outline">
+            <CloseIcon />
+          </Button>
+        </Box>
+      ) : (
+        <Box>
+          <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
+            <TagLabel fontSize="15px">{value}</TagLabel>
+            <TagRightIcon as={EditIcon} cursor="pointer" onClick={() => setEdit(true)} />
+          </Tag>
+        </Box>
+      )}
+    </>
   );
 };
 

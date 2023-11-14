@@ -9,7 +9,7 @@ const ArrayWrapper = ({ data, objectKey, objectKeys }: any) => {
     <>
       {edit ? (
         <Box display="flex">
-            <Box w="90%">
+            <Box w="100%">
                 <Mapper data={data} objectKey={objectKey} objectKeys={objectKeys} setEdit={setEdit} />
             </Box>
         </Box>

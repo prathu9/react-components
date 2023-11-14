@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 
 import InputWrapper from "../helper-ui/InputWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
-import PrimitiveValue from "../helper-ui/PrimitiveValue";
 
 type PrimitiveComponentProps = {
   data: JSONSchema7;
@@ -35,7 +34,6 @@ const PrimitiveComponent = ({
   const [primitiveValue, setPrimitiveValue] = useState<
     string | number | null | boolean
   >(getInitialPrimitiveValue(data.type));
-  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     setPrimitiveValue(getInitialPrimitiveValue(data.type));
@@ -44,12 +42,8 @@ const PrimitiveComponent = ({
   const updateValue = (newValue: string | number | boolean) => {
     console.log(newValue);
     setPrimitiveValue(newValue);
-    setEdit(false);
   };
 
-  const handleEdit = (edit: boolean) => {
-    setEdit(edit || false);
-  };
 
   if (data.type === "boolean") {
     return (
@@ -63,18 +57,10 @@ const PrimitiveComponent = ({
           </>
         ) : null}
         <Box>
-          {edit ? (
-            <BooleanValueWrapper
-              initialValue={primitiveValue as boolean}
-              updateValue={updateValue}
-              handleEdit={() => handleEdit(false)}
-            />
-          ) : (
-            <PrimitiveValue
-              value={primitiveValue + ""}
-              handleEdit={() => handleEdit(true)}
-            />
-          )}
+          <BooleanValueWrapper
+            initialValue={primitiveValue as boolean}
+            updateValue={updateValue}
+          />
         </Box>
       </Box>
     );
@@ -115,19 +101,11 @@ const PrimitiveComponent = ({
         </>
       ) : null}
       <Box>
-        {edit ? (
-          <InputWrapper
-            type={data.type as string | number}
-            updateValue={updateValue}
-            handleEdit={() => handleEdit(false)}
-            initialValue={primitiveValue as string | number}
-          />
-        ) : (
-          <PrimitiveValue
-            value={primitiveValue}
-            handleEdit={() => handleEdit(true)}
-          />
-        )}
+        <InputWrapper
+          type={data.type as string | number}
+          updateValue={updateValue}
+          initialValue={primitiveValue as string | number}
+        />
       </Box>
     </Box>
   );

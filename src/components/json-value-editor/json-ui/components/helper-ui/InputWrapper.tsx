@@ -1,5 +1,13 @@
-import { Box, Input, Button, Text } from "@chakra-ui/react";
-import { CloseIcon } from "@saas-ui/react";
+import {
+  Box,
+  Input,
+  Button,
+  Text,
+  Tag,
+  TagLabel,
+  TagRightIcon,
+} from "@chakra-ui/react";
+import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type InputWrapperProps = {
@@ -13,11 +21,11 @@ type InputWrapperProps = {
 const InputWrapper = ({
   type,
   updateValue,
-  handleEdit,
   initialValue,
   showValueTag,
 }: InputWrapperProps) => {
-  const [value, setValue] = useState(initialValue? initialValue+"": "");
+  const [value, setValue] = useState(initialValue+"");
+  const [edit, setEdit] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -41,32 +49,57 @@ const InputWrapper = ({
     } else if (type === "string") {
       updateValue(value);
     }
+
+    setEdit(false);
   };
 
   return (
-    <Box display="flex" alignItems="center">
-      {showValueTag ? (
-        <>
-          <Text>Value</Text>
-          <Text mx="10px">:</Text>
-        </>
-      ) : null}
-      <Input
-        type={type === "number" ? "number" : "text"}
-        w="50%"
-        value={value}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
-      <Button ml="10px" title="Add" colorScheme="blue" variant="outline" onClick={handleUpdate}>
-        Add
-      </Button>
-      {handleEdit ? (
-        <Button title="Cancel" onClick={handleEdit} variant="outline">
-          <CloseIcon />
-        </Button>
-      ) : null}
-    </Box>
+    <>
+      {edit ? (
+        <Box display="flex" alignItems="center">
+          {showValueTag ? (
+            <>
+              <Text>Value</Text>
+              <Text mx="10px">:</Text>
+            </>
+          ) : null}
+          <Input
+            type={type === "number" ? "number" : "text"}
+            w="50%"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+          <Button
+            ml="10px"
+            title="Add"
+            colorScheme="blue"
+            variant="outline"
+            onClick={handleUpdate}
+          >
+            Add
+          </Button>
+          <Button
+            title="Cancel"
+            onClick={() => setEdit(false)}
+            variant="outline"
+          >
+            <CloseIcon />
+          </Button>
+        </Box>
+      ) : (
+        <Box>
+          <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
+            <TagLabel fontSize="15px">{value}</TagLabel>
+            <TagRightIcon
+              as={EditIcon}
+              cursor="pointer"
+              onClick={() => setEdit(true)}
+            />
+          </Tag>
+        </Box>
+      )}
+    </>
   );
 };
 

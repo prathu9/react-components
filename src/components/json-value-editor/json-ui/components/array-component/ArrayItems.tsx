@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, RadioGroup, Radio } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
 import { ChangeEvent, useState } from "react";
 import InputWrapper from "../helper-ui/InputWrapper";
@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import ArrayItemWrapper from "./ArrayItemWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { AddIcon } from "@chakra-ui/icons";
-import {PrimitiveType, DataType, ObjectType} from "../../type";
-
+import { PrimitiveType, DataType, ObjectType } from "../../type";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
+import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 
 type ArrayItemsProps = {
   itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -22,13 +23,11 @@ const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
       updateValue(newArray);
-    }
-    else if(itemType === "boolean"){
+    } else if (itemType === "boolean") {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
       updateValue(newArray);
-    }
-    else if(itemType === "null"){
+    } else if (itemType === "null") {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
       updateValue(newArray);
@@ -53,25 +52,47 @@ const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
     <Box>
       {arrayItems.map((item, index) => (
         <Box key={uuidv4()} display="flex" alignItems="center">
-          <ArrayItemWrapper
-            itemType={itemType}
-            itemValue={item}
-            itemIndex={index}
-            handleItemChange={handleItemChange}
-            handleItemDelete={handleItemDelete}
+          <ArrayPrimitiveWrapper
+            type={itemType}
+            value={item}
+            handleArrayItemChange={(newValue: string) =>
+              handleItemChange(newValue, index)
+            }
           />
+          <Button
+            m="5px"
+            px="10px"
+            py="5px"
+            height="28px"
+            colorScheme="red"
+            variant="outline"
+            onClick={() => handleItemDelete(index)}
+          >
+            <DeleteIcon color="red" cursor="pointer" />
+          </Button>
         </Box>
       ))}
-      <Box my="10px">{
-        itemType === "boolean"? 
-        <BooleanValueWrapper initialValue={false} updateValue={updateArrayItems} />:
-        itemType === "null"? 
-          <Button leftIcon={<AddIcon />} variant="outline" colorScheme="blue" onClick={() => updateArrayItems(null)}>
+      <Box my="10px">
+        {itemType === "boolean" ? (
+          <Button onClick={() => updateArrayItems(false)}>
+            Add Boolean value
+          </Button>
+        ) : itemType === "null" ? (
+          <Button
+            leftIcon={<AddIcon />}
+            variant="outline"
+            colorScheme="blue"
+            onClick={() => updateArrayItems(null)}
+          >
             Null
           </Button>
-        :
-        <InputWrapper type={itemType as string | number} updateValue={updateArrayItems} />
-        }
+        ) : (
+          <Button
+            onClick={() =>
+              updateArrayItems(itemType === "number" ? 1 : "string")
+            }
+          >{`Add ${itemType === "number" ? "number" : "string"} value`}</Button>
+        )}
       </Box>
     </Box>
   );

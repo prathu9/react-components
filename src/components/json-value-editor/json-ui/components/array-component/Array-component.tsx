@@ -12,6 +12,7 @@ import {
   TagLabel,
   Text,
   Button,
+  IconButton,
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
 import { ChangeEvent, useState, Dispatch } from "react";
@@ -64,14 +65,15 @@ const ArrayComponent = ({
                 <Text fontSize="15px">{isExpanded ? "Array" : "[...]"}</Text>
               </Box>
               {setEdit ? (
-                <Button
+                <Tag
                   mx="15px"
                   colorScheme="blue"
                   variant="outline"
+                  aria-label="Done"
                   onClick={() => setEdit(false)}
                 >
-                  Ok
-                </Button>
+                  <TagLabel>Ok</TagLabel>
+                </Tag>
               ) : null}
               <AccordionIcon />
             </AccordionButton>
@@ -92,10 +94,10 @@ const ArrayComponent = ({
                 <ArrayItems itemType="null" updateValue={updateArrayValues} />
               ) : null}
               {(data.items as JSONSchema7).type === "object" ? (
-                // <Mapper data={data.items as JSONSchema7} objectKeys={[...objectKeys, "items"]} />
                 <ArrayObjectWrapper
                   data={data.items as JSONSchema7}
                   updateValue={updateArrayValues}
+                  objectKeys={[...objectKeys, "items"]}
                 />
               ) : null}
             </AccordionPanel>

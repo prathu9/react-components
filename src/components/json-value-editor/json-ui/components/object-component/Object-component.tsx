@@ -57,16 +57,15 @@ const ObjectComponent = ({
               </Box>
               <AccordionIcon />
               {setEdit ? (
-                <Button
+                <Tag
                   mx="15px"
                   colorScheme="blue"
                   variant="outline"
-                  position="absolute"
-                  right="10px"
+                  aria-label="Done"
                   onClick={() => setEdit(false)}
                 >
-                  Ok
-                </Button>
+                  <TagLabel>Ok</TagLabel>
+                </Tag>
               ) : null}
             </AccordionButton>
             <AccordionPanel px="0">

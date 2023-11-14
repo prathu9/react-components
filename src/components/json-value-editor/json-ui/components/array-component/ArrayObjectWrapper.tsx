@@ -4,13 +4,19 @@ import { DataType, ObjectType } from "../../type";
 import { v4 as uuidv4 } from "uuid";
 import { JSONSchema7 } from "json-schema";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
+import Mapper from "../../mapper";
 
 type ArrayObjectWrapperProps = {
   data: JSONSchema7;
   updateValue: (newValue: string) => void;
+  objectKeys?: string[];
 };
 
-const ArrayObjectWrapper = ({ data, updateValue }: ArrayObjectWrapperProps) => {
+const ArrayObjectWrapper = ({
+  data,
+  updateValue,
+  objectKeys = [],
+}: ArrayObjectWrapperProps) => {
   const [arrayItems, setArrayItems] = useState<ObjectType[]>([]);
 
   const addNewObject = () => {
@@ -23,18 +29,21 @@ const ArrayObjectWrapper = ({ data, updateValue }: ArrayObjectWrapperProps) => {
       }
     }
     const newObj = Object.fromEntries(newObjKeyValue);
-    console.log(newObj)
+    console.log(newObj);
     setArrayItems([...arrayItems, newObj]);
   };
-console.log(arrayItems)
+
   return (
     <Box>
       <Box>
-        {arrayItems.map((item) => (
-          <Box key={uuidv4()}>
-            <ObjectWrapper />
-          </Box>
-        ))}
+        {arrayItems.map((item, index) => {
+          const properties = Object.keys(item);
+          return (
+            <Box my="10px" key={uuidv4()}>
+              <ObjectWrapper data={data} objectKeys={[...objectKeys, `${index}`]}  />
+            </Box>
+          );
+        })}
       </Box>
       <Button onClick={addNewObject}>Add New Object</Button>
     </Box>

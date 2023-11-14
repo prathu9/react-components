@@ -14,7 +14,7 @@ const ObjectWrapper = ({ data, objectKey, objectKeys }: any) => {
             <Mapper
               data={data}
               objectKey={objectKey}
-              objectKeys={[...objectKeys, objectKey]}
+              objectKeys={objectKeys}
               setEdit={setEdit}
             />
           </Box>

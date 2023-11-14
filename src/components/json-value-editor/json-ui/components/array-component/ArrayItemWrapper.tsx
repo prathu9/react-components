@@ -5,7 +5,6 @@ import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 import { ChangeEvent, useState } from "react";
 
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
-import ArrayObjectWrapper from "./ArrayObjectWrapper";
 
 type ArrayItemWrapperProp = {
   itemType: any;
@@ -36,17 +35,6 @@ const ArrayItemWrapper = ({
         value={value}
         handleArrayItemChange={handleArrayItemChange}
       />
-      <Button
-        m="5px"
-        px="10px"
-        py="5px"
-        height="28px"
-        colorScheme="red"
-        variant="outline"
-        onClick={() => handleItemDelete(itemIndex)}
-      >
-        <DeleteIcon color="red" cursor="pointer" />
-      </Button>
     </>
   );
 };
