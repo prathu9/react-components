@@ -43,29 +43,30 @@ const ArrayObjectWrapper = ({
 
   return (
     <Box>
-      <Box>
-        {arrayItems.map((_, index) => {
-          return (
-            <Box my="10px" key={uuidv4()} display="flex">
-              <ObjectWrapper
-                data={data}
-                objectKeys={[...objectKeys, `${index}`]}
-              />
-              <Button
-                m="5px"
-                px="10px"
-                py="5px"
-                height="28px"
-                colorScheme="red"
-                variant="outline"
-                onClick={() => handleItemDelete(index)}
-              >
-                <DeleteIcon color="red" cursor="pointer" />
-              </Button>
-            </Box>
-          );
-        })}
-      </Box>
+      {arrayItems.map((_, index) => {
+        return (
+          <Box my="10px" key={uuidv4()}>
+            <ObjectWrapper
+              data={data}
+              objectKeys={[...objectKeys, `${index}`]}
+              deleteBtn={
+                <Button
+                  mx="5px"
+                  px="10px"
+                  py="5px"
+                  height="28px"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() => handleItemDelete(index)}
+                >
+                  <DeleteIcon color="red" cursor="pointer" />
+                </Button>
+              }
+            />
+          </Box>
+        );
+      })}
+
       <Button onClick={addNewObject}>Add New Object</Button>
     </Box>
   );

@@ -25,34 +25,28 @@ const ArrayPrimitiveWrapper = ({ type, value, handleArrayItemChange }: any) => {
 
   if (type === "boolean") {
     return (
-      <Box>
-        <BooleanValueWrapper
-          initialValue={value}
-          updateValue={handleArrayItemChange}
-        />
-      </Box>
+      <BooleanValueWrapper
+        initialValue={value}
+        updateValue={handleArrayItemChange}
+      />
     );
   }
 
   if (type === "null") {
     return (
-      <Box>
-        <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
-          <TagLabel>Null</TagLabel>
-        </Tag>
-      </Box>
+      <Tag px="10px" py="5px" colorScheme="blue" variant="outline">
+        <TagLabel>Null</TagLabel>
+      </Tag>
     );
   }
 
   return (
     <>
-      <Box>
-        <InputWrapper
-          type={type}
-          initialValue={value}
-          updateValue={handleArrayItemChange}
-        />
-      </Box>
+      <InputWrapper
+        type={type}
+        initialValue={value}
+        updateValue={handleArrayItemChange}
+      />
     </>
   );
 };

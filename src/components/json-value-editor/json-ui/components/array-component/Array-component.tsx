@@ -18,6 +18,7 @@ import ArrayItems from "./ArrayItems";
 import { ChangeEvent, useState, Dispatch } from "react";
 import Mapper from "../../mapper";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
+import ArrayArrayWrapper from "./ArrayArrayWrapper";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -43,7 +44,7 @@ const ArrayComponent = ({
   };
 
   return (
-    <Accordion allowToggle>
+    <Accordion w="100%" allowToggle>
       <AccordionItem px="0">
         {({ isExpanded }) => (
           <>
@@ -100,6 +101,15 @@ const ArrayComponent = ({
                   objectKeys={[...objectKeys, "items"]}
                 />
               ) : null}
+              {
+                (data.items as JSONSchema7).type === "array" ? (
+                  <ArrayArrayWrapper 
+                    data={data.items as JSONSchema7}
+                    updateValue={updateArrayValues}
+                    objectKeys={[...objectKeys, "items"]}
+                  />
+                ):null
+              }
             </AccordionPanel>
           </>
         )}

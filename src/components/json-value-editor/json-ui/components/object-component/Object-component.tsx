@@ -23,6 +23,7 @@ type ObjectComponentProps = {
   objectKeys?: string[];
   objectKey?: string;
   setEdit?: Dispatch<React.SetStateAction<boolean>>;
+  handleItemDelete?: (index: number) => void;
 };
 
 const ObjectComponent = ({
@@ -55,18 +56,20 @@ const ObjectComponent = ({
                 ) : null}
                 <Text fontSize="15px">{isExpanded ? "Object" : "{...}"}</Text>
               </Box>
-              <AccordionIcon />
               {setEdit ? (
-                <Tag
-                  mx="15px"
-                  colorScheme="blue"
-                  variant="outline"
-                  aria-label="Done"
-                  onClick={() => setEdit(false)}
-                >
-                  <TagLabel>Ok</TagLabel>
-                </Tag>
+                <>
+                  <Tag
+                    mx="15px"
+                    colorScheme="blue"
+                    variant="outline"
+                    aria-label="Done"
+                    onClick={() => setEdit(false)}
+                  >
+                    <TagLabel>Ok</TagLabel>
+                  </Tag>
+                </>
               ) : null}
+                <AccordionIcon />
             </AccordionButton>
             <AccordionPanel px="0">
               <chakra.h1>properties:</chakra.h1>
