@@ -25,8 +25,8 @@ const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: any) => {
   return (
     <>
       {edit ? (
-        <Box w="100%" display="flex">
-          <Box position="relative">
+        <Box display="flex">
+          <Box w="100%" position="relative">
             <Mapper
               data={data}
               objectKey={objectKey}
