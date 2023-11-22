@@ -1,7 +1,7 @@
 import { JSONSchema7, JSONSchema7TypeName } from "json-schema";
 import { Box, Tag, TagRightIcon, TagLabel, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, memo, useRef } from "react";
 
 import InputWrapper from "../helper-ui/InputWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
@@ -14,6 +14,29 @@ type PrimitiveComponentProps = {
   objectKeys?: string[];
   objectKey?: string;
 };
+
+const getInitialValue = (objectKeys: string[]) => {
+  const {value} = useContext(JSONContext)!;
+
+ if(value && typeof value === "object"){
+    let obj = value;
+    for(let i = 1; i < objectKeys.length; i++){
+      const key = objectKeys[i];
+      const value = obj[key];
+      if(value && typeof value === "object" && !Array.isArray(value)){
+        obj = value;
+      }
+    }
+    const lastKey = objectKeys[objectKeys.length - 1]
+    return obj[lastKey];
+  }
+  else if(Array.isArray(value)){
+    return value
+  }
+  else{
+    return value;
+  }
+}
 
 const getInitialPrimitiveValue = (
   type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined
@@ -29,32 +52,48 @@ const getInitialPrimitiveValue = (
   }
 };
 
-const PrimitiveComponent = ({
+
+const PrimitiveComponent = memo(({
   data,
-  objectKeys = [],
-  objectKey = "",
+  objectKeys=[],
+  objectKey,
 }: PrimitiveComponentProps) => {
-  const { value, setValue } = useContext(JSONContext)!;
+  const { setValue } = useContext(JSONContext)!;
 
-  const [primitiveValue, setPrimitiveValue] = useState<
-    string | number | null | boolean
-  >(getInitialPrimitiveValue(data.type));
+  const initialValue = getInitialValue(objectKeys) || getInitialPrimitiveValue(data.type);
+  // console.log("initialvalue", currObj)
+  
+  // const [primitiveValue, setPrimitiveValue] = useState<
+  //   string | number | null | boolean
+  // >(getInitialPrimitiveValue(data.type));
 
-  useEffect(() => {
-    setPrimitiveValue(getInitialPrimitiveValue(data.type));
-  }, [data.type]);
+  // useEffect(() => {
+  //   setPrimitiveValue(getInitialPrimitiveValue(data.type));
+  // }, [data.type]);
 
   const updateValue = (newValue: string | number | boolean) => {
-    setPrimitiveValue(newValue);
+    // setPrimitiveValue(newValue);
     setValue((draftValue) => {
       if(typeof draftValue !== "object"){
         draftValue = newValue;
         return draftValue;
       }
-      else{
-        for(const key of objectKeys){
-          console.log(key, objectKeys)
+      else if(typeof draftValue === "object"){
+        let currObj = draftValue!;
+
+        for(let i = 1; i < objectKeys.length; i++){
+            const key = objectKeys[i];
+            const value = currObj[key];
+            if(value && typeof value === "object" && !Array.isArray(value)){
+              currObj = value;
+            }
         }
+
+        const lastKey = objectKeys[objectKeys.length - 1];
+        currObj[lastKey] = newValue;
+      }
+      else{
+        console.log(JSON.stringify(draftValue))
       }
     });
   };
@@ -72,7 +111,7 @@ const PrimitiveComponent = ({
         ) : null}
         <Box>
           <BooleanValueWrapper
-            initialValue={primitiveValue as boolean}
+            initialValue={initialValue as boolean}
             updateValue={updateValue}
           />
         </Box>
@@ -118,11 +157,11 @@ const PrimitiveComponent = ({
         <InputWrapper
           type={data.type as string | number}
           updateValue={updateValue}
-          initialValue={primitiveValue as string | number}
+          initialValue={initialValue as string | number}
         />
       </Box>
     </Box>
   );
-};
+});
 
 export default PrimitiveComponent;

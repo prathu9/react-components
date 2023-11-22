@@ -18,13 +18,13 @@ type InputWrapperProps = {
   showValueTag?: boolean;
 };
 
-const InputWrapper = ({
+const InputWrapper = memo(({
   type,
   updateValue,
   initialValue,
   showValueTag,
 }: InputWrapperProps) => {
-  const [value, setValue] = useState(initialValue+"");
+  const [value, setValue] = useState<string>(initialValue+"");
   const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
@@ -105,6 +105,6 @@ const InputWrapper = ({
       )}
     </>
   );
-};
+});
 
 export default InputWrapper;

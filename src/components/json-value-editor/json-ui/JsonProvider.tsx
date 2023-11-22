@@ -1,5 +1,5 @@
 import { JSONSchema7 } from "json-schema";
-import { ReactNode, createContext, useEffect } from "react";
+import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { useImmer, Updater } from "use-immer";
 
 type PrimitiveType = string | number | boolean | null;
@@ -12,8 +12,8 @@ type JSONType = ObjectType | PrimitiveType;
 
 export type JSONContextType = {
   jsonSchema: JSONSchema7;
-  value: JSONType;
   setValue: Updater<JSONType>;
+  value: JSONType;
 };
 
 type JSONProviderProps = {
@@ -58,15 +58,18 @@ const JSONProvider = ({
   jsonSchema,
   children,
 }: JSONProviderProps) => {
-  const [value, setValue] = useImmer<JSONType>(null);
+  const [value, setValue] = useImmer<JSONType>(getInitialValue(jsonSchema));
+  const jsonSchemaRef = useRef(jsonSchema)
+  const valueRef = useRef(value);
 
   useEffect(() => {
     setJsonValue(value);
   }, [value])
 
-  useEffect(() => {
+  if(jsonSchemaRef.current !== jsonSchema){
+    jsonSchemaRef.current = jsonSchema;
     setValue(getInitialValue(jsonSchema))
-  }, [jsonSchema])
+  }
 
   return (
     <JSONContext.Provider value={{ jsonSchema, value, setValue }}>
