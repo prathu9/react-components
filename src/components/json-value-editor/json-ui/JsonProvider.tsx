@@ -24,6 +24,35 @@ type JSONProviderProps = {
 
 export const JSONContext = createContext<JSONContextType | null>(null);
 
+const getInitialValue = (jsonSchema: JSONSchema7) => {
+  if(jsonSchema.type==="string"){
+    return "";
+  }
+  else if(jsonSchema.type === "number"){
+    return 0;
+  }
+  else if(jsonSchema.type === "boolean"){
+    return false;
+  }
+  else if(jsonSchema.type === "null"){
+    return null;
+  }
+  else if(jsonSchema.type === "array"){
+    return [];
+  }
+  else{
+    const newObj = {} as any;
+    if(jsonSchema.hasOwnProperty("properties")){
+      const propKeys = Object.keys(jsonSchema.properties!);
+      for(let i = 0; i < propKeys.length; i++){
+        newObj[propKeys[i] as string] = getInitialValue(jsonSchema.properties![propKeys[i]] as JSONSchema7)
+      }
+    }
+   
+    return newObj;
+  }
+}
+
 const JSONProvider = ({
   setJsonValue,
   jsonSchema,
@@ -34,6 +63,10 @@ const JSONProvider = ({
   useEffect(() => {
     setJsonValue(value);
   }, [value])
+
+  useEffect(() => {
+    setValue(getInitialValue(jsonSchema))
+  }, [jsonSchema])
 
   return (
     <JSONContext.Provider value={{ jsonSchema, value, setValue }}>

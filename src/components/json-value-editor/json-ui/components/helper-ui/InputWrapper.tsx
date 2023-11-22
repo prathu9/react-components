@@ -8,7 +8,7 @@ import {
   TagRightIcon,
 } from "@chakra-ui/react";
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState, memo, useEffect } from "react";
 
 type InputWrapperProps = {
   type: string | number;
@@ -26,6 +26,10 @@ const InputWrapper = ({
 }: InputWrapperProps) => {
   const [value, setValue] = useState(initialValue+"");
   const [edit, setEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    setValue(initialValue+"");
+  }, [initialValue])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

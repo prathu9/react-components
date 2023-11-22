@@ -70,7 +70,7 @@ const TestComponent = () => {
           options={{}}
           value={JSON.stringify(schema)}
         />
-        {/* <Editor
+        <Editor
           width="400px"
           height="300px"
           theme="vs-dark"
@@ -82,7 +82,7 @@ const TestComponent = () => {
           }}
           options={{}}
           value={JSON.stringify(value)}
-        /> */}
+        />
       </Box>
       {/* <MultiSelectExample single={false}/> */}
       {/* <Stepper step={1} orientation={useBreakpointValue({ base: 'vertical', md: 'horizontal' })}>

@@ -2,13 +2,20 @@ import { JSONSchema7, JSONSchema7Object } from "json-schema";
 import ArrayComponent from "./components/array-component/Array-component";
 import ObjectComponent from "./components/object-component/Object-component";
 import PrimitiveComponent from "./components/primitive-component/PrimitiveComponent";
-import {Dispatch} from "react";
+import { Dispatch, JSX } from "react";
 
-const jsonComp = (
+type JsonCompProps = (
   data: JSONSchema7,
   objectKeys?: string[],
   objectKey?: string,
-  setEdit?:  Dispatch<React.SetStateAction<boolean>>
+  setEdit?: Dispatch<React.SetStateAction<boolean>>
+) => JSX.Element;
+
+const jsonComp: JsonCompProps = (
+  data: JSONSchema7,
+  objectKeys = ["root"],
+  objectKey,
+  setEdit
 ) => {
   if (data.type === "object") {
     return (
@@ -35,7 +42,7 @@ const jsonComp = (
   return (
     <PrimitiveComponent
       data={data}
-      objectKeys={objectKeys}
+      objectKeys={objectKeys.length ? objectKeys : ["r"]}
       objectKey={objectKey}
     />
   );
