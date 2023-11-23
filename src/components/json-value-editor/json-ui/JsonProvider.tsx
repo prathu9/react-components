@@ -1,6 +1,7 @@
 import { JSONSchema7 } from "json-schema";
 import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { useImmer, Updater } from "use-immer";
+import {deepCopy} from "./utils";
 
 type PrimitiveType = string | number | boolean | null;
 
@@ -64,11 +65,15 @@ const JSONProvider = ({
 
   useEffect(() => {
     setJsonValue(value);
+    console.log("v", value)
+    valueRef.current = value;
   }, [value])
 
   if(jsonSchemaRef.current !== jsonSchema){
     jsonSchemaRef.current = jsonSchema;
-    setValue(getInitialValue(jsonSchema))
+    const defaultValue = getInitialValue(jsonSchema);
+
+    setValue(deepCopy(defaultValue, valueRef.current));
   }
 
   return (

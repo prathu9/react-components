@@ -26,7 +26,6 @@ const BooleanValueWrapper = ({
   );
 
   useEffect(() => {
-    console.log("boolean", initialValue);
     setValue(initialValue === true ? "true" : "false");
   }, [initialValue]);
 

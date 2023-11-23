@@ -73,10 +73,14 @@ const PrimitiveComponent = memo(({
 
   const updateValue = (newValue: string | number | boolean) => {
     // setPrimitiveValue(newValue);
+    console.log(objectKeys)
     setValue((draftValue) => {
       if(typeof draftValue !== "object"){
         draftValue = newValue;
         return draftValue;
+      }
+      else if(Array.isArray(draftValue)){
+        console.log("root", draftValue[0])
       }
       else if(typeof draftValue === "object"){
         let currObj = draftValue!;
