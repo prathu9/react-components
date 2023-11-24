@@ -6,21 +6,29 @@ import {
   TagRightIcon,
   Text,
 } from "@chakra-ui/react";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useRef, useEffect } from "react";
 import Mapper from "../../mapper";
 import { EditIcon } from "@chakra-ui/icons";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { JSONSchema7 } from "json-schema";
 
+const useEdit = (edit: boolean) => {
+  const editRef = useRef(edit);
+  useEffect(() => {
+    editRef.current = edit;
+  }, [edit])
+  return editRef;
+}
+
 type ObjectWrapperProps = {
   data: JSONSchema7,
   objectKey?: string,
-  ObjectKeys?: string[],
+  objectKeys?: string[],
   deleteBtn?: ReactNode
 }
 
-const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: any) => {
-  const [edit, setEdit] = useState(false);
+const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapperProps) => {
+  const [edit, setEdit] = useState(true);
 
   return (
     <>
@@ -51,7 +59,7 @@ const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: any) => {
               <TagRightIcon
                 as={EditIcon}
                 cursor="pointer"
-                onClick={() => setEdit(true)}
+                onClick={() => {setEdit(true)}}
               />
             </Tag>
             {deleteBtn}

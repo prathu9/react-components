@@ -14,7 +14,7 @@ type JSONType = ObjectType | PrimitiveType;
 export type JSONContextType = {
   jsonSchema: JSONSchema7;
   setValue: Updater<JSONType>;
-  value: JSONType;
+  value?: JSONType;
 };
 
 type JSONProviderProps = {
@@ -65,14 +65,13 @@ const JSONProvider = ({
 
   useEffect(() => {
     setJsonValue(value);
-    console.log("v", value)
     valueRef.current = value;
   }, [value])
 
   if(jsonSchemaRef.current !== jsonSchema){
     jsonSchemaRef.current = jsonSchema;
     const defaultValue = getInitialValue(jsonSchema);
-
+console.log(defaultValue, valueRef.current)
     setValue(deepCopy(defaultValue, valueRef.current));
   }
 

@@ -16,6 +16,7 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
     }
 
     setArrayItems(newArray);
+    updateValue(newArray)
   };
 
   const handleItemDelete = (itemIndex: number) => {

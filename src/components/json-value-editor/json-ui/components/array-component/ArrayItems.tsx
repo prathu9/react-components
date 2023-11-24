@@ -1,23 +1,51 @@
 import { Box, Button, RadioGroup, Radio } from "@chakra-ui/react";
 import { JSONSchema7TypeName } from "json-schema";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useContext } from "react";
 import InputWrapper from "../helper-ui/InputWrapper";
 import { v4 as uuidv4 } from "uuid";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { PrimitiveType, DataType, ObjectType } from "../../type";
 import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
+import { JSONContext } from "../../JsonProvider";
+
+const getInitialValue = (objectKeys: string[]) => {
+  const {value} = useContext(JSONContext)!;
+
+ if(value && typeof value === "object"){
+    let obj = value;
+    for(let i = 1; i < objectKeys.length; i++){
+      const key = objectKeys[i];
+      const value = obj[key];
+      if(value && typeof value === "object" && !Array.isArray(value)){
+        obj = value;
+      }
+    }
+    const lastKey = objectKeys[objectKeys.length - 1]
+    if(Array.isArray(obj[lastKey])){
+      return obj[lastKey] as any[];
+    }
+  }
+  else if(Array.isArray(value)){
+    return value
+  }
+}
 
 type ArrayItemsProps = {
   itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
   updateValue: (newValue: any) => void;
+  objectKeys: string[]
 };
 
-const ArrayItems = ({ itemType, updateValue }: ArrayItemsProps) => {
-  const [arrayItems, setArrayItems] = useState<DataType[]>([]);
+const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
+  const [arrayItems, setArrayItems] = useState<DataType[]>(getInitialValue(objectKeys) || []);
 
   const updateArrayItems = (newValue: PrimitiveType) => {
-    if (itemType !== "boolean" && newValue) {
+    console.log("check", itemType, arrayItems)
+    if(itemType === "array"){
+      console.log("array", newValue)
+    }
+    else if (itemType !== "boolean" && newValue) {
       const newArray = [...arrayItems, newValue];
       setArrayItems(newArray);
       updateValue(newArray);

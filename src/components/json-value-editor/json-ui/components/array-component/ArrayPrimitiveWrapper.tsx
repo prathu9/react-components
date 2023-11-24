@@ -1,27 +1,27 @@
 import InputWrapper from "../helper-ui/InputWrapper";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Box, Tag, TagLabel } from "@chakra-ui/react";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { PrimitiveType, DataType } from "../../type";
 
 const ArrayPrimitiveWrapper = ({ type, value, handleArrayItemChange }: any) => {
-  const [arrayItems, setArrayItems] = useState<DataType[]>([]);
+  // const [arrayItems, setArrayItems] = useState<DataType[]>([]);
 
-  const updateArrayItems = (newValue: PrimitiveType) => {
-    if (type !== "boolean" && newValue) {
-      const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
-      // updateValue(newArray);
-    } else if (type === "boolean") {
-      const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
-      // updateValue(newArray);
-    } else if (type === "null") {
-      const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
-      // updateValue(newArray);
-    }
-  };
+  // const updateArrayItems = (newValue: PrimitiveType) => {
+  //   if (type !== "boolean" && newValue) {
+  //     const newArray = [...arrayItems, newValue];
+  //     setArrayItems(newArray);
+  //     // updateValue(newArray);
+  //   } else if (type === "boolean") {
+  //     const newArray = [...arrayItems, newValue];
+  //     setArrayItems(newArray);
+  //     // updateValue(newArray);
+  //   } else if (type === "null") {
+  //     const newArray = [...arrayItems, newValue];
+  //     setArrayItems(newArray);
+  //     // updateValue(newArray);
+  //   }
+  // };
 
   if (type === "boolean") {
     return (

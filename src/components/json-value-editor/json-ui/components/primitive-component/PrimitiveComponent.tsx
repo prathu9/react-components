@@ -61,19 +61,8 @@ const PrimitiveComponent = memo(({
   const { setValue } = useContext(JSONContext)!;
 
   const initialValue = getInitialValue(objectKeys) || getInitialPrimitiveValue(data.type);
-  // console.log("initialvalue", currObj)
-  
-  // const [primitiveValue, setPrimitiveValue] = useState<
-  //   string | number | null | boolean
-  // >(getInitialPrimitiveValue(data.type));
-
-  // useEffect(() => {
-  //   setPrimitiveValue(getInitialPrimitiveValue(data.type));
-  // }, [data.type]);
 
   const updateValue = (newValue: string | number | boolean) => {
-    // setPrimitiveValue(newValue);
-    console.log(objectKeys)
     setValue((draftValue) => {
       if(typeof draftValue !== "object"){
         draftValue = newValue;
