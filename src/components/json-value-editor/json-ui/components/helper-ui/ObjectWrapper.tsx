@@ -11,14 +11,8 @@ import Mapper from "../../mapper";
 import { EditIcon } from "@chakra-ui/icons";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { JSONSchema7 } from "json-schema";
+import useStore from "../../store/store";
 
-const useEdit = (edit: boolean) => {
-  const editRef = useRef(edit);
-  useEffect(() => {
-    editRef.current = edit;
-  }, [edit])
-  return editRef;
-}
 
 type ObjectWrapperProps = {
   data: JSONSchema7,
@@ -28,7 +22,13 @@ type ObjectWrapperProps = {
 }
 
 const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapperProps) => {
-  const [edit, setEdit] = useState(true);
+  // const [edit, setEdit] = useState(false);
+  const edit = useStore(state => state.edit.find(item => item.id === objectKeys?.join("/")));
+  const setEdit = useStore(state => state.setEdit);
+
+  const setEditValue = (isEditable: boolean) => {
+    setEdit(objectKeys?.join("/")!, isEditable);
+  }
 
   return (
     <>
@@ -39,7 +39,7 @@ const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapper
               data={data}
               objectKey={objectKey}
               objectKeys={objectKeys}
-              setEdit={setEdit}
+              setEdit={setEditValue}
             />
           </Box>
         </Box>
@@ -59,7 +59,7 @@ const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapper
               <TagRightIcon
                 as={EditIcon}
                 cursor="pointer"
-                onClick={() => {setEdit(true)}}
+                onClick={() => {setEditValue(true)}}
               />
             </Tag>
             {deleteBtn}

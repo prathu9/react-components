@@ -41,7 +41,8 @@
     "shallow-equal": "^1.2.1",
     "shallow-equal-object": "^1.1.1",
     "use-immer": "^0.9.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.13",

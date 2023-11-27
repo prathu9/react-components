@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import Mapper from "./mapper";
 import {JSONContext, JSONContextType} from "./JsonProvider";
+import useStore from "./store/store";
 
 const JsonUI = () => {
-    const {jsonSchema} = useContext(JSONContext) as JSONContextType;
+    const jsonSchema = useStore(state => state.jsonSchema);
 
     if(jsonSchema.type === "object" || jsonSchema.type === "array"){
         return(

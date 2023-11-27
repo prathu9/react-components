@@ -8,6 +8,8 @@ import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { JSONContext } from "../../JsonProvider";
 import { PrimitiveType, ObjectType } from "../../type";
 import { Draft } from "immer";
+import useStore  from "../../store/store";
+import { useShallow } from 'zustand/react/shallow'
 
 type PrimitiveComponentProps = {
   data: JSONSchema7;
@@ -16,7 +18,7 @@ type PrimitiveComponentProps = {
 };
 
 const getInitialValue = (objectKeys: string[]) => {
-  const {value} = useContext(JSONContext)!;
+  const value = useStore(useShallow(state => state.jsonValue));
 
  if(value && typeof value === "object"){
     let obj = value;
@@ -58,37 +60,13 @@ const PrimitiveComponent = memo(({
   objectKeys=[],
   objectKey,
 }: PrimitiveComponentProps) => {
-  const { setValue } = useContext(JSONContext)!;
 
   const initialValue = getInitialValue(objectKeys) || getInitialPrimitiveValue(data.type);
 
+  const updatePrimitiveValues  = useStore(state => state.updatePrimitiveValues);
+
   const updateValue = (newValue: string | number | boolean) => {
-    setValue((draftValue) => {
-      if(typeof draftValue !== "object"){
-        draftValue = newValue;
-        return draftValue;
-      }
-      else if(Array.isArray(draftValue)){
-        console.log("root", draftValue[0])
-      }
-      else if(typeof draftValue === "object"){
-        let currObj = draftValue!;
-
-        for(let i = 1; i < objectKeys.length; i++){
-            const key = objectKeys[i];
-            const value = currObj[key];
-            if(value && typeof value === "object" && !Array.isArray(value)){
-              currObj = value;
-            }
-        }
-
-        const lastKey = objectKeys[objectKeys.length - 1];
-        currObj[lastKey] = newValue;
-      }
-      else{
-        console.log(JSON.stringify(draftValue))
-      }
-    });
+    updatePrimitiveValues(newValue, objectKeys);
   };
 
   if (data.type === "boolean") {

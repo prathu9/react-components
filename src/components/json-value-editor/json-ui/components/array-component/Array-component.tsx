@@ -20,6 +20,7 @@ import Mapper from "../../mapper";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
 import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
+import useStore  from "../../store/store";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -27,7 +28,7 @@ type ArrayComponentProps = {
   data: JSONSchema7;
   objectKeys?: string[];
   objectKey?: string;
-  setEdit?: Dispatch<React.SetStateAction<boolean>>;
+  setEdit?: (editState: boolean) => void;
 };
 
 const ArrayComponent = ({
@@ -40,34 +41,10 @@ const ArrayComponent = ({
     return <chakra.h1>items does not exist</chakra.h1>;
   }
 
-  const {setValue} = useContext(JSONContext)!;
+  const updateArrayValues  = useStore(state => state.updateArrayValues);
 
-  const updateArrayValues = (newValue: any) => {
-    setValue((draftValue) => {
-      const lastKey = objectKeys[objectKeys.length - 1];
-      if(Array.isArray(draftValue)){
-        // console.log("d",JSON.stringify(draftValue))
-        if(Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))){
-            draftValue[parseInt(lastKey)] = newValue;
-        }
-        else{
-          draftValue = newValue;
-        }
-        return draftValue;
-      }
-      else if(typeof draftValue === "object"){
-        let currObj = draftValue!;
-
-        for(let i = 1; i < objectKeys.length; i++){
-            const key = objectKeys[i];
-            const value = currObj[key];
-            if(value && typeof value === "object" && !Array.isArray(value)){
-              currObj = value;
-            }
-        }
-        currObj[lastKey] = newValue;
-      }
-    });
+  const updateValue = (newValue: any) => {
+    updateArrayValues(newValue, objectKeys);
   };
 
   return (
@@ -107,25 +84,25 @@ const ArrayComponent = ({
             </AccordionButton>
             <AccordionPanel px="0">
               {(data.items as JSONSchema7).type === "string" ? (
-                <ArrayItems itemType="string" updateValue={updateArrayValues} objectKeys={objectKeys} />
+                <ArrayItems itemType="string" updateValue={updateValue} objectKeys={objectKeys} />
               ) : null}
               {(data.items as JSONSchema7).type === "number" ? (
-                <ArrayItems itemType="number" updateValue={updateArrayValues} objectKeys={objectKeys}/>
+                <ArrayItems itemType="number" updateValue={updateValue} objectKeys={objectKeys}/>
               ) : null}
               {(data.items as JSONSchema7).type === "boolean" ? (
                 <ArrayItems
                   itemType="boolean"
-                  updateValue={updateArrayValues}
+                  updateValue={updateValue}
                   objectKeys={objectKeys}
                 />
               ) : null}
               {(data.items as JSONSchema7).type === "null" ? (
-                <ArrayItems itemType="null" updateValue={updateArrayValues} objectKeys={objectKeys} />
+                <ArrayItems itemType="null" updateValue={updateValue} objectKeys={objectKeys} />
               ) : null}
               {(data.items as JSONSchema7).type === "object" ? (
                 <ArrayObjectWrapper
                   data={data.items as JSONSchema7}
-                  updateValue={updateArrayValues}
+                  updateValue={updateValue}
                   objectKeys={[...objectKeys, "items"]}
                 />
               ) : null}
@@ -133,7 +110,7 @@ const ArrayComponent = ({
                 (data.items as JSONSchema7).type === "array" ? (
                   <ArrayArrayWrapper 
                     data={data.items as JSONSchema7}
-                    updateValue={updateArrayValues}
+                    updateValue={updateValue}
                     objectKeys={[...objectKeys, "items"]}
                   />
                 ):null

@@ -22,7 +22,7 @@ type ObjectComponentProps = {
   data: JSONSchema7Object;
   objectKeys?: string[];
   objectKey?: string;
-  setEdit?: Dispatch<React.SetStateAction<boolean>>;
+  setEdit?: (editState: boolean) => void;
   handleItemDelete?: (index: number) => void;
 };
 
