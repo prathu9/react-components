@@ -2,13 +2,13 @@ import { JSONSchema7, JSONSchema7Object } from "json-schema";
 import ArrayComponent from "./components/array-component/Array-component";
 import ObjectComponent from "./components/object-component/Object-component";
 import PrimitiveComponent from "./components/primitive-component/PrimitiveComponent";
-import { Dispatch } from "react";
+import { Dispatch, JSX } from "react";
 
 type JsonCompProps = (
   data: JSONSchema7,
   objectKeys?: string[],
   objectKey?: string,
-  setEdit?: (editState: boolean) => void
+  setEdit?: Dispatch<React.SetStateAction<boolean>>
 ) => JSX.Element;
 
 const jsonComp: JsonCompProps = (
@@ -52,7 +52,7 @@ type MapperProps = {
   data: JSONSchema7;
   objectKeys?: string[];
   objectKey?: string;
-  setEdit?: (editState: boolean) => void;
+  setEdit?: Dispatch<React.SetStateAction<boolean>>;
   requiredProperties?: string[];
 };
 

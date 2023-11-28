@@ -8,10 +8,9 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { PrimitiveType, DataType, ObjectType } from "../../type";
 import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 import { JSONContext } from "../../JsonProvider";
-import useStore from "../../store/store";
 
 const getInitialValue = (objectKeys: string[]) => {
-  const value = useStore(state => state.jsonValue);
+  const {value} = useContext(JSONContext)!;
 
  if(value && typeof value === "object"){
     let obj = value;
