@@ -6,10 +6,12 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useContext } from "react";
 import Mapper from "../../mapper";
 import { EditIcon } from "@chakra-ui/icons";
 import { JSONSchema7 } from "json-schema";
+import { JSONContext } from "../../JsonProvider";
+import {produce} from "immer";
 
 type ArrayWrapperProps = {
   data: JSONSchema7,
@@ -19,10 +21,37 @@ type ArrayWrapperProps = {
 }
 
 const ArrayWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ArrayWrapperProps) => {
-  const [edit, setEdit] = useState(false);
+
+  const {editList, setEditList} = useContext(JSONContext)!;
+
+  const edit = editList.find(item => item.id === objectKeys?.join("/"))
+
+  const setEdit = (isEditable: boolean) => {
+    setEditList(
+      produce(state => {
+        if(objectKeys){
+          const id = objectKeys.join("/");
+          const arrIndex = editList.findIndex(item => item.id === id);
+          if(arrIndex > -1){
+            state[arrIndex].isEditable = isEditable;
+          }
+          else{
+            const editItem = {
+              id,
+              isEditable,
+              accordionIndex: -1
+            };
+
+            state.push(editItem);
+          }
+        }
+      })
+    )
+  }
+
   return (
     <>
-      {edit ? (
+      {edit?.isEditable ? (
         <Box display="flex">
           <Box w="100%" position="relative">
             <Mapper

@@ -2,6 +2,7 @@ import { JSONSchema7 } from "json-schema";
 import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { useImmer, Updater } from "use-immer";
 import {deepCopy} from "./utils";
+import {EditType} from "./type";
 
 type PrimitiveType = string | number | boolean | null;
 
@@ -15,6 +16,8 @@ export type JSONContextType = {
   jsonSchema: JSONSchema7;
   setValue: Updater<JSONType>;
   value?: JSONType;
+  editList: EditType[];
+  setEditList: React.Dispatch<React.SetStateAction<EditType[]>>;
 };
 
 type JSONProviderProps = {
@@ -60,9 +63,10 @@ const JSONProvider = ({
   children,
 }: JSONProviderProps) => {
   const [value, setValue] = useImmer<JSONType>(getInitialValue(jsonSchema));
+  const [editList, setEditList] = useState<EditType[]>([]);
   const jsonSchemaRef = useRef(jsonSchema)
   const valueRef = useRef(value);
-
+console.log(editList)
   useEffect(() => {
     setJsonValue(value);
     valueRef.current = value;
@@ -76,7 +80,7 @@ console.log(defaultValue, valueRef.current)
   }
 
   return (
-    <JSONContext.Provider value={{ jsonSchema, value, setValue }}>
+    <JSONContext.Provider value={{ jsonSchema, value, setValue, editList,  setEditList }}>
       {children}
     </JSONContext.Provider>
   );

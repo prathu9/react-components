@@ -26,7 +26,7 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
     setArrayItems(filteredArray);
     updateValue(filteredArray);
   };
-  console.log(arrayItems);
+
   return (
     <Box>
       {arrayItems.map((_, index) => (

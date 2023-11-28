@@ -16,13 +16,15 @@ import { v4 as uuidv4 } from "uuid";
 import Mapper from "../../mapper";
 import ArrayWrapper from "../helper-ui/ArrayWrapper";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
-import { Dispatch } from "react";
+import { useContext, useState } from "react";
+import { JSONContext } from "../../JsonProvider";
+import {produce} from "immer";
 
 type ObjectComponentProps = {
   data: JSONSchema7Object;
   objectKeys?: string[];
   objectKey?: string;
-  setEdit?: Dispatch<React.SetStateAction<boolean>>;
+  setEdit?: (isEditable: boolean) => void;
   handleItemDelete?: (index: number) => void;
 };
 
@@ -32,14 +34,44 @@ const ObjectComponent = ({
   objectKey = "",
   setEdit,
 }: ObjectComponentProps) => {
+  const { editList, setEditList } = useContext(JSONContext)!;
+
+  const edit = editList.find(item => item.id === objectKeys.join("/"));
+
   const properties = Object.keys(data.properties as {});
 
+  const setAccordionIndex = (newAccordionIndex: number) => {
+    setEditList(
+      produce((state) => {
+        if (objectKeys) {
+          const id: string = objectKeys.join("/") as string;
+          const arrIndex = editList.findIndex((item) => item.id === id);
+         
+          if (arrIndex > -1) {
+            state[arrIndex].accordionIndex = newAccordionIndex;
+          } else {
+            const editItem = {
+              id,
+              isEditable: false,
+              accordionIndex: 0
+            };
+
+            state.push(editItem);
+          }
+        }
+      })
+    );
+  }
+
   return (
-    <Accordion allowToggle>
+    <Accordion index={edit?.accordionIndex} allowToggle>
       <AccordionItem px="0">
         {({ isExpanded }) => (
           <>
-            <AccordionButton px="0">
+            <AccordionButton
+              px="0"
+              onClick={() => setAccordionIndex(edit?.accordionIndex === 0 ? -1 : 0)}
+            >
               <Box display="flex" flex="1" textAlign="left" alignItems="center">
                 {objectKey ? (
                   <>
@@ -69,7 +101,7 @@ const ObjectComponent = ({
                   </Tag>
                 </>
               ) : null}
-                <AccordionIcon />
+              <AccordionIcon />
             </AccordionButton>
             <AccordionPanel px="0">
               <chakra.h1>properties:</chakra.h1>

@@ -7,3 +7,9 @@ export interface ObjectType {
 export type ArrayType = (PrimitiveType | ArrayType | ObjectType)[];
 
 export type DataType = PrimitiveType | ObjectType | ArrayType
+
+export type EditType = {
+  id: string,
+  isEditable: boolean,
+  accordionIndex: number
+}

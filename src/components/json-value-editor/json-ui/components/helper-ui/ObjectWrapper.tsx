@@ -6,33 +6,66 @@ import {
   TagRightIcon,
   Text,
 } from "@chakra-ui/react";
-import { useState, ReactNode, useRef, useEffect } from "react";
+import { useState, ReactNode, useRef, useEffect, useContext } from "react";
 import Mapper from "../../mapper";
 import { EditIcon } from "@chakra-ui/icons";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { JSONSchema7 } from "json-schema";
+import { JSONContext } from "../../JsonProvider";
+import { produce } from "immer";
 
 const useEdit = (edit: boolean) => {
   const editRef = useRef(edit);
   useEffect(() => {
     editRef.current = edit;
-  }, [edit])
+  }, [edit]);
   return editRef;
-}
+};
 
 type ObjectWrapperProps = {
-  data: JSONSchema7,
-  objectKey?: string,
-  objectKeys?: string[],
-  deleteBtn?: ReactNode
-}
+  data: JSONSchema7;
+  objectKey?: string;
+  objectKeys?: string[];
+  deleteBtn?: ReactNode;
+};
 
-const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapperProps) => {
-  const [edit, setEdit] = useState(true);
+const ObjectWrapper = ({
+  data,
+  objectKey,
+  objectKeys,
+  deleteBtn,
+}: ObjectWrapperProps) => {
+  const { editList, setEditList } = useContext(JSONContext)!;
+
+  const edit = editList.find((item) => item.id === objectKeys?.join("/"));
+
+  const setEdit = (isEditable: boolean) => {
+    setEditList(
+      produce((state) => {
+        if (objectKeys) {
+          const id: string = objectKeys.join("/") as string;
+          const arrIndex = editList.findIndex((item) => item.id === id);
+         
+          if (arrIndex > -1) {
+            state[arrIndex].accordionIndex = -1;
+            state[arrIndex].isEditable = isEditable;
+          } else {
+            const editItem = {
+              id,
+              isEditable,
+              accordionIndex: -1
+            };
+
+            state.push(editItem);
+          }
+        }
+      })
+    );
+  };
 
   return (
     <>
-      {edit ? (
+      {edit?.isEditable ? (
         <Box display="flex">
           <Box w="100%" position="relative">
             <Mapper
@@ -47,19 +80,33 @@ const ObjectWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ObjectWrapper
         <Box display="flex" alignItems="center">
           {objectKey ? (
             <>
-              <Tag px="10px" py="5px" height="28px" colorScheme="blue" variant="outline">
+              <Tag
+                px="10px"
+                py="5px"
+                height="28px"
+                colorScheme="blue"
+                variant="outline"
+              >
                 <TagLabel fontSize="15px">{objectKey}</TagLabel>
               </Tag>
               <Text mx="10px">:</Text>
             </>
           ) : null}
           <Box>
-            <Tag px="10px" py="5px" height="28px" colorScheme="blue" variant="outline">
+            <Tag
+              px="10px"
+              py="5px"
+              height="28px"
+              colorScheme="blue"
+              variant="outline"
+            >
               <TagLabel>Object</TagLabel>
               <TagRightIcon
                 as={EditIcon}
                 cursor="pointer"
-                onClick={() => {setEdit(true)}}
+                onClick={() => {
+                  setEdit(true);
+                }}
               />
             </Tag>
             {deleteBtn}

@@ -15,11 +15,11 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
-import { ChangeEvent, useState, Dispatch, useContext } from "react";
-import Mapper from "../../mapper";
+import { useContext } from "react";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
 import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
+import { produce } from "immer";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -27,7 +27,7 @@ type ArrayComponentProps = {
   data: JSONSchema7;
   objectKeys?: string[];
   objectKey?: string;
-  setEdit?: Dispatch<React.SetStateAction<boolean>>;
+  setEdit?: (isEditable: boolean) => void;
 };
 
 const ArrayComponent = ({
@@ -40,30 +40,53 @@ const ArrayComponent = ({
     return <chakra.h1>items does not exist</chakra.h1>;
   }
 
-  const {setValue} = useContext(JSONContext)!;
+  const { editList, setEditList, setValue } = useContext(JSONContext)!;
+
+  const edit = editList.find((item) => item.id === objectKeys.join("/"));
+
+  const setAccordionIndex = (newAccordionIndex: number) => {
+    setEditList(
+      produce((state) => {
+        if (objectKeys) {
+          const id: string = objectKeys.join("/") as string;
+          const arrIndex = editList.findIndex((item) => item.id === id);
+
+          if (arrIndex > -1) {
+            state[arrIndex].accordionIndex = newAccordionIndex;
+          } else {
+            const editItem = {
+              id,
+              isEditable: false,
+              accordionIndex: 0,
+            };
+
+            state.push(editItem);
+          }
+        }
+      })
+    );
+  };
 
   const updateArrayValues = (newValue: any) => {
     setValue((draftValue) => {
       const lastKey = objectKeys[objectKeys.length - 1];
-      if(Array.isArray(draftValue)){
+      if (Array.isArray(draftValue)) {
         // console.log("d",JSON.stringify(draftValue))
-        if(Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))){
-            draftValue[parseInt(lastKey)] = newValue;
-        }
-        else{
+        if (Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))) {
+          draftValue[parseInt(lastKey)] = newValue;
+        } else {
           draftValue = newValue;
         }
         return draftValue;
-      }
-      else if(typeof draftValue === "object"){
+      } else if (typeof draftValue === "object") {
         let currObj = draftValue!;
 
-        for(let i = 1; i < objectKeys.length; i++){
-            const key = objectKeys[i];
-            const value = currObj[key];
-            if(value && typeof value === "object" && !Array.isArray(value)){
-              currObj = value;
-            }
+        for (let i = 1; i < objectKeys.length; i++) {
+          const key = objectKeys[i];
+          const value = currObj[key];
+          if (value && typeof value === "object" && !Array.isArray(value)) {
+            currObj = value;
+          }
         }
         currObj[lastKey] = newValue;
       }
@@ -71,11 +94,16 @@ const ArrayComponent = ({
   };
 
   return (
-    <Accordion w="100%" allowToggle>
+    <Accordion index={edit?.accordionIndex} w="100%" allowToggle>
       <AccordionItem px="0">
         {({ isExpanded }) => (
           <>
-            <AccordionButton px="0">
+            <AccordionButton
+              px="0"
+              onClick={() =>
+                setAccordionIndex(edit?.accordionIndex === 0 ? -1 : 0)
+              }
+            >
               <Box display="flex" flex="1" textAlign="left" alignItems="center">
                 {objectKey ? (
                   <>
@@ -107,10 +135,18 @@ const ArrayComponent = ({
             </AccordionButton>
             <AccordionPanel px="0">
               {(data.items as JSONSchema7).type === "string" ? (
-                <ArrayItems itemType="string" updateValue={updateArrayValues} objectKeys={objectKeys} />
+                <ArrayItems
+                  itemType="string"
+                  updateValue={updateArrayValues}
+                  objectKeys={objectKeys}
+                />
               ) : null}
               {(data.items as JSONSchema7).type === "number" ? (
-                <ArrayItems itemType="number" updateValue={updateArrayValues} objectKeys={objectKeys}/>
+                <ArrayItems
+                  itemType="number"
+                  updateValue={updateArrayValues}
+                  objectKeys={objectKeys}
+                />
               ) : null}
               {(data.items as JSONSchema7).type === "boolean" ? (
                 <ArrayItems
@@ -120,7 +156,11 @@ const ArrayComponent = ({
                 />
               ) : null}
               {(data.items as JSONSchema7).type === "null" ? (
-                <ArrayItems itemType="null" updateValue={updateArrayValues} objectKeys={objectKeys} />
+                <ArrayItems
+                  itemType="null"
+                  updateValue={updateArrayValues}
+                  objectKeys={objectKeys}
+                />
               ) : null}
               {(data.items as JSONSchema7).type === "object" ? (
                 <ArrayObjectWrapper
@@ -129,15 +169,13 @@ const ArrayComponent = ({
                   objectKeys={[...objectKeys, "items"]}
                 />
               ) : null}
-              {
-                (data.items as JSONSchema7).type === "array" ? (
-                  <ArrayArrayWrapper 
-                    data={data.items as JSONSchema7}
-                    updateValue={updateArrayValues}
-                    objectKeys={[...objectKeys, "items"]}
-                  />
-                ):null
-              }
+              {(data.items as JSONSchema7).type === "array" ? (
+                <ArrayArrayWrapper
+                  data={data.items as JSONSchema7}
+                  updateValue={updateArrayValues}
+                  objectKeys={[...objectKeys, "items"]}
+                />
+              ) : null}
             </AccordionPanel>
           </>
         )}
