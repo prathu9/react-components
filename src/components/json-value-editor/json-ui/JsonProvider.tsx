@@ -75,8 +75,8 @@ console.log(editList)
   if(jsonSchemaRef.current !== jsonSchema){
     jsonSchemaRef.current = jsonSchema;
     const defaultValue = getInitialValue(jsonSchema);
-console.log(defaultValue, valueRef.current)
     setValue(deepCopy(defaultValue, valueRef.current));
+    setEditList([]);
   }
 
   return (

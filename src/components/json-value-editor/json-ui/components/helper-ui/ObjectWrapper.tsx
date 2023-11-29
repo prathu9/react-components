@@ -44,12 +44,8 @@ const ObjectWrapper = ({
       produce((state) => {
         if (objectKeys) {
           const id: string = objectKeys.join("/") as string;
-          const arrIndex = editList.findIndex((item) => item.id === id);
          
-          if (arrIndex > -1) {
-            state[arrIndex].accordionIndex = -1;
-            state[arrIndex].isEditable = isEditable;
-          } else {
+          if(isEditable){
             const editItem = {
               id,
               isEditable,
@@ -57,6 +53,9 @@ const ObjectWrapper = ({
             };
 
             state.push(editItem);
+          }
+          else{
+            return state.filter(item => item.id !== id);
           }
         }
       })

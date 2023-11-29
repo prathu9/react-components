@@ -29,13 +29,10 @@ const ArrayWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ArrayWrapperPr
   const setEdit = (isEditable: boolean) => {
     setEditList(
       produce(state => {
-        if(objectKeys){
-          const id = objectKeys.join("/");
-          const arrIndex = editList.findIndex(item => item.id === id);
-          if(arrIndex > -1){
-            state[arrIndex].isEditable = isEditable;
-          }
-          else{
+        if (objectKeys) {
+          const id: string = objectKeys.join("/") as string;
+         
+          if(isEditable){
             const editItem = {
               id,
               isEditable,
@@ -43,6 +40,9 @@ const ArrayWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ArrayWrapperPr
             };
 
             state.push(editItem);
+          }
+          else{
+            return state.filter(item => item.id !== id);
           }
         }
       })

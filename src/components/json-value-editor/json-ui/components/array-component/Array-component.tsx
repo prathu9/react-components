@@ -126,7 +126,10 @@ const ArrayComponent = ({
                   colorScheme="blue"
                   variant="outline"
                   aria-label="Done"
-                  onClick={() => setEdit(false)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEdit(false)
+                  }}
                 >
                   <TagLabel>Ok</TagLabel>
                 </Tag>
