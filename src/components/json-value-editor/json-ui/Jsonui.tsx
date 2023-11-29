@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Mapper from "./mapper";
 import {JSONContext, JSONContextType} from "./JsonProvider";
 

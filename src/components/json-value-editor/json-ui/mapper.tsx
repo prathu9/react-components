@@ -1,4 +1,5 @@
 import { JSONSchema7, JSONSchema7Object } from "json-schema";
+import { useEffect } from "react";
 import ArrayComponent from "./components/array-component/Array-component";
 import ObjectComponent from "./components/object-component/Object-component";
 import PrimitiveComponent from "./components/primitive-component/PrimitiveComponent";
@@ -56,6 +57,7 @@ type MapperProps = {
 };
 
 const Mapper = ({ data, objectKeys, objectKey, setEdit }: MapperProps) => {
+
   const item = jsonComp(data, objectKeys, objectKey, setEdit);
 
   return item;

@@ -6,7 +6,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useState, ReactNode, useContext } from "react";
+import { useState, ReactNode, useContext, useEffect, memo } from "react";
 import Mapper from "../../mapper";
 import { EditIcon } from "@chakra-ui/icons";
 import { JSONSchema7 } from "json-schema";
@@ -25,6 +25,10 @@ const ArrayWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ArrayWrapperPr
   const {editList, setEditList} = useContext(JSONContext)!;
 
   const edit = editList.find(item => item.id === objectKeys?.join("/"))
+
+  // useEffect(() => {
+  //   console.log("check")
+  //     }, [])
 
   const setEdit = (isEditable: boolean) => {
     setEditList(

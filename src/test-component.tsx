@@ -64,7 +64,7 @@ const TestComponent = () => {
           defaultLanguage="json"
           defaultValue={JSON.stringify(schema)}
           onChange={(v) => {
-            console.log(JSON.parse(v!));
+            // console.log(JSON.parse(v!));
             v && setSchema(JSON.parse(v));
           }}
           options={{}}
@@ -77,7 +77,7 @@ const TestComponent = () => {
           defaultLanguage="json"
           defaultValue={JSON.stringify(value)}
           onChange={(v) => {
-            console.log(JSON.parse(v!));
+            // console.log(JSON.parse(v!));
             v && setValue(JSON.parse(v));
           }}
           options={{}}

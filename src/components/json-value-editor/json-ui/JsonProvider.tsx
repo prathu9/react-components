@@ -7,7 +7,7 @@ import {EditType} from "./type";
 type PrimitiveType = string | number | boolean | null;
 
 interface ObjectType {
-  [key: string]: PrimitiveType | ObjectType | PrimitiveType[];
+  [key: string]: PrimitiveType | ObjectType | PrimitiveType[] | ObjectType[];
 }
 
 type JSONType = ObjectType | PrimitiveType;
@@ -66,7 +66,7 @@ const JSONProvider = ({
   const [editList, setEditList] = useState<EditType[]>([]);
   const jsonSchemaRef = useRef(jsonSchema)
   const valueRef = useRef(value);
-console.log(editList)
+// console.log(editList)
   useEffect(() => {
     setJsonValue(value);
     valueRef.current = value;

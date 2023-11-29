@@ -1,11 +1,12 @@
 import { Box, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, memo, useContext } from "react";
 import { DataType, ObjectType } from "../../type";
 import { v4 as uuidv4 } from "uuid";
 import { JSONSchema7 } from "json-schema";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
 import Mapper from "../../mapper";
 import { DeleteIcon } from "@chakra-ui/icons";
+import {JSONContext} from "../../JsonProvider";
 
 type ArrayObjectWrapperProps = {
   data: JSONSchema7;
@@ -13,12 +14,45 @@ type ArrayObjectWrapperProps = {
   objectKeys?: string[];
 };
 
-const ArrayObjectWrapper = ({
+const getInitialValue = (objectKeys: string[]) => {
+  const {value} = useContext(JSONContext)!;
+
+ if(Array.isArray(value)){
+  return value;
+ }
+ else if(value && typeof value === "object"){
+    let obj = value;
+    for(let i = 1; i < objectKeys.length; i++){
+      const key = objectKeys[i];
+      const value = obj[key];
+      if(value && typeof value === "object" && !Array.isArray(value)){
+        obj = value;
+      }
+    }
+    const lastKey = objectKeys[objectKeys.length - 1];
+    const arrayItems = obj[lastKey];
+
+    if(Array.isArray(arrayItems)){
+      return arrayItems;
+    }
+    else{
+      return [];
+    }
+  }
+  else{
+    return [];
+  }
+}
+
+const ArrayObjectWrapper = memo(({
   data,
   updateValue,
   objectKeys = [],
 }: ArrayObjectWrapperProps) => {
-  const [arrayItems, setArrayItems] = useState<ObjectType[]>([]);
+  // const [arrayItems, setArrayItems] = useState<ObjectType[]>([]);
+
+  const initialItems = getInitialValue(objectKeys);
+  console.log(initialItems)
 
   const addNewObject = () => {
     // console.log(data);
@@ -30,20 +64,20 @@ const ArrayObjectWrapper = ({
       }
     }
     const newObj = Object.fromEntries(newObjKeyValue);
-    const newArray = [...arrayItems, newObj];
-    setArrayItems(newArray);
+    const newArray = [...initialItems, newObj];
+    // setArrayItems(newArray);
     updateValue(newArray);
   };
 
   const handleItemDelete = (itemIndex: number) => {
-    const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
-    setArrayItems(filteredArray);
+    const filteredArray = initialItems.filter((_, index) => itemIndex !== index);
+    // setArrayItems(filteredArray);
     updateValue(filteredArray);
   };
 
   return (
     <Box>
-      {arrayItems.map((_, index) => {
+      {initialItems.map((_, index) => {
         return (
           <Box my="10px" key={uuidv4()}>
             <ObjectWrapper
@@ -70,6 +104,6 @@ const ArrayObjectWrapper = ({
       <Button onClick={addNewObject}>Add New Object</Button>
     </Box>
   );
-};
+});
 
 export default ArrayObjectWrapper;

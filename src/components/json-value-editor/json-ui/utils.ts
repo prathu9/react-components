@@ -1,7 +1,7 @@
 type PrimitiveType = string | number | boolean | null;
 
 interface ObjectType {
-  [key: string]: PrimitiveType | ObjectType | PrimitiveType[];
+  [key: string]: PrimitiveType | ObjectType | PrimitiveType[] | ObjectType[];
 }
 
 type JSONType = ObjectType | PrimitiveType;
@@ -22,7 +22,6 @@ export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
     if (obj2.hasOwnProperty(prop)) {
       if (typeof obj2[prop] === typeof obj1[prop]) {
         if (Array.isArray(obj2[prop]) && Array.isArray(obj1[prop])) {
-          console.log("array", obj1, obj2)
           obj1[prop] = obj2[prop];
         } else if (
           typeof obj2[prop] === "object" &&

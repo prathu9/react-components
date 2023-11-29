@@ -17,21 +17,21 @@ type PrimitiveComponentProps = {
 
 const getInitialValue = (objectKeys: string[]) => {
   const {value} = useContext(JSONContext)!;
-
- if(value && typeof value === "object"){
-    let obj = value;
+console.log("O",objectKeys)
+  if(Array.isArray(value)){
+    return value;
+  }
+ else if(value && typeof value === "object"){
+    let obj = value as ObjectType;
     for(let i = 1; i < objectKeys.length; i++){
       const key = objectKeys[i];
-      const value = obj[key];
+      const value = (obj as ObjectType)[key];
       if(value && typeof value === "object" && !Array.isArray(value)){
-        obj = value;
+        obj = value as ObjectType;
       }
     }
     const lastKey = objectKeys[objectKeys.length - 1]
-    return obj[lastKey];
-  }
-  else if(Array.isArray(value)){
-    return value
+    return (obj as ObjectType)[lastKey];
   }
   else{
     return value;
@@ -61,7 +61,7 @@ const PrimitiveComponent = memo(({
   const { setValue } = useContext(JSONContext)!;
 
   const initialValue = getInitialValue(objectKeys) || getInitialPrimitiveValue(data.type);
-
+ 
   const updateValue = (newValue: string | number | boolean) => {
     setValue((draftValue) => {
       if(typeof draftValue !== "object"){
@@ -72,18 +72,26 @@ const PrimitiveComponent = memo(({
         console.log("root", draftValue[0])
       }
       else if(typeof draftValue === "object"){
-        let currObj = draftValue!;
-
+        let currObj: ObjectType | PrimitiveType[] | ObjectType[] = draftValue!;
+        let value;
         for(let i = 1; i < objectKeys.length; i++){
             const key = objectKeys[i];
-            const value = currObj[key];
-            if(value && typeof value === "object" && !Array.isArray(value)){
+            console.log("c", key, JSON.stringify(value), JSON.stringify(currObj))
+            if(!isNaN(parseInt(key)) && Array.isArray(currObj)){
+              value = (currObj as PrimitiveType[])[parseInt(key)];
+            }
+            else{
+              value = (currObj as ObjectType)[key];
+            }
+          
+            if(value && typeof value === "object"){
               currObj = value;
             }
         }
 
         const lastKey = objectKeys[objectKeys.length - 1];
-        currObj[lastKey] = newValue;
+        console.log(JSON.stringify(currObj), lastKey);
+        (currObj as ObjectType)[lastKey] = newValue;
       }
       else{
         console.log(JSON.stringify(draftValue))

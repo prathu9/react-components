@@ -15,7 +15,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
-import { useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
 import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
@@ -67,7 +67,7 @@ const ArrayComponent = ({
     );
   };
 
-  const updateArrayValues = (newValue: any) => {
+  const updateArrayValues = useCallback((newValue: any) => {
     setValue((draftValue) => {
       const lastKey = objectKeys[objectKeys.length - 1];
       if (Array.isArray(draftValue)) {
@@ -91,7 +91,7 @@ const ArrayComponent = ({
         currObj[lastKey] = newValue;
       }
     });
-  };
+  }, [setValue]);
 
   return (
     <Accordion index={edit?.accordionIndex} w="100%" allowToggle>
@@ -169,14 +169,14 @@ const ArrayComponent = ({
                 <ArrayObjectWrapper
                   data={data.items as JSONSchema7}
                   updateValue={updateArrayValues}
-                  objectKeys={[...objectKeys, "items"]}
+                  objectKeys={[...objectKeys]}
                 />
               ) : null}
               {(data.items as JSONSchema7).type === "array" ? (
                 <ArrayArrayWrapper
                   data={data.items as JSONSchema7}
                   updateValue={updateArrayValues}
-                  objectKeys={[...objectKeys, "items"]}
+                  objectKeys={[...objectKeys]}
                 />
               ) : null}
             </AccordionPanel>

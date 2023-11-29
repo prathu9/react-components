@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import Mapper from "../../mapper";
 import ArrayWrapper from "../helper-ui/ArrayWrapper";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { JSONContext } from "../../JsonProvider";
 import {produce} from "immer";
 
