@@ -19,7 +19,10 @@ import { useMultiSelect, MultiSelect } from "./components/multi-select";
 import JSONSchemaEditor from "./components/json-schema-editor/JsonSchemaEditor";
 import JsonUI from "./components/json-value-editor/json-ui/Jsonui";
 import { JSONSchema7 } from "json-schema";
-import Editor from "@monaco-editor/react";
+import MonacoEditor, {
+  useMonaco,
+  type EditorProps,
+} from "@monaco-editor/react";
 import JSONValueEditor from "./components/json-value-editor/JsonValueEditor";
 
 const initialSchema = {
@@ -42,22 +45,61 @@ const initialSchema = {
   },
 } as JSONSchema7;
 
+declare global {
+  interface Window {
+    monaco: any; // Define the 'monaco' namespace on the window object
+  }
+}
+
 const TestComponent = () => {
   const [schema, setSchema] = useState(initialSchema);
   const [value, setValue] = useState<any>();
+  // const monaco = useMonaco();
+  const editor1Ref = useRef(null);
+  const editor2Ref = useRef(null);
+
+  const handleEditor1DidMount = (editor: any) => {
+    setTimeout(function () {
+      editor
+              .getAction("editor.action.formatDocument")
+              .run()
+              .then(() => editor.updateOptions({ readOnly: true }));
+       
+              if(!editor1Ref.current){
+                editor1Ref.current = editor;
+              }
+      
+    }, 500);
+  };
+
+  const handleEditor2DidMount = (editor: any) => {
+    setTimeout(function () {
+      editor
+        .getAction("editor.action.formatDocument")
+        .run()
+        .then(() => editor.updateOptions({ readOnly: true }));
+
+        if(!editor2Ref.current){
+          editor2Ref.current = editor;
+        }
+    }, 500);
+  };
 
   return (
     <>
       <Box minW="500px" w="100%" display="flex" flexWrap="wrap" gap="20px">
         <Box w="400px">
-          <JSONSchemaEditor jsonSchema={schema} setJsonSchemaValue={setSchema} />
+          <JSONSchemaEditor
+            jsonSchema={schema}
+            setJsonSchemaValue={setSchema}
+          />
         </Box>
 
         <Box w="400px">
-          <JSONValueEditor jsonSchema={schema} setJsonValue={setValue}/>
+          <JSONValueEditor jsonSchema={schema} setJsonValue={setValue} />
         </Box>
 
-        <Editor
+        <MonacoEditor
           width="400px"
           height="300px"
           theme="vs-dark"
@@ -65,12 +107,17 @@ const TestComponent = () => {
           defaultValue={JSON.stringify(schema)}
           onChange={(v) => {
             // console.log(JSON.parse(v!));
+            if(editor1Ref.current){
+              handleEditor1DidMount(editor1Ref.current)
+            }
+            
             v && setSchema(JSON.parse(v));
           }}
           options={{}}
           value={JSON.stringify(schema)}
+          onMount={handleEditor1DidMount}
         />
-        <Editor
+        <MonacoEditor
           width="400px"
           height="300px"
           theme="vs-dark"
@@ -78,10 +125,14 @@ const TestComponent = () => {
           defaultValue={JSON.stringify(value)}
           onChange={(v) => {
             // console.log(JSON.parse(v!));
+            if(editor2Ref.current){
+              handleEditor2DidMount(editor2Ref.current)
+            }
             v && setValue(JSON.parse(v));
           }}
           options={{}}
           value={JSON.stringify(value)}
+          onMount={handleEditor2DidMount}
         />
       </Box>
       {/* <MultiSelectExample single={false}/> */}
