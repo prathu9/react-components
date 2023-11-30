@@ -63,7 +63,7 @@ const TestComponent = () => {
       editor
               .getAction("editor.action.formatDocument")
               .run()
-              .then(() => editor.updateOptions({ readOnly: true }));
+              // .then(() => editor.updateOptions({ readOnly: true }));
        
               if(!editor1Ref.current){
                 editor1Ref.current = editor;
@@ -77,7 +77,7 @@ const TestComponent = () => {
       editor
         .getAction("editor.action.formatDocument")
         .run()
-        .then(() => editor.updateOptions({ readOnly: true }));
+        // .then(() => editor.updateOptions({ readOnly: true }));
 
         if(!editor2Ref.current){
           editor2Ref.current = editor;

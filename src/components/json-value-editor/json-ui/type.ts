@@ -13,3 +13,5 @@ export type EditType = {
   isEditable: boolean,
   accordionIndex: number
 }
+
+export type JSType = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";

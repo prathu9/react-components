@@ -1,8 +1,12 @@
+import { JSType } from "./type";
+
 type PrimitiveType = string | number | boolean | null;
 
 interface ObjectType {
   [key: string]: PrimitiveType | ObjectType | PrimitiveType[] | ObjectType[];
 }
+
+export type ArrayType = (PrimitiveType | ArrayType | ObjectType)[];
 
 type JSONType = ObjectType | PrimitiveType;
 
@@ -40,3 +44,23 @@ export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
 
   return obj1;
 };
+
+export const checkValueType =  (value: JSONType, jsonSchemaType: JSONType | ArrayType) => {
+  if(typeof value === "object"){
+    if(Array.isArray(value) && jsonSchemaType==="array"){
+      return true;
+    }
+    else if(value === null && jsonSchemaType === "null"){
+      return true;
+    }
+    else if(jsonSchemaType === "object"){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  else{
+    return value === jsonSchemaType;
+  }
+}

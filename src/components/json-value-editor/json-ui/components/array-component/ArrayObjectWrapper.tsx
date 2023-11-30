@@ -4,9 +4,9 @@ import { DataType, ObjectType } from "../../type";
 import { v4 as uuidv4 } from "uuid";
 import { JSONSchema7 } from "json-schema";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
-import Mapper from "../../mapper";
 import { DeleteIcon } from "@chakra-ui/icons";
 import {JSONContext} from "../../JsonProvider";
+import { checkValueType } from "../../utils";
 
 type ArrayObjectWrapperProps = {
   data: JSONSchema7;
@@ -14,7 +14,7 @@ type ArrayObjectWrapperProps = {
   objectKeys?: string[];
 };
 
-const getInitialValue = (objectKeys: string[]) => {
+const getInitialValue = (objectKeys: string[], type?: DataType) => {
   const {value} = useContext(JSONContext)!;
 
  if(Array.isArray(value)){
@@ -32,7 +32,7 @@ const getInitialValue = (objectKeys: string[]) => {
     const lastKey = objectKeys[objectKeys.length - 1];
     const arrayItems = obj[lastKey];
 
-    if(Array.isArray(arrayItems)){
+    if(Array.isArray(arrayItems) && type && checkValueType(arrayItems[0], type)){
       return arrayItems;
     }
     else{
@@ -51,8 +51,8 @@ const ArrayObjectWrapper = memo(({
 }: ArrayObjectWrapperProps) => {
   // const [arrayItems, setArrayItems] = useState<ObjectType[]>([]);
 
-  const initialItems = getInitialValue(objectKeys);
-  console.log(initialItems)
+  const initialItems = getInitialValue(objectKeys, data.type);
+  console.log(initialItems, data)
 
   const addNewObject = () => {
     // console.log(data);
