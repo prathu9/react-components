@@ -17,20 +17,29 @@ type PrimitiveComponentProps = {
 
 const getInitialValue = (objectKeys: string[]) => {
   const {value} = useContext(JSONContext)!;
-console.log("O",objectKeys)
+// console.log("O",objectKeys)
   if(Array.isArray(value)){
     return value;
   }
  else if(value && typeof value === "object"){
     let obj = value as ObjectType;
+    let tempValue;
     for(let i = 1; i < objectKeys.length; i++){
       const key = objectKeys[i];
-      const value = (obj as ObjectType)[key];
-      if(value && typeof value === "object" && !Array.isArray(value)){
-        obj = value as ObjectType;
+    
+      if(!isNaN(parseInt(key))){
+        tempValue = obj[parseInt(key)];
+      }
+      else{
+        tempValue = (obj as ObjectType)[key];
+      }
+      if(tempValue && typeof tempValue === "object"){
+        obj = tempValue as ObjectType;
       }
     }
-    const lastKey = objectKeys[objectKeys.length - 1]
+
+    const lastKey = objectKeys[objectKeys.length - 1];
+    console.log("lastkey", lastKey, JSON.stringify(obj))
     return (obj as ObjectType)[lastKey];
   }
   else{
@@ -76,7 +85,7 @@ const PrimitiveComponent = memo(({
         let value;
         for(let i = 1; i < objectKeys.length; i++){
             const key = objectKeys[i];
-            console.log("c", key, JSON.stringify(value), JSON.stringify(currObj))
+            // console.log("c", key, JSON.stringify(value), JSON.stringify(currObj))
             if(!isNaN(parseInt(key)) && Array.isArray(currObj)){
               value = (currObj as PrimitiveType[])[parseInt(key)];
             }

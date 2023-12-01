@@ -61,6 +61,6 @@ export const checkValueType =  (value: JSONType, jsonSchemaType: JSONType | Arra
     }
   }
   else{
-    return value === jsonSchemaType;
+    return typeof value === jsonSchemaType;
   }
 }

@@ -8,6 +8,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { PrimitiveType, DataType, ObjectType } from "../../type";
 import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 import { JSONContext } from "../../JsonProvider";
+import { ArrayContext } from "./ArrayProvider";
 
 const getInitialValue = (objectKeys: string[]) => {
   const {value} = useContext(JSONContext)!;
@@ -38,7 +39,9 @@ type ArrayItemsProps = {
 };
 
 const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
-  const [arrayItems, setArrayItems] = useState<DataType[]>(getInitialValue(objectKeys) || []);
+  // const [arrayItems, setArrayItems] = useState<DataType[]>(getInitialValue(objectKeys) || []);
+
+  const {arrayItems} = useContext(ArrayContext);
 
   const updateArrayItems = (newValue: PrimitiveType) => {
     console.log("check", itemType, arrayItems)
@@ -47,15 +50,15 @@ const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
     }
     else if (itemType !== "boolean" && newValue) {
       const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
+      // setArrayItems(newArray);
       updateValue(newArray);
     } else if (itemType === "boolean") {
       const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
+      // setArrayItems(newArray);
       updateValue(newArray);
     } else if (itemType === "null") {
       const newArray = [...arrayItems, newValue];
-      setArrayItems(newArray);
+      // setArrayItems(newArray);
       updateValue(newArray);
     }
   };
@@ -64,14 +67,15 @@ const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
     if (newValue !== arrayItems[index]) {
       const updatedArray = [...arrayItems];
       updatedArray[index] = newValue;
-      setArrayItems(updatedArray);
+      // setArrayItems(updatedArray);
       updateValue(updatedArray);
     }
   };
 
   const handleItemDelete = (itemIndex: number) => {
     const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
-    setArrayItems(filteredArray);
+    updateValue(filteredArray);
+    // setArrayItems(filteredArray);
   };
 
   return (

@@ -7,6 +7,7 @@ import ObjectWrapper from "../helper-ui/ObjectWrapper";
 import { DeleteIcon } from "@chakra-ui/icons";
 import {JSONContext} from "../../JsonProvider";
 import { checkValueType } from "../../utils";
+import { ArrayContext } from "./ArrayProvider";
 
 type ArrayObjectWrapperProps = {
   data: JSONSchema7;
@@ -51,8 +52,10 @@ const ArrayObjectWrapper = memo(({
 }: ArrayObjectWrapperProps) => {
   // const [arrayItems, setArrayItems] = useState<ObjectType[]>([]);
 
-  const initialItems = getInitialValue(objectKeys, data.type);
-  console.log(initialItems, data)
+  // const initialItems = getInitialValue(objectKeys, data.type);
+  // console.log(initialItems, data)
+
+  const {arrayItems} = useContext(ArrayContext);
 
   const addNewObject = () => {
     // console.log(data);
@@ -64,20 +67,20 @@ const ArrayObjectWrapper = memo(({
       }
     }
     const newObj = Object.fromEntries(newObjKeyValue);
-    const newArray = [...initialItems, newObj];
+    const newArray = [...arrayItems, newObj];
     // setArrayItems(newArray);
     updateValue(newArray);
   };
 
   const handleItemDelete = (itemIndex: number) => {
-    const filteredArray = initialItems.filter((_, index) => itemIndex !== index);
+    const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
     // setArrayItems(filteredArray);
     updateValue(filteredArray);
   };
 
   return (
     <Box>
-      {initialItems.map((_, index) => {
+      {arrayItems.map((_, index) => {
         return (
           <Box my="10px" key={uuidv4()}>
             <ObjectWrapper

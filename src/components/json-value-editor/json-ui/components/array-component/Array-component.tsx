@@ -20,6 +20,7 @@ import ArrayObjectWrapper from "./ArrayObjectWrapper";
 import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
 import { produce } from "immer";
+import ArrayProvider from "./ArrayProvider";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -67,31 +68,32 @@ const ArrayComponent = ({
     );
   };
 
-  const updateArrayValues = useCallback((newValue: any) => {
-    setValue((draftValue) => {
-      const lastKey = objectKeys[objectKeys.length - 1];
-      if (Array.isArray(draftValue)) {
-        // console.log("d",JSON.stringify(draftValue))
-        if (Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))) {
-          draftValue[parseInt(lastKey)] = newValue;
-        } else {
-          draftValue = newValue;
-        }
-        return draftValue;
-      } else if (typeof draftValue === "object") {
-        let currObj = draftValue!;
-
-        for (let i = 1; i < objectKeys.length; i++) {
-          const key = objectKeys[i];
-          const value = currObj[key];
-          if (value && typeof value === "object" && !Array.isArray(value)) {
-            currObj = value;
+  const updateArrayValues = (newValue: any) => {
+      setValue((draftValue) => {
+        const lastKey = objectKeys[objectKeys.length - 1];
+        if (Array.isArray(draftValue)) {
+          // console.log("d",JSON.stringify(draftValue))
+          if (Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))) {
+            draftValue[parseInt(lastKey)] = newValue;
+          } else {
+            draftValue = newValue;
           }
+          return draftValue;
+        } else if (typeof draftValue === "object") {
+          let currObj = draftValue!;
+
+          for (let i = 1; i < objectKeys.length; i++) {
+            const key = objectKeys[i];
+            const value = currObj[key];
+            if (value && typeof value === "object" && !Array.isArray(value)) {
+              currObj = value;
+            }
+          }
+          currObj[lastKey] = newValue;
         }
-        currObj[lastKey] = newValue;
-      }
-    });
-  }, [setValue]);
+      });
+  }
+
 
   return (
     <Accordion index={edit?.accordionIndex} w="100%" allowToggle>
@@ -128,7 +130,7 @@ const ArrayComponent = ({
                   aria-label="Done"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setEdit(false)
+                    setEdit(false);
                   }}
                 >
                   <TagLabel>Ok</TagLabel>
@@ -137,48 +139,53 @@ const ArrayComponent = ({
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel px="0">
-              {(data.items as JSONSchema7).type === "string" ? (
-                <ArrayItems
-                  itemType="string"
-                  updateValue={updateArrayValues}
-                  objectKeys={objectKeys}
-                />
-              ) : null}
-              {(data.items as JSONSchema7).type === "number" ? (
-                <ArrayItems
-                  itemType="number"
-                  updateValue={updateArrayValues}
-                  objectKeys={objectKeys}
-                />
-              ) : null}
-              {(data.items as JSONSchema7).type === "boolean" ? (
-                <ArrayItems
-                  itemType="boolean"
-                  updateValue={updateArrayValues}
-                  objectKeys={objectKeys}
-                />
-              ) : null}
-              {(data.items as JSONSchema7).type === "null" ? (
-                <ArrayItems
-                  itemType="null"
-                  updateValue={updateArrayValues}
-                  objectKeys={objectKeys}
-                />
-              ) : null}
-              {(data.items as JSONSchema7).type === "object" ? (
-                <ArrayObjectWrapper
-                  data={data.items as JSONSchema7}
-                  updateValue={updateArrayValues}
-                  objectKeys={[...objectKeys]}
-                />
-              ) : null}
-              {(data.items as JSONSchema7).type === "array" ? (
-                <ArrayArrayWrapper
-                  data={data.items as JSONSchema7}
-                  updateValue={updateArrayValues}
-                  objectKeys={[...objectKeys]}
-                />
-              ) : null}
+              <ArrayProvider
+                type={(data.items as JSONSchema7).type!}
+                objectKeys={objectKeys}
+              >
+                {(data.items as JSONSchema7).type === "string" ? (
+                  <ArrayItems
+                    itemType="string"
+                    updateValue={updateArrayValues}
+                    objectKeys={objectKeys}
+                  />
+                ) : null}
+                {(data.items as JSONSchema7).type === "number" ? (
+                  <ArrayItems
+                    itemType="number"
+                    updateValue={updateArrayValues}
+                    objectKeys={objectKeys}
+                  />
+                ) : null}
+                {(data.items as JSONSchema7).type === "boolean" ? (
+                  <ArrayItems
+                    itemType="boolean"
+                    updateValue={updateArrayValues}
+                    objectKeys={objectKeys}
+                  />
+                ) : null}
+                {(data.items as JSONSchema7).type === "null" ? (
+                  <ArrayItems
+                    itemType="null"
+                    updateValue={updateArrayValues}
+                    objectKeys={objectKeys}
+                  />
+                ) : null}
+                {(data.items as JSONSchema7).type === "object" ? (
+                  <ArrayObjectWrapper
+                    data={data.items as JSONSchema7}
+                    updateValue={updateArrayValues}
+                    objectKeys={[...objectKeys]}
+                  />
+                ) : null}
+                {(data.items as JSONSchema7).type === "array" ? (
+                  <ArrayArrayWrapper
+                    data={data.items as JSONSchema7}
+                    updateValue={updateArrayValues}
+                    objectKeys={[...objectKeys]}
+                  />
+                ) : null}
+              </ArrayProvider>
             </AccordionPanel>
           </>
         )}

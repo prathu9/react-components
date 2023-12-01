@@ -76,7 +76,7 @@ const JSONProvider = ({
     jsonSchemaRef.current = jsonSchema;
     const defaultValue = getInitialValue(jsonSchema);
     setValue(deepCopy(defaultValue, valueRef.current));
-    setEditList([]);
+    // setEditList([]);
   }
 
   return (
