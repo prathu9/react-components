@@ -69,7 +69,7 @@ const ArrayComponent = ({
     );
   };
 
-  const updateArrayValues = (newValue: any) => {
+  const updateArrayValues = (newValue: any, index?: number) => {
     console.log("new", newValue)
     // console.log("o", objectKeys)
       setValue((draftValue) => {
@@ -97,22 +97,17 @@ const ArrayComponent = ({
               //console.log("loop", key, tempValue, (currObj as ObjectType)[key], JSON.stringify(currObj))
               tempValue = (currObj as ObjectType)[key];
             }
-            if(tempValue && typeof tempValue === "object"){
-                currObj = tempValue as ObjectType;
-            }
+      
+            if((objectKeys[i] !== lastKey && Array.isArray(tempValue)) 
+              ||  (typeof tempValue === "object" && !Array.isArray(tempValue)) ){
+              currObj = tempValue as ObjectType;
+            }  
+            
           }
-          // console.log(JSON.stringify(currObj[lastKey]))
-          // for (let i = 1; i < objectKeys.length; i++) {
-          //   const key = objectKeys[i];
-          //   const value = currObj[key];
-          //   if (value && typeof value === "object" && !Array.isArray(value)) {
-          //     currObj = value;
-          //   }
-          // }
-        
-          if(Array.isArray(currObj)){
-            console.log("a", JSON.stringify(currObj), newValue)
-            currObj.push(...newValue);
+          
+          console.log("obj to change", JSON.stringify(currObj))
+          if(Array.isArray(currObj) && !isNaN(parseInt(lastKey))){
+            currObj[lastKey] = newValue;
           }
           else{
             currObj[lastKey] = newValue;

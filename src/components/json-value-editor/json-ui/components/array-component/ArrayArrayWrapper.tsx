@@ -16,7 +16,10 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
     let newArray: DataType[] = [];
     
     if (type === "string") {
-      newArray.push(["string"]);
+      newArray = [...arrayItems, ['string']]
+    }
+    else if(type === "number"){
+      newArray = [...arrayItems, [1]]
     }
 
     // setArrayItems(newArray);

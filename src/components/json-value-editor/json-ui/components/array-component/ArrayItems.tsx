@@ -39,19 +39,17 @@ type ArrayItemsProps = {
 };
 
 const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
-  // const [arrayItems, setArrayItems] = useState<DataType[]>(getInitialValue(objectKeys) || []);
 
   const {arrayItems} = useContext(ArrayContext);
-console.log("str", arrayItems)
+
   const updateArrayItems = (newValue: PrimitiveType) => {
-    updateValue([newValue]);
+    updateValue([...arrayItems, newValue]);
   };
 
   const handleItemChange = (newValue: string | ObjectType, index: number) => {
     if (newValue !== arrayItems[index]) {
-      const updatedArray = arrayItems;
+      const updatedArray = [...arrayItems];
       updatedArray[index] = newValue;
-      // setArrayItems(updatedArray);
       updateValue(updatedArray);
     }
   };
@@ -59,7 +57,6 @@ console.log("str", arrayItems)
   const handleItemDelete = (itemIndex: number) => {
     const filteredArray = arrayItems.filter((_, index) => itemIndex !== index);
     updateValue(filteredArray);
-    // setArrayItems(filteredArray);
   };
 
   return (
