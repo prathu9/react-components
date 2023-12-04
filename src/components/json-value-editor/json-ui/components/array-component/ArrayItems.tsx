@@ -42,30 +42,14 @@ const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
   // const [arrayItems, setArrayItems] = useState<DataType[]>(getInitialValue(objectKeys) || []);
 
   const {arrayItems} = useContext(ArrayContext);
-
+console.log("str", arrayItems)
   const updateArrayItems = (newValue: PrimitiveType) => {
-    console.log("check", itemType, arrayItems)
-    if(itemType === "array"){
-      console.log("array", newValue)
-    }
-    else if (itemType !== "boolean" && newValue) {
-      const newArray = [...arrayItems, newValue];
-      // setArrayItems(newArray);
-      updateValue(newArray);
-    } else if (itemType === "boolean") {
-      const newArray = [...arrayItems, newValue];
-      // setArrayItems(newArray);
-      updateValue(newArray);
-    } else if (itemType === "null") {
-      const newArray = [...arrayItems, newValue];
-      // setArrayItems(newArray);
-      updateValue(newArray);
-    }
+    updateValue([newValue]);
   };
 
   const handleItemChange = (newValue: string | ObjectType, index: number) => {
     if (newValue !== arrayItems[index]) {
-      const updatedArray = [...arrayItems];
+      const updatedArray = arrayItems;
       updatedArray[index] = newValue;
       // setArrayItems(updatedArray);
       updateValue(updatedArray);

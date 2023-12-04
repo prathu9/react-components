@@ -21,6 +21,7 @@ import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
 import { produce } from "immer";
 import ArrayProvider from "./ArrayProvider";
+import { ObjectType } from "../../type";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -69,6 +70,8 @@ const ArrayComponent = ({
   };
 
   const updateArrayValues = (newValue: any) => {
+    console.log("new", newValue)
+    // console.log("o", objectKeys)
       setValue((draftValue) => {
         const lastKey = objectKeys[objectKeys.length - 1];
         if (Array.isArray(draftValue)) {
@@ -82,14 +85,39 @@ const ArrayComponent = ({
         } else if (typeof draftValue === "object") {
           let currObj = draftValue!;
 
-          for (let i = 1; i < objectKeys.length; i++) {
+          let tempValue;
+          for(let i = 1; i < objectKeys.length; i++){
             const key = objectKeys[i];
-            const value = currObj[key];
-            if (value && typeof value === "object" && !Array.isArray(value)) {
-              currObj = value;
+          
+            if(!isNaN(parseInt(key))){
+              //console.log("loop", key, tempValue, currObj[parseInt(key)], JSON.stringify(currObj))
+              tempValue = currObj[parseInt(key)];
+            }
+            else{
+              //console.log("loop", key, tempValue, (currObj as ObjectType)[key], JSON.stringify(currObj))
+              tempValue = (currObj as ObjectType)[key];
+            }
+            if(tempValue && typeof tempValue === "object"){
+                currObj = tempValue as ObjectType;
             }
           }
-          currObj[lastKey] = newValue;
+          // console.log(JSON.stringify(currObj[lastKey]))
+          // for (let i = 1; i < objectKeys.length; i++) {
+          //   const key = objectKeys[i];
+          //   const value = currObj[key];
+          //   if (value && typeof value === "object" && !Array.isArray(value)) {
+          //     currObj = value;
+          //   }
+          // }
+        
+          if(Array.isArray(currObj)){
+            console.log("a", JSON.stringify(currObj), newValue)
+            currObj.push(...newValue);
+          }
+          else{
+            currObj[lastKey] = newValue;
+          }
+          
         }
       });
   }

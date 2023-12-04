@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from "react";
 import {JSONContext} from "../../JsonProvider";
-import { DataType } from "../../type";
+import { ArrayType, DataType, ObjectType, PrimitiveType } from "../../type";
 import { checkValueType } from "../../utils";
 
 type ArrayContextType = {
@@ -19,23 +19,45 @@ type ArrayProviderProps = {
 
 const getInitialValue = (objectKeys: string[], type?: DataType) => {
     const {value} = useContext(JSONContext)!;
- 
+
    if(Array.isArray(value)){
     return value;
    }
    else if(value && typeof value === "object"){
-      let obj = value;
+      let obj: ObjectType | PrimitiveType[] | ArrayType[] = value;
+      const lastKey = objectKeys[objectKeys.length - 1];
+      let tempValue: any;
       for(let i = 1; i < objectKeys.length; i++){
         const key = objectKeys[i];
-        const value = obj[key];
-        if(value && typeof value === "object" && !Array.isArray(value)){
-          obj = value;
+        if(!isNaN(parseInt(key)) && Array.isArray(obj)){
+          tempValue = obj[parseInt(key)];
+        }
+        else{
+          tempValue = (obj as ObjectType)[key]
+        }
+        
+        if(tempValue && typeof tempValue === "object"){
+          if(Array.isArray(tempValue)){
+            if(key !== lastKey){
+              obj = tempValue;
+            }
+          }
+          else{
+            obj = tempValue;
+          }
         }
       }
-      const lastKey = objectKeys[objectKeys.length - 1];
-      const arrayItems = obj[lastKey];
-
-      if(Array.isArray(arrayItems) && type && checkValueType(arrayItems[0], type)){
+  
+      let arrayItems;
+      
+      if(!isNaN(parseInt(lastKey)) && Array.isArray(obj)){
+        arrayItems = obj[parseInt(lastKey)];
+      }
+      else if(!Array.isArray(obj)){
+        arrayItems = obj[lastKey]
+      }
+    
+      if(Array.isArray(arrayItems) && type && checkValueType(arrayItems[0] as ArrayType, type)){
         return arrayItems;
       }
       else{
@@ -50,7 +72,6 @@ const getInitialValue = (objectKeys: string[], type?: DataType) => {
 const ArrayProvider = ({type, objectKeys, children}: ArrayProviderProps) => {
 
     const initialItems = getInitialValue(objectKeys, type);
-
 
     return(
         <ArrayContext.Provider value={{arrayItems: initialItems}}>

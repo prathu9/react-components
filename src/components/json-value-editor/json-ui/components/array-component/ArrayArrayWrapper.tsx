@@ -1,29 +1,33 @@
-import { PrimitiveType, ObjectType, ArrayType } from "../../type";
-import { useState } from "react";
+import { DataType } from "../../type";
+import { useContext } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { v4 as uuidv4 } from "uuid";
 import ArrayWrapper from "../helper-ui/ArrayWrapper";
+import { ArrayContext } from "./ArrayProvider";
 
 const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
-  const [arrayItems, setArrayItems] = useState<ArrayType[]>([]);
+  // const [arrayItems, setArrayItems] = useState<ArrayType[]>([]);
+
+  const { arrayItems } = useContext(ArrayContext);
 
   const addNewArray = () => {
     const type = data.items.type;
-    let newArray: ArrayType[] = [];
+    let newArray: DataType[] = [];
+    
     if (type === "string") {
-      newArray = [...arrayItems, ["string"]];
+      newArray.push(["string"]);
     }
 
-    setArrayItems(newArray);
-    updateValue(newArray)
+    // setArrayItems(newArray);
+    updateValue(newArray);
   };
 
   const handleItemDelete = (itemIndex: number) => {
     const filteredArray = arrayItems.filter(
       (_, index: number) => itemIndex !== index
     );
-    setArrayItems(filteredArray);
+    // setArrayItems(filteredArray);
     updateValue(filteredArray);
   };
 

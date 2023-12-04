@@ -8,7 +8,7 @@ interface ObjectType {
 
 export type ArrayType = (PrimitiveType | ArrayType | ObjectType)[];
 
-type JSONType = ObjectType | PrimitiveType;
+type JSONType = ObjectType | PrimitiveType | ArrayType;
 
 export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
   if (!obj1 || typeof obj1 !== "object") {

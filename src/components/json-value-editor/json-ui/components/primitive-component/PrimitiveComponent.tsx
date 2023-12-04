@@ -28,9 +28,11 @@ const getInitialValue = (objectKeys: string[]) => {
       const key = objectKeys[i];
     
       if(!isNaN(parseInt(key))){
+        // console.log("loop", key, tempValue, obj[parseInt(key)], JSON.stringify(obj))
         tempValue = obj[parseInt(key)];
       }
       else{
+        // console.log("loop", key, tempValue, (obj as ObjectType)[key], JSON.stringify(obj))
         tempValue = (obj as ObjectType)[key];
       }
       if(tempValue && typeof tempValue === "object"){
@@ -39,7 +41,6 @@ const getInitialValue = (objectKeys: string[]) => {
     }
 
     const lastKey = objectKeys[objectKeys.length - 1];
-    console.log("lastkey", lastKey, JSON.stringify(obj))
     return (obj as ObjectType)[lastKey];
   }
   else{
