@@ -70,7 +70,7 @@ const ArrayComponent = ({
   };
 
   const updateArrayValues = (newValue: any, index?: number) => {
-    console.log("new", newValue)
+    //console.log("new", newValue)
     // console.log("o", objectKeys)
       setValue((draftValue) => {
         const lastKey = objectKeys[objectKeys.length - 1];
@@ -105,11 +105,12 @@ const ArrayComponent = ({
             
           }
           
-          console.log("obj to change", JSON.stringify(currObj))
+          //console.log("obj to change", JSON.stringify(currObj))
           if(Array.isArray(currObj) && !isNaN(parseInt(lastKey))){
             currObj[lastKey] = newValue;
           }
           else{
+            console.log("newValue", newValue)
             currObj[lastKey] = newValue;
           }
           

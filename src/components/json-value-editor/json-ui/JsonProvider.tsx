@@ -3,14 +3,7 @@ import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { useImmer, Updater } from "use-immer";
 import {deepCopy} from "./utils";
 import {EditType} from "./type";
-
-type PrimitiveType = string | number | boolean | null;
-
-interface ObjectType {
-  [key: string]: PrimitiveType | ObjectType | PrimitiveType[] | ObjectType[];
-}
-
-type JSONType = ObjectType | PrimitiveType;
+import {JSONType, PrimitiveType, ObjectType} from "./type";
 
 export type JSONContextType = {
   jsonSchema: JSONSchema7;

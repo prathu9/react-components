@@ -46,7 +46,6 @@ const ObjectComponent = ({
         if (objectKeys && objectKeys.length > 1) {
           const id: string = objectKeys.join("/") as string;
           const arrIndex = editList.findIndex((item) => item.id === id);
-         console.log("accindex", arrIndex)
           if (arrIndex > -1) {
             state[arrIndex].accordionIndex = newAccordionIndex;
           } else {

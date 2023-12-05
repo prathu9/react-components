@@ -1,10 +1,10 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 import {JSONContext} from "../../JsonProvider";
-import { ArrayType, DataType, ObjectType, PrimitiveType } from "../../type";
+import { ArrayType, JSONType, ObjectType, PrimitiveType } from "../../type";
 import { checkValueType } from "../../utils";
 
 type ArrayContextType = {
-    arrayItems: DataType[]
+    arrayItems: JSONType[]
 }
 
 export const ArrayContext = createContext<ArrayContextType>({
@@ -12,13 +12,12 @@ export const ArrayContext = createContext<ArrayContextType>({
 });
 
 type ArrayProviderProps = {
-    type: DataType,
+    type: JSONType,
     objectKeys: string[],
     children: ReactNode;
 }
 
-const getInitialValue = (objectKeys: string[], type?: DataType) => {
-    const {value} = useContext(JSONContext)!;
+const getInitialValue = (value: JSONType, objectKeys: string[], type?: JSONType) => {
 
    if(Array.isArray(value)){
     return value;
@@ -70,9 +69,10 @@ const getInitialValue = (objectKeys: string[], type?: DataType) => {
   }
 
 const ArrayProvider = ({type, objectKeys, children}: ArrayProviderProps) => {
+    const {value} = useContext(JSONContext)!;
 
-    const initialItems = getInitialValue(objectKeys, type);
-
+    const initialItems = value !== undefined? getInitialValue(value, objectKeys, type) : [];
+console.log("i", initialItems, value)
     return(
         <ArrayContext.Provider value={{arrayItems: initialItems}}>
             {children}

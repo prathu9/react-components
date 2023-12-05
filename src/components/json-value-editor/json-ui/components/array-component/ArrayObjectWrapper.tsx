@@ -1,6 +1,6 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useState, memo, useContext } from "react";
-import { DataType, ObjectType } from "../../type";
+import { JSONType, ObjectType } from "../../type";
 import { v4 as uuidv4 } from "uuid";
 import { JSONSchema7 } from "json-schema";
 import ObjectWrapper from "../helper-ui/ObjectWrapper";
@@ -15,7 +15,7 @@ type ArrayObjectWrapperProps = {
   objectKeys?: string[];
 };
 
-const getInitialValue = (objectKeys: string[], type?: DataType) => {
+const getInitialValue = (objectKeys: string[], type?: JSONType) => {
   const {value} = useContext(JSONContext)!;
 
  if(Array.isArray(value)){
@@ -56,7 +56,7 @@ const ArrayObjectWrapper = memo(({
   // console.log(initialItems, data)
 
   const {arrayItems} = useContext(ArrayContext);
-
+console.log("obj", arrayItems);
   const addNewObject = () => {
     // console.log(data);
     const properties = data.properties;

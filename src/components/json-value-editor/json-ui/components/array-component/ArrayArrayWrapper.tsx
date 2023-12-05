@@ -1,4 +1,4 @@
-import { DataType } from "../../type";
+import { JSONType } from "../../type";
 import { useContext } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -13,15 +13,23 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
 
   const addNewArray = () => {
     const type = data.items.type;
-    let newArray: DataType[] = [];
+    let newArray: JSONType[] = [];
     
     if (type === "string") {
-      newArray = [...arrayItems, ['string']]
+      newArray = [...arrayItems, ['string']];
     }
     else if(type === "number"){
-      newArray = [...arrayItems, [1]]
+      newArray = [...arrayItems, [1]];
     }
-
+    else if(type === "null"){
+      newArray = [...arrayItems, null];
+    }
+    else if(type === "boolean"){
+      newArray = [...arrayItems, false];
+    }
+    else if(type === "array"){
+      newArray = [...arrayItems, []];
+    }
     // setArrayItems(newArray);
     updateValue(newArray);
   };

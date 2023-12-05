@@ -2,12 +2,12 @@ import { JSONSchema7, JSONSchema7TypeName } from "json-schema";
 import { Box, Tag, TagRightIcon, TagLabel, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { useState, useEffect, useContext, memo, useRef } from "react";
+import { Draft } from 'immer';
 
 import InputWrapper from "../helper-ui/InputWrapper";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { JSONContext } from "../../JsonProvider";
-import { PrimitiveType, ObjectType } from "../../type";
-import { Draft } from "immer";
+import { PrimitiveType, ObjectType, JSONType } from "../../type";
 
 type PrimitiveComponentProps = {
   data: JSONSchema7;
@@ -73,7 +73,7 @@ const PrimitiveComponent = memo(({
   const initialValue = getInitialValue(objectKeys) || getInitialPrimitiveValue(data.type);
  
   const updateValue = (newValue: string | number | boolean) => {
-    setValue((draftValue) => {
+    setValue((draftValue: Draft<JSONType>) => {
       if(typeof draftValue !== "object"){
         draftValue = newValue;
         return draftValue;
@@ -82,7 +82,7 @@ const PrimitiveComponent = memo(({
         console.log("root", draftValue[0])
       }
       else if(typeof draftValue === "object"){
-        let currObj: ObjectType | PrimitiveType[] | ObjectType[] = draftValue!;
+        let currObj= draftValue!;
         let value;
         for(let i = 1; i < objectKeys.length; i++){
             const key = objectKeys[i];
@@ -94,13 +94,12 @@ const PrimitiveComponent = memo(({
               value = (currObj as ObjectType)[key];
             }
           
-            if(value && typeof value === "object"){
-              currObj = value;
+            if(value && typeof value === "object" && !Array.isArray(currObj)){
+              currObj = value as ObjectType;
             }
         }
 
         const lastKey = objectKeys[objectKeys.length - 1];
-        console.log(JSON.stringify(currObj), lastKey);
         (currObj as ObjectType)[lastKey] = newValue;
       }
       else{
