@@ -56,7 +56,7 @@ const ArrayObjectWrapper = memo(({
   // console.log(initialItems, data)
 
   const {arrayItems} = useContext(ArrayContext);
-console.log("obj", arrayItems);
+// console.log("obj", arrayItems);
   const addNewObject = () => {
     // console.log(data);
     const properties = data.properties;

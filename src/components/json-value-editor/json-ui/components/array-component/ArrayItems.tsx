@@ -5,32 +5,10 @@ import InputWrapper from "../helper-ui/InputWrapper";
 import { v4 as uuidv4 } from "uuid";
 import BooleanValueWrapper from "../helper-ui/BooleanValueWrapper";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { PrimitiveType, DataType, ObjectType } from "../../type";
+import { PrimitiveType, ObjectType } from "../../type";
 import ArrayPrimitiveWrapper from "./ArrayPrimitiveWrapper";
 import { JSONContext } from "../../JsonProvider";
 import { ArrayContext } from "./ArrayProvider";
-
-const getInitialValue = (objectKeys: string[]) => {
-  const {value} = useContext(JSONContext)!;
-
- if(value && typeof value === "object"){
-    let obj = value;
-    for(let i = 1; i < objectKeys.length; i++){
-      const key = objectKeys[i];
-      const value = obj[key];
-      if(value && typeof value === "object" && !Array.isArray(value)){
-        obj = value;
-      }
-    }
-    const lastKey = objectKeys[objectKeys.length - 1]
-    if(Array.isArray(obj[lastKey])){
-      return obj[lastKey] as any[];
-    }
-  }
-  else if(Array.isArray(value)){
-    return value
-  }
-}
 
 type ArrayItemsProps = {
   itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined;
@@ -41,8 +19,9 @@ type ArrayItemsProps = {
 const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
 
   const {arrayItems} = useContext(ArrayContext);
-
+  console.log("primitive comp", arrayItems, objectKeys)
   const updateArrayItems = (newValue: PrimitiveType) => {
+    console.log("primitive arr", arrayItems, newValue)
     updateValue([...arrayItems, newValue]);
   };
 

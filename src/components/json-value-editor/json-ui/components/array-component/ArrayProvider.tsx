@@ -37,7 +37,7 @@ const getInitialValue = (value: JSONType, objectKeys: string[], type?: JSONType)
         
         if(tempValue && typeof tempValue === "object"){
           if(Array.isArray(tempValue)){
-            if(key !== lastKey){
+            if(i !== (objectKeys.length-1)){
               obj = tempValue;
             }
           }
@@ -72,7 +72,7 @@ const ArrayProvider = ({type, objectKeys, children}: ArrayProviderProps) => {
     const {value} = useContext(JSONContext)!;
 
     const initialItems = value !== undefined? getInitialValue(value, objectKeys, type) : [];
-console.log("i", initialItems, value)
+// console.log("i", initialItems, value)
     return(
         <ArrayContext.Provider value={{arrayItems: initialItems}}>
             {children}

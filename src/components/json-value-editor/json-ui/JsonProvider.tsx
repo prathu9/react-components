@@ -1,8 +1,8 @@
-import { JSONSchema7 } from "json-schema";
+import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { useImmer, Updater } from "use-immer";
 import {deepCopy} from "./utils";
-import {EditType} from "./type";
+import {ArrayType, EditType} from "./type";
 import {JSONType, PrimitiveType, ObjectType} from "./type";
 
 export type JSONContextType = {
@@ -35,7 +35,12 @@ const getInitialValue = (jsonSchema: JSONSchema7) => {
     return null;
   }
   else if(jsonSchema.type === "array"){
-    return [];
+    const newArray: ArrayType = [];
+    if((jsonSchema.items as JSONSchema7Definition)?.type === "object"){
+      newArray.push(getInitialValue(jsonSchema.items as JSONSchema7))
+    }
+    // console.log("check", newArray, jsonSchema.items)
+    return newArray;
   }
   else{
     const newObj = {} as any;

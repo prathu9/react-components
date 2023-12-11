@@ -7,21 +7,20 @@ import {
   AccordionPanel,
   Box,
   chakra,
-  Input,
   Tag,
   TagLabel,
   Text,
-  Button,
-  IconButton,
 } from "@chakra-ui/react";
 import ArrayItems from "./ArrayItems";
-import { useCallback, useContext, useEffect } from "react";
+import { useContext } from "react";
 import ArrayObjectWrapper from "./ArrayObjectWrapper";
 import ArrayArrayWrapper from "./ArrayArrayWrapper";
 import { JSONContext } from "../../JsonProvider";
 import { produce } from "immer";
 import ArrayProvider from "./ArrayProvider";
-import { ObjectType } from "../../type";
+import { ArrayType, ObjectType } from "../../type";
+import {Draft} from "immer";
+import {JSONType} from "../../type";
 
 type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -71,11 +70,9 @@ const ArrayComponent = ({
 
   const updateArrayValues = (newValue: any, index?: number) => {
     //console.log("new", newValue)
-    // console.log("o", objectKeys)
-      setValue((draftValue) => {
+      setValue((draftValue: Draft<JSONType>) => {
         const lastKey = objectKeys[objectKeys.length - 1];
         if (Array.isArray(draftValue)) {
-          // console.log("d",JSON.stringify(draftValue))
           if (Array.isArray(draftValue[0]) && !isNaN(parseInt(lastKey))) {
             draftValue[parseInt(lastKey)] = newValue;
           } else {
@@ -98,7 +95,7 @@ const ArrayComponent = ({
               tempValue = (currObj as ObjectType)[key];
             }
       
-            if((objectKeys[i] !== lastKey && Array.isArray(tempValue)) 
+            if((i !== (objectKeys.length - 1) && Array.isArray(tempValue)) 
               ||  (typeof tempValue === "object" && !Array.isArray(tempValue)) ){
               currObj = tempValue as ObjectType;
             }  
