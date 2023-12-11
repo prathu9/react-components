@@ -52,7 +52,7 @@ const ArrayWrapper = ({ data, objectKey, objectKeys, deleteBtn }: ArrayWrapperPr
       })
     )
   }
-console.log("arr wrapper", data, objectKeys)
+
   return (
     <>
       {edit?.isEditable ? (

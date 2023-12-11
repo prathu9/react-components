@@ -19,9 +19,8 @@ type ArrayItemsProps = {
 const ArrayItems = ({ itemType, updateValue, objectKeys }: ArrayItemsProps) => {
 
   const {arrayItems} = useContext(ArrayContext);
-  console.log("primitive comp", arrayItems, objectKeys)
+
   const updateArrayItems = (newValue: PrimitiveType) => {
-    console.log("primitive arr", arrayItems, newValue)
     updateValue([...arrayItems, newValue]);
   };
 
