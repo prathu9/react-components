@@ -50,7 +50,6 @@ const getInitialValue = (jsonSchema: JSONSchema7) => {
         newObj[propKeys[i] as string] = getInitialValue(jsonSchema.properties![propKeys[i]] as JSONSchema7)
       }
     }
-   
     return newObj;
   }
 }
@@ -73,7 +72,8 @@ const JSONProvider = ({
   if(jsonSchemaRef.current !== jsonSchema){
     jsonSchemaRef.current = jsonSchema;
     const defaultValue = getInitialValue(jsonSchema);
-    setValue(deepCopy(defaultValue, valueRef.current));
+    console.log("default", defaultValue, valueRef.current)
+    setValue(deepCopy({...defaultValue}, valueRef.current));
     // setEditList([]);
   }
 

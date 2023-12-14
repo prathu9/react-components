@@ -7,7 +7,6 @@ import ArrayWrapper from "../helper-ui/ArrayWrapper";
 import { ArrayContext } from "./ArrayProvider";
 
 const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
-  // const [arrayItems, setArrayItems] = useState<ArrayType[]>([]);
 
   const { arrayItems } = useContext(ArrayContext);
 
@@ -30,7 +29,6 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
     else if(type === "array"){
       newArray = [...arrayItems, []];
     }
-    // setArrayItems(newArray);
     updateValue(newArray);
   };
 
@@ -38,7 +36,6 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
     const filteredArray = arrayItems.filter(
       (_, index: number) => itemIndex !== index
     );
-    // setArrayItems(filteredArray);
     updateValue(filteredArray);
   };
 

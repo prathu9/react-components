@@ -22,7 +22,6 @@ import { ArrayType, ObjectType } from "../../type";
 import {Draft} from "immer";
 import {JSONType} from "../../type";
 
-type ArrayComponentDataType = JSONSchema7TypeName | JSONSchema7TypeName[];
 
 type ArrayComponentProps = {
   data: JSONSchema7;
@@ -68,8 +67,7 @@ const ArrayComponent = ({
     );
   };
 
-  const updateArrayValues = (newValue: any, index?: number) => {
-    //console.log("new", newValue)
+  const updateArrayValues = (newValue: any) => {
       setValue((draftValue: Draft<JSONType>) => {
         const lastKey = objectKeys[objectKeys.length - 1];
         if (Array.isArray(draftValue)) {
@@ -78,7 +76,7 @@ const ArrayComponent = ({
           } else {
             draftValue = newValue;
           }
-          return draftValue;
+          return draftValue as JSONType;
         } else if (typeof draftValue === "object") {
           let currObj = draftValue!;
 
@@ -87,11 +85,9 @@ const ArrayComponent = ({
             const key = objectKeys[i];
           
             if(!isNaN(parseInt(key))){
-              //console.log("loop", key, tempValue, currObj[parseInt(key)], JSON.stringify(currObj))
               tempValue = currObj[parseInt(key)];
             }
             else{
-              //console.log("loop", key, tempValue, (currObj as ObjectType)[key], JSON.stringify(currObj))
               tempValue = (currObj as ObjectType)[key];
             }
       
@@ -102,7 +98,6 @@ const ArrayComponent = ({
             
           }
           
-          //console.log("obj to change", JSON.stringify(currObj))
           if(Array.isArray(currObj) && !isNaN(parseInt(lastKey))){
             currObj[lastKey] = newValue;
           }
