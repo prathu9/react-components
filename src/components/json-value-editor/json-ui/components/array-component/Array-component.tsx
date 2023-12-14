@@ -81,6 +81,7 @@ const ArrayComponent = ({
           let currObj = draftValue!;
 
           let tempValue;
+          
           for(let i = 1; i < objectKeys.length; i++){
             const key = objectKeys[i];
           

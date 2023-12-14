@@ -83,20 +83,23 @@ const PrimitiveComponent = memo(({
       }
       else if(typeof draftValue === "object"){
         let currObj= draftValue!;
-        let value;
+        let tempValue;
+
         for(let i = 1; i < objectKeys.length; i++){
-            const key = objectKeys[i];
-            // console.log("c", key, JSON.stringify(value), JSON.stringify(currObj))
-            if(!isNaN(parseInt(key)) && Array.isArray(currObj)){
-              value = (currObj as PrimitiveType[])[parseInt(key)];
-            }
-            else{
-              value = (currObj as ObjectType)[key];
-            }
+          const key = objectKeys[i];
+        
+          if(!isNaN(parseInt(key))){
+            tempValue = currObj[parseInt(key)];
+          }
+          else{
+            tempValue = (currObj as ObjectType)[key];
+          }
+    
+          if((i !== (objectKeys.length - 1) && Array.isArray(tempValue)) 
+            ||  (typeof tempValue === "object" && !Array.isArray(tempValue)) ){
+            currObj = tempValue as ObjectType;
+          }  
           
-            if(value && typeof value === "object" && !Array.isArray(currObj)){
-              currObj = value as ObjectType;
-            }
         }
 
         const lastKey = objectKeys[objectKeys.length - 1];
