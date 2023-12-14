@@ -65,6 +65,9 @@ const ArrayObjectWrapper = memo(({
       if ((value as JSONSchema7).type === "string") {
         newObjKeyValue.push([key, ""]);
       }
+      if ((value as JSONSchema7).type === "number") {
+        newObjKeyValue.push([key, 0]);
+      }
     }
     const newObj = Object.fromEntries(newObjKeyValue);
     const newArray = [...arrayItems, newObj];
