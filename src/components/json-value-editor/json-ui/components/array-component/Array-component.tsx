@@ -103,7 +103,7 @@ const ArrayComponent = ({
             currObj[lastKey] = newValue;
           }
           else{
-            console.log("newValue", newValue)
+            // console.log("newValue", newValue)
             currObj[lastKey] = newValue;
           }
           

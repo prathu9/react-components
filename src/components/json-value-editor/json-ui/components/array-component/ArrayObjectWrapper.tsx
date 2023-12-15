@@ -58,7 +58,7 @@ const ArrayObjectWrapper = memo(({
   const {arrayItems} = useContext(ArrayContext);
 // console.log("obj", arrayItems);
   const addNewObject = () => {
-    console.log(data);
+    // console.log(data);
     const properties = data.properties;
     const newObjKeyValue: any = [];
     for (const [key, value] of Object.entries(properties!)) {
@@ -71,7 +71,7 @@ const ArrayObjectWrapper = memo(({
     }
     const newObj = Object.fromEntries(newObjKeyValue);
     const newArray = [...arrayItems, newObj];
-    console.log("new obj", newArray)
+    // console.log("new obj", newArray)
     // setArrayItems(newArray);
     updateValue(newArray);
   };
