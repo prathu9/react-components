@@ -2,7 +2,6 @@ import { JSType, JSONType, PrimitiveType, ObjectType, ArrayType } from "./type";
 
 
 export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
-  console.log("do", JSON.stringify(obj1), JSON.stringify(obj2));
   if (!obj1 || typeof obj1 !== "object") {
     return obj1;
   }
@@ -24,7 +23,6 @@ export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
         if (Array.isArray(obj2[prop]) && Array.isArray(obj1[prop])) {
           (obj1 as ObjectType)[prop] = (obj2[prop] as ArrayType)?.map((item, i) => {
             if(item && typeof item === "object" && !Array.isArray(item)){
-              console.log("a", JSON.stringify((obj1[prop] as ArrayType)[0]), JSON.stringify(item))
               return deepCopy((obj1[prop] as ArrayType)[0], item);
             }
            else{
@@ -40,7 +38,6 @@ export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
             obj2[prop] as ObjectType
           );
         } else {
-          console.log("adding", obj1[prop], obj2[prop], prop);
           obj1[prop] = obj2[prop];
         }
       }

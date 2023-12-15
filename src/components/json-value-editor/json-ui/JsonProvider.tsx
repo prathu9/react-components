@@ -73,8 +73,7 @@ const JSONProvider = ({
     jsonSchemaRef.current = jsonSchema;
     console.log("getting initial", jsonSchema)
     const defaultValue = getInitialValue(jsonSchema);
-    console.log("default", JSON.stringify(defaultValue), valueRef.current)
-    setValue(deepCopy({...defaultValue}, {...valueRef.current}));
+    setValue(deepCopy(Object.assign({}, defaultValue), Object.assign({}, valueRef.current)));
     // setEditList([]);
   }
 
