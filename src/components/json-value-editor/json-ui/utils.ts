@@ -26,7 +26,18 @@ export const deepCopy = (obj1: JSONType, obj2: JSONType) => {
               return deepCopy((obj1[prop] as ArrayType)[0], item);
             }
            else{
-            return item
+            if(!Array.isArray(item)){
+              return item;
+            }
+            else{
+              if((obj1[prop] as ArrayType)[0] !== typeof item[0]){
+                console.log("condition", obj1[prop], item)
+                return [];
+              }
+              else{
+                return item;
+              }
+            }
            }
           }) as ArrayType
         } else if (

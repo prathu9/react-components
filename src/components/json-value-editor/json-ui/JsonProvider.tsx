@@ -35,11 +35,16 @@ const getInitialValue = (jsonSchema: JSONSchema7) => {
     return null;
   }
   else if(jsonSchema.type === "array"){
+    // console.log("json", (jsonSchema.items as JSONSchema7Definition)?.items)
     const newArray: ArrayType = [];
     if((jsonSchema.items as JSONSchema7Definition)?.type === "object"){
       newArray.push(getInitialValue(jsonSchema.items as JSONSchema7))
     }
-    // console.log("check", newArray, jsonSchema.items)
+    if((jsonSchema.items as JSONSchema7)?.type === "array"){
+      const itemsType: any = ((jsonSchema.items as JSONSchema7)?.items  as JSONSchema7)!.type
+      newArray.push(itemsType);
+    }
+    console.log("check", newArray, jsonSchema.items)
     return newArray;
   }
   else{
@@ -71,8 +76,8 @@ const JSONProvider = ({
 
   if(jsonSchemaRef.current !== jsonSchema){
     jsonSchemaRef.current = jsonSchema;
-    console.log("getting initial", jsonSchema)
     const defaultValue = getInitialValue(jsonSchema);
+    console.log("d", defaultValue)
     setValue(deepCopy(Object.assign({}, defaultValue), Object.assign({}, valueRef.current)));
     // setEditList([]);
   }

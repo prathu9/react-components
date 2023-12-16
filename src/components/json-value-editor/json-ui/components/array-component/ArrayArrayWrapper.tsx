@@ -21,10 +21,10 @@ const ArrayArrayWrapper = ({ data, updateValue, objectKeys }: any) => {
       newArray = [...arrayItems, [1]];
     }
     else if(type === "null"){
-      newArray = [...arrayItems, null];
+      newArray = [...arrayItems, [null]];
     }
     else if(type === "boolean"){
-      newArray = [...arrayItems, false];
+      newArray = [...arrayItems, [false]];
     }
     else if(type === "array"){
       newArray = [...arrayItems, []];
